@@ -5,8 +5,8 @@
   width: 100%;
   margin: 0 auto;
 
-  display: grid;
-  gap: 20px;
+  /* display: grid;
+  gap: 20px; */
 }
 
 .header-wrapper {
@@ -38,6 +38,13 @@
   background: -webkit-linear-gradient(#5c1ee0, #1373e4);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+.slick-slide > div {
+  display: grid;
+  place-items: center;
+
+  margin: 12px 0;
 }
 
 .intro-description {
@@ -99,6 +106,7 @@ main {
 .box {
   background-color: #ffffff;
   width: 100%;
+  max-width: 352px;
   height: fit-content;
   height: 100%;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);

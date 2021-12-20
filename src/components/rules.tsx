@@ -3,7 +3,7 @@ import { Box } from './box';
 
 export const Rules = () => {
   return (
-    <Box gridRow="3/-1" gridColumn="1/3">
+    <Box>
       <div className="rules-wrapper">
         <div className="rules-text">
           <h4 className="rules-title">Rules</h4>
