@@ -1,5 +1,9 @@
 @import './styles/null.css';
 
+#root {
+  overflow: hidden;
+}
+
 .container {
   max-width: 1120px;
   width: 100%;
@@ -26,18 +30,7 @@
   display: flex;
   flex-direction: column;
 
-  margin: 80px 0;
-}
-
-.intro-title {
-  font-weight: 600;
-  font-size: 160px;
-  line-height: 100%;
-  text-align: center;
-
-  background: -webkit-linear-gradient(#5c1ee0, #1373e4);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  margin: clamp(40px, 3vw, 80px);
 }
 
 .slick-slide > div {
@@ -47,20 +40,31 @@
   margin: 12px 0;
 }
 
+.intro-title {
+  font-weight: 600;
+  font-size: clamp(88px, 5vw, 160px);
+  line-height: 100%;
+  text-align: center;
+
+  background: -webkit-linear-gradient(#5c1ee0, #1373e4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 .intro-description {
   color: #232735;
   font-weight: 600;
-  font-size: 32px;
+  font-size: clamp(24px, 2vw, 32px);
   line-height: 48px;
 
   text-align: center;
 }
 
 main {
-  display: grid;
+  /* display: grid;
   grid-template-columns: repeat(3, 352px);
   grid-template-rows: repeat(3, 264px);
-  gap: 32px;
+  gap: 32px; */
 }
 
 .rules-wrapper {
@@ -114,6 +118,14 @@ main {
   overflow: hidden;
 }
 
+.card {
+  width: calc(100% - 32px);
+}
+
+.card .box {
+  margin: 0 auto;
+}
+
 .card-key {
   font-weight: 600;
   font-size: 14px;
@@ -138,8 +150,10 @@ main {
 }
 
 .img-wrapper {
-  height: 352px;
   overflow: hidden;
+}
+.slick-list {
+  width: 100%;
 }
 
 .card-img {
@@ -174,6 +188,13 @@ main {
   padding: 60px 0;
   justify-content: center;
   column-gap: 32px;
+}
+@media screen and (max-width: 420px) {
+  .footer {
+    flex-direction: column;
+    align-items: center;
+    row-gap: 16px;
+  }
 }
 
 .copyright {

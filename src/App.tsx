@@ -10,11 +10,11 @@ function App() {
   return (
     <>
       <Header />
-      <SliderNFT />
+
       <Background>
         <Intro />
-
-        {/* <Main /> */}
+        <SliderNFT />
+        <Main />
         <Footer />
       </Background>
     </>
