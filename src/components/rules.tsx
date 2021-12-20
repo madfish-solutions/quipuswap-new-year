@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { Box } from './box';
 
 export const Rules = () => {
@@ -8,16 +9,13 @@ export const Rules = () => {
         <div className="rules-text">
           <h4 className="rules-title">Rules</h4>
           <div className="rules-point">
-            1. QuipuSwap is a great entry point to research the Tezos ecosystem,
-            swap any FA1.2-FA2 tokens.
+            1. QuipuSwap is a great entry point to research the Tezos ecosystem, swap any FA1.2-FA2 tokens.
           </div>
           <div className="rules-point">
-            2. QuipuSwap is a great entry point to research the Tezos ecosystem,
-            swap any FA1.2-FA2 tokens.
+            2. QuipuSwap is a great entry point to research the Tezos ecosystem, swap any FA1.2-FA2 tokens.
           </div>
           <div className="rules-point">
-            3. QuipuSwap is a great entry point to research the Tezos ecosystem,
-            swap any FA1.2-FA2 tokens.
+            3. QuipuSwap is a great entry point to research the Tezos ecosystem, swap any FA1.2-FA2 tokens.
           </div>
         </div>
         <div className="rules-logic">
