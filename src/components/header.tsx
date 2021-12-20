@@ -1,6 +1,7 @@
 import React from 'react';
-import { Container } from './container';
+
 import { Logo } from '../icons/logo';
+import { Container } from './container';
 
 export const Header = () => {
   return (

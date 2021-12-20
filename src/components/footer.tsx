@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { PoweredByQuipuswap } from '../icons/powered-by-quipuswap';
 
 export const Footer = () => {

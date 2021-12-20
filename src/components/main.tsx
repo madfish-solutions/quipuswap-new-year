@@ -1,4 +1,3 @@
-import React from 'react';
 import { Rules } from './rules';
 import { YouStacked } from './you-staked';
 

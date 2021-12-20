@@ -1,4 +1,5 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
+
 import { Container } from './container';
 import { BlueStar } from './stars/blue-star';
 import { OrangeStar } from './stars/orange-star';
@@ -11,13 +12,9 @@ const fixNumber = (value: number) => ~~value;
 
 const getStar = (top: number, left: number, size: number) => {
   if (fixNumber(left) % 2 === 0) {
-    return (
-      <BlueStar key={`${top}_${left}`} top={top} left={left} size={size} />
-    );
+    return <BlueStar key={`${top}_${left}`} top={top} left={left} size={size} />;
   } else {
-    return (
-      <OrangeStar key={`${top}_${left}`} top={top} left={left} size={size} />
-    );
+    return <OrangeStar key={`${top}_${left}`} top={top} left={left} size={size} />;
   }
 };
 
@@ -49,17 +46,15 @@ export const Background: FC = ({ children }) => {
   const background = useRef<HTMLDivElement>(null);
   const [stars, setStars] = useState<JSX.Element[]>([]);
   useEffect(() => {
-    if (stars.length) return;
+    if (stars.length) {
+      return;
+    }
     const Stars =
       background.current?.offsetWidth && background.current?.offsetHeight
-        ? generateStars(
-            70,
-            background.current?.offsetWidth,
-            background.current?.offsetHeight
-          )
+        ? generateStars(70, background.current?.offsetWidth, background.current?.offsetHeight)
         : [];
     setStars(Stars);
-  }, [background.current]);
+  }, [stars.length]);
 
   return (
     <div ref={background} className="background">

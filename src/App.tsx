@@ -1,3 +1,5 @@
+import { FC } from 'react';
+
 import './App.css';
 import { Background } from './components/background';
 import { Footer } from './components/footer';
@@ -6,7 +8,7 @@ import { Intro } from './components/intro';
 import { Main } from './components/main';
 import { SliderNFT } from './components/slider-nft';
 
-function App() {
+export const App: FC = () => {
   return (
     <>
       <Header />
@@ -19,6 +21,4 @@ function App() {
       </Background>
     </>
   );
-}
-
-export default App;
+};
