@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { FC } from 'react';
+
 import './App.css';
 import { Background } from './components/background';
 import { Footer } from './components/footer';
@@ -6,7 +7,7 @@ import { Header } from './components/header';
 import { Intro } from './components/intro';
 import { Main } from './components/main';
 
-function App() {
+export const App: FC = () => {
   return (
     <>
       <Header />
@@ -17,6 +18,4 @@ function App() {
       </Background>
     </>
   );
-}
-
-export default App;
+};
