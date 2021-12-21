@@ -17,7 +17,7 @@ interface WalletProps {
   label: string;
   onClick: (walletType: WalletType) => void;
   disabled?: boolean;
-};
+}
 
 export const Wallet: React.FC<WalletProps> = ({ id, Icon, label, onClick, disabled = false }) => (
   <Button

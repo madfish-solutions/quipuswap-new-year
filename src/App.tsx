@@ -16,14 +16,14 @@ export const App: FC = () => {
   return (
     <DAppProvider>
       <WalletContainer>
-          <Header />
+        <Header />
 
-          <Background>
-            <Intro />
-            <SliderNFT />
-            <Main />
-            <Footer />
-          </Background>
+        <Background>
+          <Intro />
+          <SliderNFT />
+          <Main />
+          <Footer />
+        </Background>
       </WalletContainer>
     </DAppProvider>
   );
