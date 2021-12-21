@@ -1,7 +1,5 @@
 import { NetworkType as BeaconNetworkType } from '@airgap/beacon-sdk';
 
-import '@quipuswap/ui-kit/dist/ui-kit.cjs.development.css';
-
 import {
   NETWORK_ID_KEY,
   LAST_USED_ACCOUNT_KEY,

@@ -1,15 +1,16 @@
 import React, { useCallback, useState } from 'react';
+
 import { AbortedBeaconError } from '@airgap/beacon-sdk';
 import { Button, Modal, Checkbox } from '@quipuswap/ui-kit';
+
 import { SAVED_TERMS_KEY } from '../../config/config';
 import { WalletType } from '../../types/types';
 import { useConnectWithBeacon, useConnectWithTemple, TEMPLE_WALLET_NOT_INSTALLED_MESSAGE } from '../../utils/dapp';
 import { useConnectModalsState } from '../../utils/use-connect-modals-state';
-
 import { Wallets } from './content';
 import s from './WalletModal.module.sass';
 
-type WalletProps = {
+interface WalletProps {
   className?: string;
   id: WalletType;
   Icon: React.FC<{ className?: string }>;
@@ -50,12 +51,14 @@ export const WalletModal: React.FC = () => {
         }
         closeAccountInfoModal();
         closeConnectWalletModal();
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (e: any) {
         if (e.message === TEMPLE_WALLET_NOT_INSTALLED_MESSAGE) {
           openInstallTempleWalletModal();
         } else {
           const authenticationWasRejected = e.name === 'NotGrantedTempleWalletError' || e instanceof AbortedBeaconError;
           if (!authenticationWasRejected) {
+            // eslint-disable-next-line no-console
             console.error(e);
           }
         }

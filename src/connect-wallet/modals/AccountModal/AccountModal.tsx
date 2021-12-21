@@ -1,12 +1,12 @@
-import React, { useCallback, useContext, useRef, useState, useEffect } from 'react';
-import cx from 'classnames';
+import React, { useCallback, useRef, useState, useEffect } from 'react';
 
-import s from './AccountModal.module.sass';
 import { Button, Copy, Modal } from '@quipuswap/ui-kit';
-import { useConnectModalsState } from '../../utils/use-connect-modals-state';
-import { shortize } from '../../utils/shortize';
-import { useAccountPkh, useDisconnect } from '../../utils/dapp';
+
 import { CheckMark } from '../../icons/CheckMark';
+import { useAccountPkh, useDisconnect } from '../../utils/dapp';
+import { shortize } from '../../utils/shortize';
+import { useConnectModalsState } from '../../utils/use-connect-modals-state';
+import s from './AccountModal.module.sass';
 
 export const AccountModal: React.FC = () => {
   const accountPkh = useAccountPkh();
@@ -29,7 +29,9 @@ export const AccountModal: React.FC = () => {
     []
   );
 
-  if (!accountPkh) return <></>;
+  if (!accountPkh) {
+    return <></>;
+  }
 
   const handleCopy = async () => {
     navigator.clipboard.writeText(accountPkh);

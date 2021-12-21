@@ -134,6 +134,7 @@ function useDApp() {
 
   const ready = Boolean(tezos) || templeInitialAvailable === false;
 
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   useEffect(() => {
     TempleWallet.onAvailabilityChange(async available => {
       const lastUsedConnection = localStorage.getItem(LAST_USED_CONNECTION_KEY);
