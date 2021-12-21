@@ -15,4 +15,12 @@ export interface NftContractStorage {
   total_supply: BigNumber;
 }
 
-export class NftContract extends AbstractContract<NftContractStorage> {}
+export class NftContract extends AbstractContract<NftContractStorage> {
+  async getTokenMetadata() {
+    if (!this.storage) {
+      throw new Error('NftContract storage is undefined');
+    }
+    const metadata = await this.storage.token_metadata.get(0);
+    console.log('metadata', metadata);
+  }
+}

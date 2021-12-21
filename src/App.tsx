@@ -9,26 +9,30 @@ import { Intro } from './components/intro';
 import { Main } from './components/main';
 import { SliderNFT } from './components/slider-nft';
 import { WalletContainer } from './connect-wallet/components/wallet-provider';
-import { DAppProvider } from './connect-wallet/utils/dapp';
 import { useContracts } from './hooks/useContracts';
 
 export const App: FC = () => {
-  const contracts = useContracts();
+  const { distributionStart, stakePeriod, stakeAmount, totalSupply, maxSupply, userBalance } = useContracts();
   // eslint-disable-next-line no-console
-  console.log('contracts', contracts);
+  console.log('contracts', {
+    distributionStart,
+    stakePeriod,
+    stakeAmount,
+    totalSupply,
+    maxSupply,
+    userBalance
+  });
 
   return (
-    <DAppProvider>
-      <WalletContainer>
-        <Header />
+    <WalletContainer>
+      <Header userBalance={userBalance} />
 
-        <Background>
-          <Intro />
-          <SliderNFT />
-          <Main />
-          <Footer />
-        </Background>
-      </WalletContainer>
-    </DAppProvider>
+      <Background>
+        <Intro />
+        <SliderNFT />
+        <Main />
+        <Footer />
+      </Background>
+    </WalletContainer>
   );
 };
