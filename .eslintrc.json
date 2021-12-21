@@ -5,11 +5,10 @@
     "plugin:import/warnings",
     "plugin:import/typescript",
     "plugin:sonarjs/recommended",
-    "plugin:@typescript-eslint/recommended",
     "plugin:import/recommended",
     "plugin:import/typescript"
   ],
-  "plugins": ["@typescript-eslint", "react-hooks", "import", "prettier", "sonarjs"],
+  "plugins": ["react-hooks", "import", "prettier", "sonarjs"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "project": "./tsconfig.eslint.json"
