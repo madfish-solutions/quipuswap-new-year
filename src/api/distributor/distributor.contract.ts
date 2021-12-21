@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js';
 
 import { AbstractContract } from '../abstract.contract';
 
-interface DistributorContractStorage {
+export interface DistributorContractStorage {
   distribution_start: string;
   nft_contract: string;
   owner: string;
