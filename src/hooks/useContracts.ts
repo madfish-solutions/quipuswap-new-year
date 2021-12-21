@@ -20,10 +20,10 @@ export const useContracts = () => {
     }
 
     const nftContract = new NftContract(RPC, distributorStorage.nft_contract);
-    const nftStorage = await nftContract.getStorage();
+    const _nftStorage = await nftContract.getStorage();
 
     setDistributorStorage(distributorStorage);
-    setNftStorage(nftStorage);
+    setNftStorage(_nftStorage);
   };
 
   useEffect(() => {
