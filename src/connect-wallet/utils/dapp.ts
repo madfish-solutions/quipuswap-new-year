@@ -1,15 +1,16 @@
 import { useCallback, useEffect, useState } from 'react';
-import constate from 'constate';
-import { TempleWallet } from '@temple-wallet/dapp';
-import { MichelCodecPacker, TezosToolkit } from '@taquito/taquito';
-import { NetworkType } from '@airgap/beacon-sdk';
-import useSWR from 'swr';
-import { BeaconWallet } from '@taquito/beacon-wallet';
 
-import { getNetwork, setNetwork, toBeaconNetworkType } from './network';
+import { NetworkType } from '@airgap/beacon-sdk';
+import { BeaconWallet } from '@taquito/beacon-wallet';
+import { MichelCodecPacker, TezosToolkit } from '@taquito/taquito';
+import { TempleWallet } from '@temple-wallet/dapp';
+import constate from 'constate';
+import useSWR from 'swr';
+
 import { APP_NAME, BASE_URL, LAST_USED_CONNECTION_KEY, LAST_USED_ACCOUNT_KEY } from '../config/config';
 import { QSNetwork } from '../types/types';
 import { isClient } from './is-client';
+import { getNetwork, setNetwork, toBeaconNetworkType } from './network';
 import { ReadOnlySigner } from './readonly-signer';
 
 const michelEncoder = new MichelCodecPacker();
@@ -40,7 +41,7 @@ const connectWalletTemple = async (forcePermission: boolean, network: QSNetwork)
   if (!wallet.connected) {
     await wallet.connect(
       network.connectType === 'default'
-        ? (network.id as any)
+        ? network.id
         : {
             name: network.name,
             rpc: network.rpcBaseURL
@@ -54,6 +55,7 @@ const connectWalletTemple = async (forcePermission: boolean, network: QSNetwork)
   const { pkh, publicKey } = wallet.permission!;
   tezos.setSignerProvider(new ReadOnlySigner(pkh, publicKey));
   localStorage.setItem(LAST_USED_CONNECTION_KEY, 'temple');
+
   return { pkh, toolkit: tezos, wallet };
 };
 
@@ -90,16 +92,17 @@ const connectWalletBeacon = async (forcePermission: boolean, network: QSNetwork)
   tezos.setSignerProvider(new ReadOnlySigner(activeAcc.address, activeAcc.publicKey));
   localStorage.setItem(LAST_USED_CONNECTION_KEY, 'beacon');
   localStorage.setItem(LAST_USED_ACCOUNT_KEY, activeAcc.accountIdentifier);
+
   return { pkh: activeAcc.address, toolkit: tezos };
 };
 
-export type DAppType = {
+export interface DAppType {
   connectionType: 'beacon' | 'temple' | null;
   tezos: TezosToolkit | null;
   accountPkh: string | null;
   templeWallet: TempleWallet | null;
   network: QSNetwork;
-};
+}
 
 const fallbackToolkit = new TezosToolkit(net.rpcBaseURL);
 fallbackToolkit.setPackerProvider(michelEncoder);
@@ -123,7 +126,7 @@ function useDApp() {
     []
   );
 
-  const getTempleInitialAvailable = useCallback(() => TempleWallet.isAvailable(), []);
+  const getTempleInitialAvailable = useCallback(async () => TempleWallet.isAvailable(), []);
   const { data: templeInitialAvailable } = useSWR(['temple-initial-available'], getTempleInitialAvailable, {
     revalidateOnFocus: false,
     revalidateOnReconnect: false
@@ -132,7 +135,7 @@ function useDApp() {
   const ready = Boolean(tezos) || templeInitialAvailable === false;
 
   useEffect(() => {
-    TempleWallet.onAvailabilityChange(async (available: any) => {
+    TempleWallet.onAvailabilityChange(async available => {
       const lastUsedConnection = localStorage.getItem(LAST_USED_CONNECTION_KEY);
       if (available) {
         try {
@@ -186,11 +189,12 @@ function useDApp() {
       }
       beaconWallet.client
         .getAccount(lastUsedAccount)
-        .then((value: any) => {
+        .then(value => {
           if (!value) {
             localStorage.removeItem(LAST_USED_ACCOUNT_KEY);
             localStorage.removeItem(LAST_USED_CONNECTION_KEY);
             setFallbackState();
+
             return;
           }
 
@@ -207,7 +211,7 @@ function useDApp() {
             network: net
           }));
         })
-        .catch((e: any) => {
+        .catch(e => {
           // eslint-disable-next-line
           console.error(e);
           setFallbackState();
@@ -241,7 +245,7 @@ function useDApp() {
 
   useEffect(() => {
     if (templeWallet && templeWallet.connected) {
-      TempleWallet.onPermissionChange((perm: any) => {
+      TempleWallet.onPermissionChange(perm => {
         if (!perm) {
           setState(prevState => ({
             ...prevState,

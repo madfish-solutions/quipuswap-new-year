@@ -1,3 +1,7 @@
+import { NetworkType as BeaconNetworkType } from '@airgap/beacon-sdk';
+
+import '@quipuswap/ui-kit/dist/ui-kit.cjs.development.css';
+
 import {
   NETWORK_ID_KEY,
   LAST_USED_ACCOUNT_KEY,
@@ -5,12 +9,15 @@ import {
   DEFAULT_NETWORK,
   ALL_NETWORKS
 } from '../config/config';
-import { QSNetwork } from '../types/types';
+import { QSMainNet, QSNetwork } from '../types/types';
 
 export const getNetwork = () => {
   const netId = typeof window === 'undefined' ? undefined : localStorage.getItem(NETWORK_ID_KEY);
-  if (!netId) return DEFAULT_NETWORK;
+  if (!netId) {
+    return DEFAULT_NETWORK;
+  }
   const found = ALL_NETWORKS.find(n => n.id === netId);
+
   return found && !found.disabled ? found : DEFAULT_NETWORK;
 };
 
@@ -20,4 +27,9 @@ export const setNetwork = (net: QSNetwork) => {
   localStorage.removeItem(LAST_USED_CONNECTION_KEY);
 };
 
-export const toBeaconNetworkType = (netId: string): any => (netId === 'edo2net' ? 'edonet' : netId);
+const beaconNetworkTypes: Record<QSMainNet, BeaconNetworkType> = {
+  mainnet: BeaconNetworkType.MAINNET,
+  hangzhounet: BeaconNetworkType.HANGZHOUNET
+};
+
+export const toBeaconNetworkType = (netId: QSMainNet) => beaconNetworkTypes[netId];

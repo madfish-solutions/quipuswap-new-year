@@ -11,8 +11,8 @@ export const LAST_USED_CONNECTION_KEY = 'lastUsedConnection';
 export const LAST_USED_ACCOUNT_KEY = 'lastUsedAccount';
 export const NETWORK_ID_KEY = 'networkId';
 
-export const METADATA_API_MAINNET = process.env.NEXT_PUBLIC_METADATA_API_MAINNET!; // 'ex https://<host>:<port>/metadata'
-export const METADATA_API_TESTNET = process.env.NEXT_PUBLIC_METADATA_API_TESTNET!;
+export const METADATA_API_MAINNET = 'https://metadata.templewallet.com/metadata'; // process.env.NEXT_PUBLIC_METADATA_API_MAINNET!; // 'ex https://<host>:<port>/metadata'
+export const METADATA_API_TESTNET = 'http://165.232.69.152:3002/metadata'; // process.env.NEXT_PUBLIC_METADATA_API_TESTNET!;
 
 export const MAINNET_NETWORK: QSNetwork = {
   id: 'mainnet',

@@ -48,7 +48,7 @@ export const AccountModal: React.FC = () => {
     >
       <div className={s.row}>
         <div className={s.addr} title={accountPkh}>
-          {shortize(accountPkh, 8)}
+          {accountPkh && shortize(accountPkh, 8)}
         </div>
         <Button
           onClick={handleCopy}
