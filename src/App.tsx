@@ -21,7 +21,6 @@ export const App: FC = () => {
     <DAppProvider>
       <WalletContainer>
         <Header />
-
         <Background>
           <Intro />
           <SliderNFT />

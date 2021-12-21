@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { DistributorContract, DistributorContractStorage } from '../api/distributor';
-import { NftContract, NftContractStorage } from '../api/nft.contract/nft-contract';
+import { NftContract, NftContractStorage } from '../api/nft-ontract/nft.contract';
 
 const RPC = 'https://hangzhounet.api.tez.ie';
 const DISTRIBUTOR_CONTRACT = 'KT1FJ3ZXD9vRzncKJNyBw6PFG8gzQcHYqycw';

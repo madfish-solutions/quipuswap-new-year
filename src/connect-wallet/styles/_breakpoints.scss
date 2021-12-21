@@ -7,7 +7,7 @@ $breakpoints: (
   'SDesktop': 1238px,
   'desktop': 1366px,
   'LDesktop': 1440px,
-  'LGdesktop': 1920px,
+  'LGdesktop': 1920px
 ) !default;
 
 ///
@@ -32,12 +32,12 @@ $media-expressions: (
   'handheld': 'handheld',
   'retina2x': (
     '(-webkit-min-device-pixel-ratio: 2)',
-    '(min-resolution: 192dpi)',
+    '(min-resolution: 192dpi)'
   ),
   'retina3x': (
     '(-webkit-min-device-pixel-ratio: 3)',
-    '(min-resolution: 350dpi)',
-  ),
+    '(min-resolution: 350dpi)'
+  )
 ) !default;
 
 ///
@@ -66,7 +66,7 @@ $media-expressions: (
 $unit-intervals: (
   'px': 1,
   'em': 0.01,
-  'rem': 0.1,
+  'rem': 0.1
 ) !default;
 ///
 /// Generates a media query based on a list of conditions
@@ -95,11 +95,7 @@ $unit-intervals: (
 ///
 @mixin media($conditions...) {
   @for $i from 1 through length($conditions) {
-    $conditions: set-nth(
-      $conditions,
-      $i,
-      parse-expression(nth($conditions, $i))
-    );
+    $conditions: set-nth($conditions, $i, parse-expression(nth($conditions, $i)));
   }
 
   $branches: get-query-branches($conditions);
@@ -158,10 +154,7 @@ $unit-intervals: (
         @each $member in $expression {
           @if ($member != $first) {
             @each $partial in $result {
-              $result: join(
-                $result,
-                str-replace-first($first, $member, $partial)
-              );
+              $result: join($result, str-replace-first($first, $member, $partial));
             }
           }
         }
@@ -320,8 +313,7 @@ $unit-intervals: (
 }
 
 @function _length($number, $unit) {
-  $strings: 'px' 'cm' 'mm' '%' 'ch' 'pica' 'in' 'em' 'rem' 'pt' 'pc' 'ex' 'vw'
-    'vh' 'vmin' 'vmax';
+  $strings: 'px' 'cm' 'mm' '%' 'ch' 'pica' 'in' 'em' 'rem' 'pt' 'pc' 'ex' 'vw' 'vh' 'vmin' 'vmax';
   $units: 1px 1cm 1mm 1% 1ch 1pica 1in 1em 1rem 1pt 1pc 1ex 1vw 1vh 1vmin 1vmax;
   $index: index($strings, $unit);
 
