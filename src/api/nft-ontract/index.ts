@@ -1,1 +1,1 @@
-export * from './nft.contract';
+export * from './nft-contract';
