@@ -1,1 +1,1 @@
-export * from './qs-token';
+export * from './qs-token.contract';
