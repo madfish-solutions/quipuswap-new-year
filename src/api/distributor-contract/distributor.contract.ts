@@ -16,4 +16,14 @@ export interface DistributorContractStorage {
   stake_period: BigNumber;
 }
 
-export class DistributorContract extends AbstractContract<DistributorContractStorage> {}
+export class DistributorContract extends AbstractContract<DistributorContractStorage> {
+  async getAddressBalance(address: string): Promise<BigNumber | null> {
+    if (!this.storage) {
+      throw new Error('DistributorContract storage is undefined');
+    }
+
+    const balance = await this.storage.partakers.get(address);
+
+    return balance ? (balance as BigNumber) : null;
+  }
+}
