@@ -5,6 +5,7 @@ import BigNumber from 'bignumber.js';
 import { DistributorContract, DistributorContractStorage } from '../api/distributor';
 import { NftContract, NftContractStorage } from '../api/nft.contract/nft-contract';
 import { useAccountPkh } from '../connect-wallet/utils/dapp';
+import { NftToken } from '../interfaces/NftToken';
 
 const RPC = 'https://hangzhounet.api.tez.ie';
 const DISTRIBUTOR_CONTRACT = 'KT1FJ3ZXD9vRzncKJNyBw6PFG8gzQcHYqycw';
@@ -15,6 +16,8 @@ export const useContracts = () => {
   const [distributorStorage, setDistributorStorage] = useState<DistributorContractStorage | null>(null);
   const [nftStorage, setNftStorage] = useState<NftContractStorage | null>(null);
   const [userBalance, setUserBalance] = useState<BigNumber | null>(null);
+
+  const [nftTokens, setNftTokens] = useState<NftToken[] | null>(null);
 
   const loadContracts = async () => {
     const _distributorStorage = await distributorContract.getStorage();
@@ -29,8 +32,10 @@ export const useContracts = () => {
     setDistributorStorage(_distributorStorage);
     setNftStorage(_nftStorage);
 
-    // TODO
-    await nftContract.getTokenMetadata();
+    const tokens = _nftStorage?.token_count
+      ? await nftContract.getTokensMetadata(_nftStorage.token_count.toNumber())
+      : [];
+    setNftTokens(tokens);
   };
 
   useEffect(() => {
@@ -52,6 +57,7 @@ export const useContracts = () => {
     stakeAmount: distributorStorage?.stake_amount,
     totalSupply: nftStorage?.total_supply,
     maxSupply: nftStorage?.max_supply,
-    userBalance
+    userBalance,
+    nftTokens
   };
 };
