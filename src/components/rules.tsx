@@ -1,8 +1,42 @@
-import React from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
+
+import { Duration } from 'luxon';
 
 import { Box } from './box';
 
-export const Rules = () => {
+interface Props {
+  distributionStarts: Date | null;
+  nftTotalSupply: number | null;
+  nftMaxSupply: number | null;
+}
+
+export const Rules: FC<Props> = ({ distributionStarts, nftTotalSupply, nftMaxSupply }) => {
+  const [distributionLabel, setDistributionLabel] = useState('');
+  const [distributionStartsIn, setDistributionStartsIn] = useState('Loading...');
+
+  const updateTimer = useCallback(() => {
+    if (!distributionStarts) {
+      setDistributionLabel('');
+      setDistributionStartsIn('Loading...');
+    } else if (distributionStarts < new Date()) {
+      setDistributionLabel('');
+      setDistributionStartsIn('Finished');
+    } else {
+      // 23h 59m 59s
+      const duration = Duration.fromMillis(distributionStarts.getTime() - new Date().getTime());
+      setDistributionLabel('Starts in:');
+      setDistributionStartsIn(duration.toFormat('dd hh:mm:ss'));
+    }
+  }, [distributionStarts]);
+
+  useEffect(() => {
+    if (!distributionStarts) {
+      updateTimer();
+    } else {
+      setInterval(updateTimer, 500);
+    }
+  }, [distributionStarts, updateTimer]);
+
   return (
     <Box>
       <div className="rules-wrapper">
@@ -20,14 +54,14 @@ export const Rules = () => {
         </div>
         <div className="rules-logic">
           <div>
-            <div>Distribution Starts in:</div>
-            <div>23h 59m 59s</div>
+            <div>Distribution {distributionLabel}</div>
+            <div>{distributionStartsIn}</div>
           </div>
           <div>
             <div>NFT Left:</div>
-            <div>99/100</div>
+            <div>{nftMaxSupply ? `${nftTotalSupply}/${nftMaxSupply}` : `Loading...`}</div>
           </div>
-          <button className='pretty-button'>Claim</button>
+          <button className="pretty-button">Claim</button>
         </div>
       </div>
     </Box>

@@ -13,7 +13,7 @@ export const YouStacked = () => {
             <div>Lock countdown:</div>
             <div>--.--.--</div>
           </div>
-          <button className='pretty-button'>Unstake</button>
+          <button className="pretty-button">Unstake</button>
         </div>
       </div>
     </Box>

@@ -1,4 +1,5 @@
-import { ContractAbstraction, TezosToolkit } from '@taquito/taquito';
+import { ContractAbstraction, MichelsonMap, TezosToolkit } from '@taquito/taquito';
+import { bytes2Char } from '@taquito/utils';
 import BigNumber from 'bignumber.js';
 
 export class AbstractContract<T> {
@@ -34,5 +35,14 @@ export class AbstractContract<T> {
     this.balance = await this.tezosToolkit.tz.getBalance(this.address);
 
     return this.balance;
+  }
+
+  static getMichelsonMapString<Key>(michelsonMap: MichelsonMap<Key, string> | undefined, key: Key): string | null {
+    if (!michelsonMap) {
+      return null;
+    }
+    const hash = michelsonMap.get(key);
+
+    return hash ? bytes2Char(hash) : null;
   }
 }

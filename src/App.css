@@ -31,7 +31,7 @@ button {
 }
 
 .pretty-button {
-  background: linear-gradient(98deg, #5C1EE0 0%, #1373E4 100%);
+  background: linear-gradient(98deg, #5c1ee0 0%, #1373e4 100%);
   border-radius: 8px;
   padding: 12px 24px;
 
@@ -65,15 +65,15 @@ button {
 
   height: 40px;
 
-  background: #FAFAFC;
+  background: #fafafc;
   align-items: center;
   padding: 0 12px;
-  border: 1px solid #D3D4D8;
+  border: 1px solid #d3d4d8;
   border-radius: 8px;
 }
 
 .balance_quipu {
-  color: #8B90A0;
+  color: #8b90a0;
 
   font-weight: bold;
   font-size: 12px;
@@ -98,7 +98,6 @@ button {
   font-size: 12px;
   line-height: 16px;
 }
-
 
 .intro {
   display: flex;
