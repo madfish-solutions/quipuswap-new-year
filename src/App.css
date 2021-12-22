@@ -1,5 +1,18 @@
 @import './styles/null.css';
 
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+button {
+  font-family: inherit;
+  border: 0;
+  outline: 0;
+  margin: 0;
+}
+
 #root {
   overflow: hidden;
 }
@@ -17,6 +30,21 @@
   background-color: #ffffff;
 }
 
+.pretty-button {
+  background: linear-gradient(98deg, #5c1ee0 0%, #1373e4 100%);
+  border-radius: 8px;
+  padding: 12px 24px;
+
+  width: fit-content;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 16px;
+
+  color: #fff;
+
+  cursor: pointer;
+}
+
 .header {
   height: 64px;
   background-color: #ffffff;
@@ -24,6 +52,51 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.header-buttons {
+  display: flex;
+  column-gap: 32px;
+}
+
+.balance {
+  display: flex;
+  column-gap: 8px;
+
+  height: 40px;
+
+  background: #fafafc;
+  align-items: center;
+  padding: 0 12px;
+  border: 1px solid #d3d4d8;
+  border-radius: 8px;
+}
+
+.balance_quipu {
+  color: #8b90a0;
+
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.balance_numbers {
+  color: #232735;
+
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.balance_buy-more {
+  background: -webkit-linear-gradient(#5c1ee0, #1373e4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-decoration: none;
+
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 16px;
 }
 
 .intro {
@@ -61,14 +134,23 @@
 }
 
 main {
-  /* display: grid;
-  grid-template-columns: repeat(3, 352px);
-  grid-template-rows: repeat(3, 264px);
-  gap: 32px; */
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  padding: 0 16px;
+  gap: 32px;
+  align-items: stretch;
+}
+
+main .box {
+  max-width: none;
+}
+
+main .box:first-of-type {
+  grid-column: 1/-2;
 }
 
 .rules-wrapper {
-  margin: 24px;
+  padding: 24px;
   display: flex;
   justify-content: space-between;
 }
@@ -90,6 +172,7 @@ main {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: flex-end;
 }
 
 .rules-title {
@@ -100,11 +183,18 @@ main {
   line-height: 48px;
 }
 
+.you-staked_wrapper {
+  height: 100%;
+  padding: 24px;
+}
+
 .you-staked {
+  height: 100%;
   text-align: right;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: flex-end;
 }
 
 .box {

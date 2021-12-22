@@ -66,9 +66,7 @@ export const Rules: FC<Props> = ({ distributionStarts, nftTotalSupply, nftMaxSup
             <div>NFT Left:</div>
             <div>{nftMaxSupply ? `${nftTotalSupply}/${nftMaxSupply}` : `Loading...`}</div>
           </div>
-          <button onClick={onClaim} disabled={disabled}>
-            Claim
-          </button>
+          <button className="pretty-button" onClick={onClaim} disabled={disabled}>Claim</button>
         </div>
       </div>
     </Box>

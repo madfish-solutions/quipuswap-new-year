@@ -1,7 +1,7 @@
-import React, { FC } from 'react';
-
+import { FC } from 'react';
 import { ConnectWalletButton } from '../connect-wallet/components/connect-button';
 import { Logo } from '../icons/logo';
+import { Balance } from './balance';
 import { Container } from './container';
 
 interface Props {
@@ -15,8 +15,8 @@ export const Header: FC<Props> = ({ userBalance }) => {
         <div className="header">
           <Logo />
           <div className="header-buttons">
-            {userBalance ? userBalance : '0.0'}
-            <ConnectWalletButton />
+            <Balance quipuBalance={userBalance ? userBalance : '0.0'} />
+            <ConnectWalletButton className="pretty-button" />
           </div>
         </div>
       </Container>
