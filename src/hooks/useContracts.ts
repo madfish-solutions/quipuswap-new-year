@@ -61,7 +61,6 @@ export const useContracts = () => {
     stakePeriod: distributorStorage?.stake_period.toNumber() || 0,
     stakeAmount: distributorStorage?.stake_amount.toNumber() || 0,
     totalSupply: nftStorage?.total_supply.toNumber() || 0,
-    leftSupply: 0, // TODO
     maxSupply: nftStorage?.max_supply.toNumber() || 0,
     userBalance: userBalance?.toNumber() || 0,
     nftTokens

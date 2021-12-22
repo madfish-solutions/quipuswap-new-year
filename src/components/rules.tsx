@@ -6,11 +6,11 @@ import { Box } from './box';
 
 interface Props {
   distributionStarts: Date | null;
-  nftLeftSupply: number | null;
+  nftTotalSupply: number | null;
   nftMaxSupply: number | null;
 }
 
-export const Rules: FC<Props> = ({ distributionStarts, nftLeftSupply, nftMaxSupply }) => {
+export const Rules: FC<Props> = ({ distributionStarts, nftTotalSupply, nftMaxSupply }) => {
   const [distributionLabel, setDistributionLabel] = useState('');
   const [distributionStartsIn, setDistributionStartsIn] = useState('Loading...');
 
@@ -59,7 +59,7 @@ export const Rules: FC<Props> = ({ distributionStarts, nftLeftSupply, nftMaxSupp
           </div>
           <div>
             <div>NFT Left:</div>
-            <div>{nftMaxSupply ? `${nftLeftSupply}/${nftMaxSupply}` : `Loading...`}</div>
+            <div>{nftMaxSupply ? `${nftTotalSupply}/${nftMaxSupply}` : `Loading...`}</div>
           </div>
           <button>Claim</button>
         </div>

@@ -5,7 +5,7 @@ import { YouStacked } from './you-staked';
 
 interface Props {
   distributionStarts: Date | null;
-  nftLeftSupply: number | null;
+  nftTotalSupply: number | null;
   nftMaxSupply: number | null;
 }
 
