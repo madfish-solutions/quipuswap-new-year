@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 
 import BigNumber from 'bignumber.js';
 
-import { DistributorContract, DistributorContractStorage } from '../api/distributor';
-import { NftContract, NftContractStorage } from '../api/nft-ontract/nft.contract';
+import { DistributorContract, DistributorContractStorage } from '../api/distributor-contract';
+import { NftContract, NftContractStorage } from '../api/nft-contract/nft.contract';
 import { useAccountPkh } from '../connect-wallet/utils/dapp';
 import { NftToken } from '../interfaces/NftToken';
 
