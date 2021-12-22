@@ -74,7 +74,7 @@ export const useContracts = () => {
     // eslint-disable-next-line no-console
     console.log('claim!!');
 
-    if (!distributorStorage || !accountPkh || !tezos) {
+    if (!distributorContract || !distributorStorage || !accountPkh || !tezos) {
       throw new Error('Data are unready for claiming');
     }
 
@@ -88,7 +88,10 @@ export const useContracts = () => {
         spender: DISTRIBUTOR_CONTRACT,
         owner: accountPkh
       });
-      const batch = await qsTokenContract.batchOperations([allowOperation, disallowOperation]);
+
+      const stakeOperation = await distributorContract.stake();
+
+      const batch = await qsTokenContract.batchOperations([allowOperation, stakeOperation, disallowOperation]);
       const res = await batch.send();
       // eslint-disable-next-line no-console
       console.log('res', res);

@@ -26,4 +26,11 @@ export class DistributorContract extends AbstractContract<DistributorContractSto
 
     return balance ? (balance as BigNumber) : null;
   }
+
+  // { source, amount }: { source: string; amount: BigNumber }
+  async stake() {
+    const tokenContract = await this.ttk.wallet.at(this.address);
+
+    return tokenContract.methods.stake();
+  }
 }
