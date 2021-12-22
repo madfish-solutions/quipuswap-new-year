@@ -8,24 +8,29 @@ interface Props {
   distributionStarts: Date | null;
   nftTotalSupply: number | null;
   nftMaxSupply: number | null;
+  onClaim: () => void;
 }
 
-export const Rules: FC<Props> = ({ distributionStarts, nftTotalSupply, nftMaxSupply }) => {
+export const Rules: FC<Props> = ({ distributionStarts, nftTotalSupply, nftMaxSupply, onClaim }) => {
   const [distributionLabel, setDistributionLabel] = useState('');
   const [distributionStartsIn, setDistributionStartsIn] = useState('Loading...');
+  const [disabled, setDisabled] = useState(Boolean(distributionStarts));
 
   const updateTimer = useCallback(() => {
     if (!distributionStarts) {
       setDistributionLabel('');
       setDistributionStartsIn('Loading...');
+      setDisabled(true);
     } else if (distributionStarts < new Date()) {
       setDistributionLabel('');
       setDistributionStartsIn('Finished');
+      setDisabled(true);
     } else {
       // 23h 59m 59s
       const duration = Duration.fromMillis(distributionStarts.getTime() - new Date().getTime());
       setDistributionLabel('Starts in:');
       setDistributionStartsIn(duration.toFormat('dd hh:mm:ss'));
+      setDisabled(false);
     }
   }, [distributionStarts]);
 
@@ -61,7 +66,9 @@ export const Rules: FC<Props> = ({ distributionStarts, nftTotalSupply, nftMaxSup
             <div>NFT Left:</div>
             <div>{nftMaxSupply ? `${nftTotalSupply}/${nftMaxSupply}` : `Loading...`}</div>
           </div>
-          <button>Claim</button>
+          <button onClick={onClaim} disabled={disabled}>
+            Claim
+          </button>
         </div>
       </div>
     </Box>

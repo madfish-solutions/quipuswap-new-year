@@ -1,20 +1,17 @@
-import { ContractAbstraction, MichelsonMap, TezosToolkit } from '@taquito/taquito';
+import { ContractAbstraction, ContractMethod, MichelsonMap, TezosToolkit, Wallet } from '@taquito/taquito';
 import { bytes2Char } from '@taquito/utils';
 import BigNumber from 'bignumber.js';
 
 export class AbstractContract<T> {
-  protected tezosToolkit: TezosToolkit;
   protected balance: BigNumber | null = null;
   // @ts-ignore
   protected contract: ContractAbstraction | null = null;
   public storage: T | null = null;
 
-  constructor(rpc: string, public address: string) {
-    this.tezosToolkit = new TezosToolkit(rpc);
-  }
+  constructor(protected ttk: TezosToolkit, public address: string) {}
 
   async getContract() {
-    this.contract = await this.tezosToolkit.contract.at(this.address);
+    this.contract = await this.ttk.contract.at(this.address);
 
     return this.contract;
   }
@@ -32,9 +29,13 @@ export class AbstractContract<T> {
     if (!this.contract) {
       await this.getContract();
     }
-    this.balance = await this.tezosToolkit.tz.getBalance(this.address);
+    this.balance = await this.ttk.tz.getBalance(this.address);
 
     return this.balance;
+  }
+
+  async batchOperations(operations: Array<ContractMethod<Wallet>>) {
+    return operations.reduce((batch, operation) => batch.withContractCall(operation), this.ttk.wallet.batch());
   }
 
   static getMichelsonMapString<Key>(michelsonMap: MichelsonMap<Key, string> | undefined, key: Key): string | null {

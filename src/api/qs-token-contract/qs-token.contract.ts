@@ -21,4 +21,32 @@ export interface QsTokenContractStorage {
   total_mint_percent: BigNumber;
 }
 
-export class QsTokenContract extends AbstractContract<QsTokenContractStorage> {}
+export class QsTokenContract extends AbstractContract<QsTokenContractStorage> {
+  async allowSpendYourTokens({ spender, owner }: { spender: string; owner: string }) {
+    const tokenContract = await this.ttk.wallet.at(this.address);
+
+    return tokenContract.methods.update_operators([
+      {
+        add_operator: {
+          owner, // usually - user wallet
+          operator: spender, // usually - contract Distributor
+          token_id: 0 // Hardcode
+        }
+      }
+    ]);
+  }
+
+  async disallowSpendYourTokens({ spender, owner }: { spender: string; owner: string }) {
+    const tokenContract = await this.ttk.wallet.at(this.address);
+
+    return tokenContract.methods.update_operators([
+      {
+        remove_operator: {
+          owner, // usually - user wallet
+          operator: spender, // usually - contract Distributor
+          token_id: 0 // Hardcode
+        }
+      }
+    ]);
+  }
+}

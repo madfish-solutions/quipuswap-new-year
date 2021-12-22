@@ -7,13 +7,22 @@ interface Props {
   distributionStarts: Date | null;
   nftTotalSupply: number | null;
   nftMaxSupply: number | null;
+
+  onClaim: () => void;
+
+  stakeAmount: number;
 }
 
-export const Main: FC<Props> = props => {
+export const Main: FC<Props> = ({ distributionStarts, nftTotalSupply, nftMaxSupply, stakeAmount, onClaim }) => {
   return (
     <main>
-      <Rules {...props} />
-      <YouStacked />
+      <Rules
+        distributionStarts={distributionStarts}
+        nftTotalSupply={nftTotalSupply}
+        nftMaxSupply={nftMaxSupply}
+        onClaim={onClaim}
+      />
+      <YouStacked stakeAmount={stakeAmount} />
     </main>
   );
 };
