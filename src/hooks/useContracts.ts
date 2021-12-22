@@ -19,8 +19,6 @@ export const useContracts = () => {
     tezos ? new DistributorContract(tezos, DISTRIBUTOR_CONTRACT) : null
   );
 
-  console.log('tezos', tezos);
-
   useEffect(() => {
     setDistributorContract(tezos ? new DistributorContract(tezos, DISTRIBUTOR_CONTRACT) : null);
   }, [tezos]);

@@ -1,4 +1,5 @@
 import { FC } from 'react';
+
 import { ConnectWalletButton } from '../connect-wallet/components/connect-button';
 import { Logo } from '../icons/logo';
 import { Balance } from './balance';
