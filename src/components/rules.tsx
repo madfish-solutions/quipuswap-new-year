@@ -27,7 +27,7 @@ export const Rules = () => {
             <div>NFT Left:</div>
             <div>99/100</div>
           </div>
-          <button>Claim</button>
+          <button className='pretty-button'>Claim</button>
         </div>
       </div>
     </Box>

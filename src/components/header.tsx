@@ -1,7 +1,6 @@
-import React from 'react';
-
 import { ConnectWalletButton } from '../connect-wallet/components/connect-button';
 import { Logo } from '../icons/logo';
+import { Balance } from './balance';
 import { Container } from './container';
 
 export const Header = () => {
@@ -11,8 +10,8 @@ export const Header = () => {
         <div className="header">
           <Logo />
           <div className="header-buttons">
-            <button>Balance</button>
-            <ConnectWalletButton />
+            <Balance quipuBalance={'252.0543'} />
+            <ConnectWalletButton className="pretty-button" />
           </div>
         </div>
       </Container>
