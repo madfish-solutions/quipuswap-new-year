@@ -51,13 +51,19 @@ export const useContracts = () => {
     distributorContract.getAddressBalance(accountPkh).then(setUserBalance);
   }, [accountPkh, distributorStorage]);
 
+  // TODO: REMOVE AFTER UPDATES CONTRACT
+  if (distributorStorage) {
+    distributorStorage.distribution_start = '2022-01-01T00:00:00';
+  }
+
   return {
-    distributionStart: distributorStorage?.distribution_start,
-    stakePeriod: distributorStorage?.stake_period,
-    stakeAmount: distributorStorage?.stake_amount,
-    totalSupply: nftStorage?.total_supply,
-    maxSupply: nftStorage?.max_supply,
-    userBalance,
+    distributionStart: distributorStorage?.distribution_start ? new Date(distributorStorage.distribution_start) : null,
+    stakePeriod: distributorStorage?.stake_period.toNumber() || 0,
+    stakeAmount: distributorStorage?.stake_amount.toNumber() || 0,
+    totalSupply: nftStorage?.total_supply.toNumber() || 0,
+    leftSupply: 0, // TODO
+    maxSupply: nftStorage?.max_supply.toNumber() || 0,
+    userBalance: userBalance?.toNumber() || 0,
     nftTokens
   };
 };
