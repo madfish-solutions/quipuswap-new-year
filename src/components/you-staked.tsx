@@ -9,9 +9,10 @@ import { TimeCountdown } from './time-countdown';
 interface Props {
   stakeAmount: BigNumber | null;
   stakedTo: Date | null;
+  onUnstake: () => void;
 }
 
-export const YouStacked: FC<Props> = ({ stakeAmount, stakedTo }) => {
+export const YouStacked: FC<Props> = ({ stakeAmount, stakedTo, onUnstake }) => {
   const disabled = !stakedTo || stakedTo > new Date();
 
   return (
@@ -26,7 +27,7 @@ export const YouStacked: FC<Props> = ({ stakeAmount, stakedTo }) => {
             <div>Lock countdown:</div>
             <div>{disabled && <TimeCountdown timeTo={stakedTo} />}</div>
           </div>
-          <button className="pretty-button" disabled={disabled}>
+          <button className="pretty-button" disabled={disabled} onClick={onUnstake}>
             Unstake
           </button>
         </div>

@@ -119,9 +119,7 @@ export const useContracts = () => {
       const stakeOperation = await distributorContract.stake();
 
       const batch = await qsTokenContract.batchOperations([allowOperation, stakeOperation, disallowOperation]);
-      const res = await batch.send();
-      // eslint-disable-next-line no-console
-      console.log('res O_O', res);
+      await batch.send();
     } catch (error) {
       setError(error as Error);
     }
@@ -135,11 +133,29 @@ export const useContracts = () => {
     stakeSeconds && userClaim && !userClaim.claimed
       ? new Date(new Date(userClaim.stake_beginning).getTime() + stakeSeconds * 100)
       : null;
-  // eslint-disable-next-line no-console
-  console.log('xxx', { userClaim, stakedTo, stakeSeconds });
 
   // isStakeAllow
   const isStakeAllow = !!userBalance && !!distributorStorage && userBalance.gte(distributorStorage.stake_amount);
+
+  // Unstake
+  const handleUnstake = useCallback(async () => {
+    if (!distributorContract || !distributorStorage || !accountPkh || !tezos) {
+      setError(new Error('O_O Data are unready for claiming'));
+
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      const stakeOperation = await distributorContract.stake();
+      await stakeOperation.send();
+    } catch (error) {
+      setError(error as Error);
+    }
+
+    setIsLoading(false);
+  }, [accountPkh, distributorContract, distributorStorage, tezos]);
 
   return {
     distributionStart: distributorStorage?.distribution_start ? new Date(distributorStorage.distribution_start) : null,
@@ -150,9 +166,10 @@ export const useContracts = () => {
     userBalance,
     nftTokens,
     userClaim,
-    onClaim: handleClaim,
     isLoading,
     isStakeAllow,
-    error
+    error,
+    onClaim: handleClaim,
+    onUnstake: handleUnstake
   };
 };

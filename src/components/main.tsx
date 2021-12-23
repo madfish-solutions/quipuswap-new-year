@@ -16,6 +16,7 @@ interface Props {
   stakedTo: Date | null;
   isStakeAllow: boolean;
   onClaim: () => void;
+  onUnstake: () => void;
 }
 
 export const Main: FC<Props> = ({
@@ -27,7 +28,8 @@ export const Main: FC<Props> = ({
   userClaim,
   stakedTo,
   isStakeAllow,
-  onClaim
+  onClaim,
+  onUnstake
 }) => {
   return (
     <main>
@@ -40,7 +42,7 @@ export const Main: FC<Props> = ({
         isStakeAllow={isStakeAllow}
         onClaim={onClaim}
       />
-      <YouStacked stakeAmount={stakeAmount} stakedTo={stakedTo} />
+      <YouStacked stakeAmount={stakeAmount} stakedTo={stakedTo} onUnstake={onUnstake} />
     </main>
   );
 };

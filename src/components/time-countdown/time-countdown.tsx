@@ -14,7 +14,7 @@ export const TimeCountdown: FC<Props> = ({ timeTo }) => {
       setDistributionStartsIn(null);
     } else {
       // 23h 59m 59s
-      const duration = Duration.fromMillis(new Date().getTime() - timeTo.getTime());
+      const duration = Duration.fromMillis(timeTo.getTime() - new Date().getTime());
       setDistributionStartsIn(duration.toFormat('hh:mm:ss'));
     }
   }, [timeTo]);
@@ -30,9 +30,7 @@ export const TimeCountdown: FC<Props> = ({ timeTo }) => {
   return (
     <div>
       <p>{distributionStartsIn || '--.--.--'}</p>
-      <p>
-        ({distributionStartsIn}/{timeTo})
-      </p>
+      <p>({timeTo?.toISOString()})</p>
     </div>
   );
 };

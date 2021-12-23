@@ -24,8 +24,9 @@ export const App: FC = () => {
     userClaim,
     isLoading,
     isStakeAllow,
+    error,
     onClaim,
-    error
+    onUnstake
   } = useContracts();
 
   return (
@@ -44,6 +45,7 @@ export const App: FC = () => {
           userClaim={userClaim}
           stakedTo={stakedTo}
           onClaim={onClaim}
+          onUnstake={onUnstake}
         />
         <Footer />
       </Background>
