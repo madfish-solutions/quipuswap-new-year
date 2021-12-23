@@ -24,7 +24,7 @@ const settings = {
       breakpoint: 768,
       settings: {
         slidesToShow: 2,
-        slidesToScroll: 1,
+        slidesToScroll: 1
       }
     },
     {
@@ -40,9 +40,9 @@ const settings = {
 export const SliderNFT: FC = () => {
   return (
     <Slider {...settings}>
-      <Card src="/mock_img.png" alt="" />
-      <Card src="/mock_img.png" alt="" />
-      <Card src="/mock_img.png" alt="" />
+      <Card src="/mock_img.png" alt="" discription="it`s some nft discription" />
+      <Card src="/mock_img.png" alt="" discription="it`s some nft discription" />
+      <Card src="/mock_img.png" alt="" discription="it`s some nft discription" />
     </Slider>
   );
 };

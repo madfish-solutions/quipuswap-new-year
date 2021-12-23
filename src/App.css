@@ -262,7 +262,49 @@ main .box:first-of-type {
 
 .img-wrapper {
   overflow: hidden;
+  -webkit-perspective: 500px;
+  perspective: 500px;
 }
+
+.img-wrapper:hover .nft-card {
+  -webkit-transform: rotateY(180deg);
+  transform: rotateY(180deg);
+}
+
+.nft-card {
+  -webkit-transition: -webkit-transform 0.7s;
+  transition: transform 0.7s;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+}
+
+.front,
+.back {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.back {
+  -webkit-transform: rotateY(180deg);
+  transform: rotateY(180deg);
+}
+.back {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+
+  background: linear-gradient(98deg, #5c1ee0 0%, #1373e4 100%);
+  border-radius: 8px;
+}
+
+.nft-description {
+  color: #fff;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 24px;
+}
+
 .slick-list {
   width: 100%;
 }

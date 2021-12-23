@@ -1,19 +1,23 @@
 import React, { FC } from 'react';
 
 import { Box } from './box';
+import { Nft, NftProps } from './nft';
 
-interface CardProps {
-  src: string;
-  alt: string;
+interface NftCardDiscription {
+  name: string;
+  rarity: string;
+  quantity: string;
 }
 
-export const Card: FC<CardProps> = ({ src, alt }) => {
+interface NftCardProps extends NftProps {
+  nftData?: NftCardDiscription;
+}
+
+export const Card: FC<NftCardProps> = ({ src, alt, discription }) => {
   return (
     <div className="card">
       <Box>
-        <div className="img-wrapper">
-          <img className="card-img" src={src} alt={alt} />
-        </div>
+        <Nft src={src} alt={alt} discription={discription} />
         <div className="card-description">
           <div className="card-description_row">
             <div className="card-key">Name:</div>
