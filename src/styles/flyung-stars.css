@@ -1,0 +1,42 @@
+.intro-title-container {
+  position: relative;
+}
+
+.starsBox {
+  display: grid;
+  place-items: center;
+  animation: starsConstainerAnimation 6s linear infinite;
+}
+.blue-star-box,
+.orange-star-box {
+  position: absolute;
+  animation: starBoxAnimation 2.95s cubic-bezier(0.02, 0.01, 0.31, 1) infinite;
+}
+.orange-star-box {
+  animation: starBoxAnimation 3.2s cubic-bezier(0.02, 0.01, 0.31, 1) infinite;
+  transform: matrix(-1, 0, 0, 1, 0, 0);
+}
+
+.blue-star-box > .star,
+.orange-star-box > .star {
+  position: absolute;
+  top: 0;
+  left: 0;
+  animation: starAnimation 3s cubic-bezier(0.3, 0.27, 0.07, 1.64) infinite;
+}
+
+@keyframes starsContainerAnimation {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes starBoxAnimation {
+  50% {
+    transform: translateY(-150px);
+  }
+}
+@keyframes starAnimation {
+  50% {
+    transform: translateX(-150px);
+  }
+}

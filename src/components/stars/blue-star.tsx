@@ -1,14 +1,15 @@
 import React, { FC } from 'react';
 
 interface BlueStarProps {
-  top: number;
-  left: number;
+  top: string;
+  left: string;
   size: number;
 }
 
 export const BlueStar: FC<BlueStarProps> = ({ top, left, size }) => {
   return (
     <svg
+      className="star"
       style={{ position: 'absolute', zIndex: -1, top, left }}
       width={size}
       height={size}

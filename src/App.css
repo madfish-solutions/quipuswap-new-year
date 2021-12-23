@@ -1,5 +1,5 @@
 @import './styles/null.css';
-
+@import './styles/flyung-stars.css';
 *,
 *::after,
 *::before {
@@ -258,6 +258,25 @@ main .box:first-of-type {
 }
 
 .background {
+}
+
+@keyframes star {
+  0% {
+    transform: scale(0);
+  }
+  60% {
+    transform: scale(0.9);
+  }
+  80% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+.star {
+  animation: star 1.5s;
 }
 
 .img-wrapper {

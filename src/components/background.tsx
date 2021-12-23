@@ -12,14 +12,14 @@ const fixNumber = (value: number) => ~~value;
 
 const getStar = (top: number, left: number, size: number) => {
   if (fixNumber(left) % 2 === 0) {
-    return <BlueStar key={`${top}_${left}`} top={top} left={left} size={size} />;
+    return <BlueStar key={`${top}_${left}`} top={top.toString()} left={left.toString()} size={size} />;
   } else {
-    return <OrangeStar key={`${top}_${left}`} top={top} left={left} size={size} />;
+    return <OrangeStar key={`${top}_${left}`} top={top.toString()} left={left.toString()} size={size} />;
   }
 };
 
 const generateStars = (size: number, width: number, height: number) => {
-  const verticalQuantity = Math.floor(height / size);
+  const verticalQuantity = Math.ceil(height / size);
   const horizontalQuantity = Math.floor(width / size);
   const headerHeight = 64;
   const arrayOfStars = [];
@@ -46,14 +46,16 @@ export const Background: FC = ({ children }) => {
   const background = useRef<HTMLDivElement>(null);
   const [stars, setStars] = useState<JSX.Element[]>([]);
   useEffect(() => {
-    if (stars.length) {
-      return;
-    }
-    const Stars =
-      background.current?.offsetWidth && background.current?.offsetHeight
-        ? generateStars(70, background.current?.offsetWidth, background.current?.offsetHeight)
-        : [];
-    setStars(Stars);
+    setTimeout(() => {
+      if (stars.length) {
+        return;
+      }
+      const Stars =
+        background.current?.offsetWidth && background.current?.offsetHeight
+          ? generateStars(70, background.current?.offsetWidth, background.current?.offsetHeight)
+          : [];
+      setStars(Stars);
+    }, 100);
   }, [stars.length]);
 
   return (
