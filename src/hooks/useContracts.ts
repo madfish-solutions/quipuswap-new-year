@@ -79,10 +79,10 @@ export const useContracts = () => {
   }, [loadContracts]);
 
   useEffect(() => {
-    if (!accountPkh || !distributorStorage) {
+    if (!accountPkh || !distributorContract || !distributorStorage) {
       return;
     }
-    distributorContract?.getAddressClaim(accountPkh).then(setUserClaim);
+    distributorContract.getAddressClaim(accountPkh).then(setUserClaim);
   }, [accountPkh, distributorContract, distributorStorage]);
 
   useEffect(() => {
@@ -119,9 +119,7 @@ export const useContracts = () => {
       const stakeOperation = await distributorContract.stake();
 
       const batch = await qsTokenContract.batchOperations([allowOperation, stakeOperation, disallowOperation]);
-      const res = await batch.send();
-      // eslint-disable-next-line no-console
-      console.log('res O_O', res);
+      await batch.send();
     } catch (error) {
       setError(error as Error);
     }
@@ -129,10 +127,35 @@ export const useContracts = () => {
     setIsLoading(false);
   }, [accountPkh, distributorContract, distributorStorage, tezos]);
 
-  const stakePeriod = distributorStorage?.stake_period.toNumber() || 0;
-  const stakedTo = new Date();
-  // eslint-disable-next-line no-console
-  console.log('stake', { stakePeriod, stakedTo });
+  // stakedTo
+  const stakeSeconds = distributorStorage?.stake_period.toNumber() || 0;
+  const stakedTo =
+    stakeSeconds && userClaim && !userClaim.claimed
+      ? new Date(new Date(userClaim.stake_beginning).getTime() + stakeSeconds * 100)
+      : null;
+
+  // isStakeAllow
+  const isStakeAllow = !!userBalance && !!distributorStorage && userBalance.gte(distributorStorage.stake_amount);
+
+  // Unstake
+  const handleUnstake = useCallback(async () => {
+    if (!distributorContract || !distributorStorage || !accountPkh || !tezos) {
+      setError(new Error('O_O Data are unready for claiming'));
+
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      const stakeOperation = await distributorContract.stake();
+      await stakeOperation.send();
+    } catch (error) {
+      setError(error as Error);
+    }
+
+    setIsLoading(false);
+  }, [accountPkh, distributorContract, distributorStorage, tezos]);
 
   return {
     distributionStart: distributorStorage?.distribution_start ? new Date(distributorStorage.distribution_start) : null,
@@ -143,8 +166,10 @@ export const useContracts = () => {
     userBalance,
     nftTokens,
     userClaim,
-    onClaim: handleClaim,
     isLoading,
-    error
+    isStakeAllow,
+    error,
+    onClaim: handleClaim,
+    onUnstake: handleUnstake
   };
 };

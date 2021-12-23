@@ -14,7 +14,9 @@ interface Props {
   stakeAmount: BigNumber | null;
   userClaim: Claim | null;
   stakedTo: Date | null;
+  isStakeAllow: boolean;
   onClaim: () => void;
+  onUnstake: () => void;
 }
 
 export const Main: FC<Props> = ({
@@ -25,7 +27,9 @@ export const Main: FC<Props> = ({
   isLoading,
   userClaim,
   stakedTo,
-  onClaim
+  isStakeAllow,
+  onClaim,
+  onUnstake
 }) => {
   return (
     <main>
@@ -35,9 +39,10 @@ export const Main: FC<Props> = ({
         nftMaxSupply={nftMaxSupply}
         isLoading={isLoading}
         isUserClaim={Boolean(userClaim)}
+        isStakeAllow={isStakeAllow}
         onClaim={onClaim}
       />
-      <YouStacked stakeAmount={stakeAmount} stakedTo={stakedTo} />
+      <YouStacked stakeAmount={stakeAmount} stakedTo={stakedTo} onUnstake={onUnstake} />
     </main>
   );
 };

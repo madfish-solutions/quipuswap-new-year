@@ -10,6 +10,7 @@ interface Props {
   nftMaxSupply: number | null;
   isLoading: boolean;
   isUserClaim: boolean;
+  isStakeAllow: boolean;
   onClaim: () => void;
 }
 
@@ -19,6 +20,7 @@ export const Rules: FC<Props> = ({
   nftMaxSupply,
   isLoading,
   isUserClaim,
+  isStakeAllow,
   onClaim
 }) => {
   const [distributionLabel, setDistributionLabel] = useState<string | null>(null);
@@ -82,7 +84,7 @@ export const Rules: FC<Props> = ({
           <button
             className="pretty-button"
             onClick={onClaim}
-            disabled={disabled || isLoading || isUserClaim}
+            disabled={!isStakeAllow || disabled || isLoading || isUserClaim}
             type="button"
           >
             {isLoading ? 'Loading...' : 'Claim'}

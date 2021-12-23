@@ -24,10 +24,10 @@ export interface Claim {
 export class DistributorContract extends AbstractContract<DistributorContractStorage> {
   async getAddressClaim(address: string): Promise<Claim | null> {
     if (!this.storage) {
-      throw new Error('DistributorContract storage is undefined');
+      await this.getStorage();
     }
 
-    const balance = await this.storage.partakers.get(address);
+    const balance = await this.storage?.partakers.get(address);
 
     return balance ? (balance as Claim) : null;
   }
