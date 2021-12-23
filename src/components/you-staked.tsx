@@ -4,6 +4,7 @@ import BigNumber from 'bignumber.js';
 
 import { showBalance } from '../utils/balances';
 import { Box } from './box';
+import { TimeCountdown } from './time-countdown';
 
 interface Props {
   stakeAmount: BigNumber | null;
@@ -19,11 +20,11 @@ export const YouStacked: FC<Props> = ({ stakeAmount, stakedTo }) => {
         <div className="you-staked">
           <div>
             <div>You Staked:</div>
-            <div>{stakeAmount ? `${showBalance(stakeAmount)} QUIPU` : 'Loading...'}</div>
+            <div>{!disabled && stakeAmount ? `${showBalance(stakeAmount)} QUIPU` : '--'}</div>
           </div>
           <div>
             <div>Lock countdown:</div>
-            <div>{disabled && stakedTo ? stakedTo?.toISOString() : '--.--.--'}</div>
+            <div>{disabled && <TimeCountdown timeTo={stakedTo} />}</div>
           </div>
           <button className="pretty-button" disabled={disabled}>
             Unstake

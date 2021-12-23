@@ -79,10 +79,10 @@ export const useContracts = () => {
   }, [loadContracts]);
 
   useEffect(() => {
-    if (!accountPkh || !distributorStorage) {
+    if (!accountPkh || !distributorContract || !distributorStorage) {
       return;
     }
-    distributorContract?.getAddressClaim(accountPkh).then(setUserClaim);
+    distributorContract.getAddressClaim(accountPkh).then(setUserClaim);
   }, [accountPkh, distributorContract, distributorStorage]);
 
   useEffect(() => {
@@ -129,10 +129,17 @@ export const useContracts = () => {
     setIsLoading(false);
   }, [accountPkh, distributorContract, distributorStorage, tezos]);
 
-  const stakePeriod = distributorStorage?.stake_period.toNumber() || 0;
-  const stakedTo = new Date();
+  // stakedTo
+  const stakeSeconds = distributorStorage?.stake_period.toNumber() || 0;
+  const stakedTo =
+    stakeSeconds && userClaim && !userClaim.claimed
+      ? new Date(new Date(userClaim.stake_beginning).getTime() + stakeSeconds * 100)
+      : null;
   // eslint-disable-next-line no-console
-  console.log('stake', { stakePeriod, stakedTo });
+  console.log('xxx', { userClaim, stakedTo, stakeSeconds });
+
+  // isStakeAllow
+  const isStakeAllow = !!userBalance && !!distributorStorage && userBalance.gte(distributorStorage.stake_amount);
 
   return {
     distributionStart: distributorStorage?.distribution_start ? new Date(distributorStorage.distribution_start) : null,
@@ -145,6 +152,7 @@ export const useContracts = () => {
     userClaim,
     onClaim: handleClaim,
     isLoading,
+    isStakeAllow,
     error
   };
 };

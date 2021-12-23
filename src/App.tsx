@@ -23,6 +23,7 @@ export const App: FC = () => {
     // nftTokens,
     userClaim,
     isLoading,
+    isStakeAllow,
     onClaim,
     error
   } = useContracts();
@@ -34,6 +35,7 @@ export const App: FC = () => {
         <Intro />
         <SliderNFT />
         <Main
+          isStakeAllow={isStakeAllow}
           distributionStarts={distributionStart}
           nftTotalSupply={totalSupply}
           nftMaxSupply={maxSupply}
