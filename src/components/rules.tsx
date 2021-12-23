@@ -9,10 +9,18 @@ interface Props {
   nftTotalSupply: number | null;
   nftMaxSupply: number | null;
   isLoading: boolean;
+  isUserClaim: boolean;
   onClaim: () => void;
 }
 
-export const Rules: FC<Props> = ({ distributionStarts, nftTotalSupply, nftMaxSupply, isLoading, onClaim }) => {
+export const Rules: FC<Props> = ({
+  distributionStarts,
+  nftTotalSupply,
+  nftMaxSupply,
+  isLoading,
+  isUserClaim,
+  onClaim
+}) => {
   const [distributionLabel, setDistributionLabel] = useState<string | null>(null);
   const [distributionStartsIn, setDistributionStartsIn] = useState<string | null>(null);
   const [disabled, setDisabled] = useState(true);
@@ -71,7 +79,12 @@ export const Rules: FC<Props> = ({ distributionStarts, nftTotalSupply, nftMaxSup
                 : `Loading...`}
             </div>
           </div>
-          <button className="pretty-button" onClick={onClaim} disabled={disabled || isLoading} type="button">
+          <button
+            className="pretty-button"
+            onClick={onClaim}
+            disabled={disabled || isLoading || isUserClaim}
+            type="button"
+          >
             {isLoading ? 'Loading...' : 'Claim'}
           </button>
         </div>

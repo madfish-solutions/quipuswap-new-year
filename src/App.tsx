@@ -3,6 +3,7 @@ import { FC } from 'react';
 import './App.css';
 import '@quipuswap/ui-kit/dist/ui-kit.cjs.development.css';
 import { Background } from './components/background';
+import { ErrorPopup } from './components/error-popup';
 import { Footer } from './components/footer';
 import { Header } from './components/header';
 import { Intro } from './components/intro';
@@ -14,30 +15,17 @@ import { useContracts } from './hooks/useContracts';
 export const App: FC = () => {
   const {
     distributionStart,
-    stakePeriod,
+    stakedTo,
     stakeAmount,
     totalSupply,
     maxSupply,
     userBalance,
-    nftTokens,
+    // nftTokens,
     userClaim,
     isLoading,
-    onClaim
+    onClaim,
+    error
   } = useContracts();
-  // eslint-disable-next-line no-console
-  console.log('contracts', {
-    // unused
-    stakePeriod,
-    nftTokens,
-    // other
-    distributionStart,
-    stakeAmount,
-    totalSupply,
-    maxSupply,
-    userClaim,
-    userBalance,
-    isLoading
-  });
 
   return (
     <WalletContainer>
@@ -50,11 +38,14 @@ export const App: FC = () => {
           nftTotalSupply={totalSupply}
           nftMaxSupply={maxSupply}
           stakeAmount={stakeAmount}
-          onClaim={onClaim}
           isLoading={isLoading}
+          userClaim={userClaim}
+          stakedTo={stakedTo}
+          onClaim={onClaim}
         />
         <Footer />
       </Background>
+      <ErrorPopup error={error} />
     </WalletContainer>
   );
 };

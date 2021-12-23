@@ -1,7 +1,9 @@
 import { Component, ErrorInfo } from 'react';
 
+import { ErrorPopup } from './error-popup';
+
 export class ErrorBoundary extends Component {
-  state: { hasError: boolean } = { hasError: false };
+  state: { hasError: boolean; error: Error | null } = { hasError: false, error: null };
 
   static getDerivedStateFromError(error: Error) {
     return { hasError: true };
@@ -10,11 +12,14 @@ export class ErrorBoundary extends Component {
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     // eslint-disable-next-line no-console
     console.error('O_O', error, errorInfo);
+    this.setState({
+      error
+    });
   }
 
   render() {
     if (this.state.hasError) {
-      return <h1>O_O Something went wrong.</h1>;
+      return <ErrorPopup error={this.state.error || new Error('Something went wrong :(')} />;
     }
 
     return this.props.children;

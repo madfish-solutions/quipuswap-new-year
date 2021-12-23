@@ -30,6 +30,7 @@ export const useContracts = () => {
   const [userBalance, setUserBalance] = useState<BigNumber | null>(null);
   const [userClaim, setUserClaim] = useState<Claim | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
 
   const [nftTokens, setNftTokens] = useState<NftToken[] | null>(null);
 
@@ -44,7 +45,9 @@ export const useContracts = () => {
       // Distributor Contract
       const _distributorStorage = await distributorContract?.getStorage();
       if (!_distributorStorage) {
-        throw new Error('o_O DistributorContract Storage is undefined');
+        setError(new Error('o_O DistributorContract Storage is undefined'));
+
+        return;
       }
 
       // eslint-disable-next-line no-console
@@ -65,8 +68,7 @@ export const useContracts = () => {
         : [];
       setNftTokens(tokens);
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error('O_o', error);
+      setError(error as Error);
     }
 
     setIsLoading(false);
@@ -93,7 +95,9 @@ export const useContracts = () => {
 
   const handleClaim = useCallback(async () => {
     if (!distributorContract || !distributorStorage || !accountPkh || !tezos) {
-      throw new Error('O_O Data are unready for claiming');
+      setError(new Error('O_O Data are unready for claiming'));
+
+      return;
     }
 
     setIsLoading(true);
@@ -119,23 +123,28 @@ export const useContracts = () => {
       // eslint-disable-next-line no-console
       console.log('res O_O', res);
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error(error);
+      setError(error as Error);
     }
 
     setIsLoading(false);
   }, [accountPkh, distributorContract, distributorStorage, tezos]);
 
+  const stakePeriod = distributorStorage?.stake_period.toNumber() || 0;
+  const stakedTo = new Date();
+  // eslint-disable-next-line no-console
+  console.log('stake', { stakePeriod, stakedTo });
+
   return {
     distributionStart: distributorStorage?.distribution_start ? new Date(distributorStorage.distribution_start) : null,
-    stakePeriod: distributorStorage?.stake_period.toNumber() || 0,
-    stakeAmount: distributorStorage?.stake_amount.toNumber() || 0,
+    stakedTo,
+    stakeAmount: distributorStorage?.stake_amount || null,
     totalSupply: nftStorage?.total_supply.toNumber() || 0,
     maxSupply: nftStorage?.max_supply.toNumber() || 0,
     userBalance,
     nftTokens,
     userClaim,
     onClaim: handleClaim,
-    isLoading
+    isLoading,
+    error
   };
 };
