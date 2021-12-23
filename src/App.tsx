@@ -12,17 +12,31 @@ import { WalletContainer } from './connect-wallet/components/wallet-provider';
 import { useContracts } from './hooks/useContracts';
 
 export const App: FC = () => {
-  const { distributionStart, stakePeriod, stakeAmount, totalSupply, maxSupply, userBalance, nftTokens, onClaim } =
-    useContracts();
-  // eslint-disable-next-line no-console
-  console.log('contracts', {
+  const {
     distributionStart,
     stakePeriod,
     stakeAmount,
     totalSupply,
     maxSupply,
     userBalance,
-    nftTokens
+    nftTokens,
+    userClaim,
+    isLoading,
+    onClaim
+  } = useContracts();
+  // eslint-disable-next-line no-console
+  console.log('contracts', {
+    // unused
+    stakePeriod,
+    nftTokens,
+    // other
+    distributionStart,
+    stakeAmount,
+    totalSupply,
+    maxSupply,
+    userClaim,
+    userBalance,
+    isLoading
   });
 
   return (
@@ -37,6 +51,7 @@ export const App: FC = () => {
           nftMaxSupply={maxSupply}
           stakeAmount={stakeAmount}
           onClaim={onClaim}
+          isLoading={isLoading}
         />
         <Footer />
       </Background>

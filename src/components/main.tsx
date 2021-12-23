@@ -8,18 +8,27 @@ interface Props {
   nftTotalSupply: number | null;
   nftMaxSupply: number | null;
 
+  isLoading: boolean;
   onClaim: () => void;
 
   stakeAmount: number;
 }
 
-export const Main: FC<Props> = ({ distributionStarts, nftTotalSupply, nftMaxSupply, stakeAmount, onClaim }) => {
+export const Main: FC<Props> = ({
+  distributionStarts,
+  nftTotalSupply,
+  nftMaxSupply,
+  stakeAmount,
+  isLoading,
+  onClaim
+}) => {
   return (
     <main>
       <Rules
         distributionStarts={distributionStarts}
         nftTotalSupply={nftTotalSupply}
         nftMaxSupply={nftMaxSupply}
+        isLoading={isLoading}
         onClaim={onClaim}
       />
       <YouStacked stakeAmount={stakeAmount} />

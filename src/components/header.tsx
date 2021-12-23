@@ -1,12 +1,15 @@
 import { FC } from 'react';
 
+import BigNumber from 'bignumber.js';
+
 import { ConnectWalletButton } from '../connect-wallet/components/connect-button';
 import { Logo } from '../icons/logo';
+import { showBalance } from '../utils/balances';
 import { Balance } from './balance';
 import { Container } from './container';
 
 interface Props {
-  userBalance: number | undefined;
+  userBalance: BigNumber | null;
 }
 
 export const Header: FC<Props> = ({ userBalance }) => {
@@ -16,7 +19,7 @@ export const Header: FC<Props> = ({ userBalance }) => {
         <div className="header">
           <Logo />
           <div className="header-buttons">
-            <Balance quipuBalance={userBalance ? userBalance : '0.0'} />
+            <Balance quipuBalance={userBalance === null ? '...' : showBalance(userBalance)} />
             <ConnectWalletButton className="pretty-button" />
           </div>
         </div>

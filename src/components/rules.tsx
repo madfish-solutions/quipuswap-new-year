@@ -8,29 +8,30 @@ interface Props {
   distributionStarts: Date | null;
   nftTotalSupply: number | null;
   nftMaxSupply: number | null;
+  isLoading: boolean;
   onClaim: () => void;
 }
 
-export const Rules: FC<Props> = ({ distributionStarts, nftTotalSupply, nftMaxSupply, onClaim }) => {
-  const [distributionLabel, setDistributionLabel] = useState('');
-  const [distributionStartsIn, setDistributionStartsIn] = useState('Loading...');
-  const [disabled, setDisabled] = useState(Boolean(distributionStarts));
+export const Rules: FC<Props> = ({ distributionStarts, nftTotalSupply, nftMaxSupply, isLoading, onClaim }) => {
+  const [distributionLabel, setDistributionLabel] = useState<string | null>(null);
+  const [distributionStartsIn, setDistributionStartsIn] = useState<string | null>(null);
+  const [disabled, setDisabled] = useState(true);
 
   const updateTimer = useCallback(() => {
     if (!distributionStarts) {
-      setDistributionLabel('');
-      setDistributionStartsIn('Loading...');
+      setDistributionLabel(null);
+      setDistributionStartsIn(null);
       setDisabled(true);
     } else if (distributionStarts < new Date()) {
-      setDistributionLabel('');
-      setDistributionStartsIn('Finished');
-      setDisabled(true);
+      setDistributionLabel(null);
+      setDistributionStartsIn(null);
+      setDisabled(false);
     } else {
       // 23h 59m 59s
-      const duration = Duration.fromMillis(distributionStarts.getTime() - new Date().getTime());
+      const duration = Duration.fromMillis(new Date().getTime() - distributionStarts.getTime());
       setDistributionLabel('Starts in:');
       setDistributionStartsIn(duration.toFormat('dd hh:mm:ss'));
-      setDisabled(false);
+      setDisabled(true);
     }
   }, [distributionStarts]);
 
@@ -64,10 +65,14 @@ export const Rules: FC<Props> = ({ distributionStarts, nftTotalSupply, nftMaxSup
           </div>
           <div>
             <div>NFT Left:</div>
-            <div>{nftMaxSupply ? `${nftTotalSupply}/${nftMaxSupply}` : `Loading...`}</div>
+            <div>
+              {nftMaxSupply && nftTotalSupply !== null
+                ? `${nftMaxSupply - nftTotalSupply}/${nftMaxSupply}`
+                : `Loading...`}
+            </div>
           </div>
-          <button className="pretty-button" onClick={onClaim} disabled={disabled}>
-            Claim
+          <button className="pretty-button" onClick={onClaim} disabled={disabled || isLoading} type="button">
+            {isLoading ? 'Loading...' : 'Claim'}
           </button>
         </div>
       </div>

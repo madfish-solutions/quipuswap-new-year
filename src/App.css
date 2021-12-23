@@ -45,6 +45,10 @@ button {
   cursor: pointer;
 }
 
+.pretty-button:disabled {
+  opacity: .5;
+}
+
 .header {
   height: 64px;
   background-color: #ffffff;

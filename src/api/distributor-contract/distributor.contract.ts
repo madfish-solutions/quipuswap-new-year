@@ -16,15 +16,20 @@ export interface DistributorContractStorage {
   stake_period: BigNumber;
 }
 
+export interface Claim {
+  claimed: boolean;
+  stake_beginning: string;
+}
+
 export class DistributorContract extends AbstractContract<DistributorContractStorage> {
-  async getAddressBalance(address: string): Promise<BigNumber | null> {
+  async getAddressClaim(address: string): Promise<Claim | null> {
     if (!this.storage) {
       throw new Error('DistributorContract storage is undefined');
     }
 
     const balance = await this.storage.partakers.get(address);
 
-    return balance ? (balance as BigNumber) : null;
+    return balance ? (balance as Claim) : null;
   }
 
   // { source, amount }: { source: string; amount: BigNumber }

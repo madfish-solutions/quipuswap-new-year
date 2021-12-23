@@ -1,4 +1,4 @@
-import { BigMapAbstraction } from '@taquito/taquito';
+import { BigMapAbstraction, MichelsonMap } from '@taquito/taquito';
 import BigNumber from 'bignumber.js';
 
 import { AbstractContract } from '../abstract.contract';
@@ -48,5 +48,19 @@ export class QsTokenContract extends AbstractContract<QsTokenContractStorage> {
         }
       }
     ]);
+  }
+
+  async getAddressBalance(address: string): Promise<BigNumber | null> {
+    if (!this.storage) {
+      throw new Error('QS storage is undefined');
+    }
+
+    const accountInfo: { balances: MichelsonMap<BigNumber, BigNumber> } | undefined =
+      await this.storage.account_info.get(address);
+
+    const KEY = 0;
+    const balance = accountInfo?.balances.get(new BigNumber(KEY));
+
+    return balance ? balance : null;
   }
 }
