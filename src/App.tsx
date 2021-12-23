@@ -45,7 +45,7 @@ export const App: FC = () => {
         />
         <Footer />
       </Background>
-      <ErrorPopup error={error} />
+      {/* <ErrorPopup error={error} /> */}
     </WalletContainer>
   );
 };

@@ -9,11 +9,11 @@ import { DAppProvider } from './connect-wallet/utils/dapp';
 
 render(
   <StrictMode>
-    <ErrorBoundary>
-      <DAppProvider>
-        <App />
-      </DAppProvider>
-    </ErrorBoundary>
+    {/* <ErrorBoundary> */}
+    <DAppProvider>
+      <App />
+    </DAppProvider>
+    {/* </ErrorBoundary> */}
   </StrictMode>,
   document.getElementById('root')
 );

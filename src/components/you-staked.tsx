@@ -17,13 +17,13 @@ export const YouStacked: FC<Props> = ({ stakeAmount, stakedTo }) => {
     <Box>
       <div className="you-staked_wrapper">
         <div className="you-staked">
-          <div>
-            <div>You Staked:</div>
-            <div>{stakeAmount ? `${showBalance(stakeAmount)} QUIPU` : 'Loading...'}</div>
+          <div className="you-staked_amount-container">
+            <div className="key-key">You Staked:</div>
+            <div className="key-value">{stakeAmount ? `${showBalance(stakeAmount)} QUIPU` : 'Loading...'}</div>
           </div>
-          <div>
-            <div>Lock countdown:</div>
-            <div>{disabled && stakedTo ? stakedTo?.toISOString() : '--.--.--'}</div>
+          <div className="you-staked_countdown-container">
+            <div className="key-key">Lock countdown:</div>
+            <div className="key-value">{disabled && stakedTo ? stakedTo?.toISOString() : '--.--.--'}</div>
           </div>
           <button className="pretty-button" disabled={disabled}>
             Unstake

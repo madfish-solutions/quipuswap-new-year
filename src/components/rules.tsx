@@ -67,13 +67,13 @@ export const Rules: FC<Props> = ({
           </div>
         </div>
         <div className="rules-logic">
-          <div>
-            <div>Distribution {distributionLabel}</div>
-            <div>{distributionStartsIn}</div>
+          <div className="rules-logic_distribution-container">
+            <div className="key-key">Distribution {distributionLabel}</div>
+            <div className="key-value">{distributionStartsIn}</div>
           </div>
-          <div>
-            <div>NFT Left:</div>
-            <div>
+          <div className="rules-logic_left-container">
+            <div className="key-key">NFT Left:</div>
+            <div className="key-value">
               {nftMaxSupply && nftTotalSupply !== null
                 ? `${nftMaxSupply - nftTotalSupply}/${nftMaxSupply}`
                 : `Loading...`}

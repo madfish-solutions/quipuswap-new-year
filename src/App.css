@@ -46,11 +46,13 @@ button {
 }
 
 .pretty-button:disabled {
-  opacity: .5;
+  background: #d3d4d8;
+  cursor: not-allowed;
 }
 
 .header {
   height: 64px;
+  margin: 0 16px;
   background-color: #ffffff;
 
   display: flex;
@@ -141,7 +143,7 @@ main {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   padding: 0 16px;
-  gap: 32px;
+  gap: 16px 32px;
   align-items: stretch;
 }
 
@@ -199,6 +201,21 @@ main .box:first-of-type {
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-end;
+}
+
+.key-key {
+  color: #232735;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 24px;
+  display: grid;
+  place-items: center;
+}
+
+.key-value {
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 32px;
 }
 
 .box {
@@ -283,13 +300,6 @@ main .box:first-of-type {
   justify-content: center;
   column-gap: 32px;
 }
-@media screen and (max-width: 420px) {
-  .footer {
-    flex-direction: column;
-    align-items: center;
-    row-gap: 16px;
-  }
-}
 
 .copyright {
   color: #8b90a0;
@@ -304,9 +314,106 @@ main .box:first-of-type {
   width: 100%;
   height: 100%;
   padding: 150px 40px;
-  background: rgba(255, 255, 255, .85);
+  background: rgba(255, 255, 255, 0.85);
   display: flex;
   flex-direction: column;
   align-items: center;
   color: red;
+}
+
+@media screen and (max-width: 768px) {
+  main {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .you-staked {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .you-staked_amount-container,
+  .you-staked_countdown-container {
+    display: flex;
+    column-gap: 8px;
+    align-items: center;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .you-staked_amount-container,
+  .you-staked_countdown-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .rules-logic,
+  .you-staked {
+    text-align: start;
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .rules-wrapper {
+    flex-direction: column;
+    row-gap: 12px;
+  }
+
+  .rules-text {
+    width: 100%;
+  }
+
+  .rules-logic {
+    width: 100%;
+    align-items: flex-start;
+    row-gap: 12px;
+  }
+
+  .rules-logic .pretty-button {
+    align-self: end;
+  }
+
+  .rules-logic_distribution-container,
+  .rules-logic_left-container {
+    display: flex;
+    column-gap: 8px;
+  }
+
+  .you-staked {
+    flex-direction: column;
+    row-gap: 16px;
+    align-items: flex-start;
+  }
+
+  .you-staked .pretty-button {
+    align-self: end;
+  }
+
+  .you-staked_amount-container,
+  .you-staked_countdown-container {
+    align-items: center;
+    flex-direction: row;
+  }
+
+  .footer {
+    flex-direction: column;
+    align-items: center;
+    row-gap: 16px;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .rules-logic,
+  .you-staked {
+    align-items: flex-end;
+    row-gap: 24px;
+  }
+
+  .rules-logic_distribution-container,
+  .rules-logic_left-container,
+  .you-staked_amount-container,
+  .you-staked_countdown-container {
+    flex-direction: column;
+    align-items: flex-end;
+  }
 }
