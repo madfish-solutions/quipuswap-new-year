@@ -351,9 +351,39 @@ main .box:first-of-type {
   .you-staked {
     text-align: start;
   }
+
+  .header {
+    border-bottom: 1px solid #f0f1f3;
+    position: relative;
+  }
+
+  .background {
+    padding-top: 32px;
+  }
+
+  .balance {
+    position: absolute;
+    width: fit-content;
+    top: 72px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 }
 
 @media screen and (max-width: 420px) {
+  .header svg path:nth-child(1n) {
+    display: none;
+  }
+
+  .header svg path:nth-of-type(1),
+  .header svg path:nth-of-type(2) {
+    display: unset;
+  }
+
+  .header svg {
+    transform: scale(1.5) translateX(24px);
+  }
+
   .rules-wrapper {
     flex-direction: column;
     row-gap: 12px;
@@ -403,6 +433,10 @@ main .box:first-of-type {
 }
 
 @media screen and (max-width: 360px) {
+  .header svg {
+    transform: scale(1.5) translateX(16px);
+  }
+
   .rules-logic,
   .you-staked {
     align-items: flex-end;

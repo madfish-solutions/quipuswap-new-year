@@ -19,7 +19,6 @@ export const YouStacked: FC<Props> = ({ stakeAmount, stakedTo, onUnstake }) => {
     <Box>
       <div className="you-staked_wrapper">
         <div className="you-staked">
-
           <div className="you-staked_amount-container">
             <div className="key-key">You Staked:</div>
             <div className="key-value">{!disabled && stakeAmount ? `${showBalance(stakeAmount)} QUIPU` : '--'}</div>
