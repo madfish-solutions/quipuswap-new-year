@@ -22,7 +22,7 @@ export const Rules: FC<Props> = ({
   isStakeAllow,
   onClaim
 }) => {
-  const [distributionLabel, setDistributionLabel] = useState<string | null>(null);
+  const [distributionLabel, setDistributionLabel] = useState<string | null>(distributionStarts ? null : 'Started');
   const [disabled, setDisabled] = useState(true);
 
   const handleDistributionTimerEnd = () => {
