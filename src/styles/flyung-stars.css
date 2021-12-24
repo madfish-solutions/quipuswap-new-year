@@ -1,8 +1,17 @@
 .intro-title-container {
   position: relative;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.intro-title-container > svg {
+  width: clamp(260px, 17vw, 320px);
 }
 
 .starsBox {
+  position: absolute;
+  top: 100%;
   display: grid;
   place-items: center;
   animation: starsConstainerAnimation 6s linear infinite;
