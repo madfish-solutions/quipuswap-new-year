@@ -26,7 +26,8 @@ export const App: FC = () => {
     isStakeAllow,
     error,
     onClaim,
-    onUnstake
+    onUnstake,
+    handleErrorClose
   } = useContracts();
 
   return (
@@ -34,7 +35,7 @@ export const App: FC = () => {
       <Header userBalance={userBalance} />
       <Background>
         <Intro />
-        {nftTokens && <SliderNFT nftTokens={nftTokens} />}
+        {nftTokens && nftTokens.length && <SliderNFT nftTokens={nftTokens} />}
         <Main
           isStakeAllow={isStakeAllow}
           distributionStarts={distributionStart}
@@ -49,7 +50,7 @@ export const App: FC = () => {
         />
         <Footer />
       </Background>
-      <ErrorPopup error={error} />
+      <ErrorPopup error={error} onClick={handleErrorClose} />
     </WalletContainer>
   );
 };

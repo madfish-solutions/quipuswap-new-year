@@ -14,5 +14,9 @@ interface SliderNFTProps {
 }
 
 export const SliderNFT: FC<SliderNFTProps> = ({ nftTokens }) => {
-  return <Slider {...NftSliderSettings}>{nftTokens && nftTokens.map(token => <Card token={token} />)}</Slider>;
+  return (
+    <Slider {...NftSliderSettings}>
+      {nftTokens && nftTokens.map(token => <Card token={token} key={token.name} />)}
+    </Slider>
+  );
 };

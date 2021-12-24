@@ -89,8 +89,18 @@ export const useContracts = () => {
     if (!accountPkh || !distributorStorage || !tezos) {
       return;
     }
-    const qsTokenContract = new QsTokenContract(tezos, distributorStorage.quipu_token.address);
-    qsTokenContract.getStorage().then(async () => qsTokenContract.getAddressBalance(accountPkh).then(setUserBalance));
+
+    const loadBalance = async () => {
+      try {
+        const qsTokenContract = new QsTokenContract(tezos, distributorStorage.quipu_token.address);
+        await qsTokenContract.getStorage();
+        setUserBalance(await qsTokenContract.getAddressBalance(accountPkh));
+      } catch (err) {
+        setError(err as Error);
+      }
+    };
+
+    void loadBalance();
   }, [accountPkh, distributorStorage, tezos]);
 
   const handleClaim = useCallback(async () => {
@@ -161,6 +171,8 @@ export const useContracts = () => {
     setIsLoading(false);
   }, [accountPkh, distributorContract, distributorStorage, tezos]);
 
+  const handleErrorClose = () => setError(null);
+
   return {
     distributionStart: distributorStorage?.distribution_start ? new Date(distributorStorage.distribution_start) : null,
     stakedTo,
@@ -174,6 +186,7 @@ export const useContracts = () => {
     isStakeAllow,
     error,
     onClaim: handleClaim,
-    onUnstake: handleUnstake
+    onUnstake: handleUnstake,
+    handleErrorClose
   };
 };

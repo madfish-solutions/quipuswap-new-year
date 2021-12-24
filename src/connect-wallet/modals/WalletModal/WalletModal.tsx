@@ -1,11 +1,10 @@
-import React, { useCallback, useState } from 'react';
+import React, { FC, useCallback } from 'react';
 
 import { AbortedBeaconError } from '@airgap/beacon-sdk';
-import { Button, Modal, Checkbox } from '@quipuswap/ui-kit';
+import { Button, Modal } from '@quipuswap/ui-kit';
 
-import { SAVED_TERMS_KEY } from '../../config/config';
 import { WalletType } from '../../types/types';
-import { useConnectWithBeacon, useConnectWithTemple, TEMPLE_WALLET_NOT_INSTALLED_MESSAGE } from '../../utils/dapp';
+import { TEMPLE_WALLET_NOT_INSTALLED_MESSAGE, useConnectWithBeacon, useConnectWithTemple } from '../../utils/dapp';
 import { useConnectModalsState } from '../../utils/use-connect-modals-state';
 import { Wallets } from './content';
 import s from './WalletModal.module.sass';
@@ -13,13 +12,13 @@ import s from './WalletModal.module.sass';
 interface WalletProps {
   className?: string;
   id: WalletType;
-  Icon: React.FC<{ className?: string }>;
+  Icon: FC<{ className?: string }>;
   label: string;
   onClick: (walletType: WalletType) => void;
   disabled?: boolean;
 }
 
-export const Wallet: React.FC<WalletProps> = ({ id, Icon, label, onClick, disabled = false }) => (
+export const Wallet: FC<WalletProps> = ({ id, Icon, label, onClick, disabled = false }) => (
   <Button
     className={s.button}
     innerClassName={s.buttonInner}
@@ -33,9 +32,7 @@ export const Wallet: React.FC<WalletProps> = ({ id, Icon, label, onClick, disabl
   </Button>
 );
 
-export const WalletModal: React.FC = () => {
-  const [check1, setCheck1] = useState<boolean>(localStorage.getItem(SAVED_TERMS_KEY) === 'true' ?? false);
-
+export const WalletModal: FC = () => {
   const { connectWalletModalOpen, closeConnectWalletModal, openInstallTempleWalletModal } = useConnectModalsState();
   const { closeAccountInfoModal } = useConnectModalsState();
   const connectWithBeacon = useConnectWithBeacon();
@@ -67,11 +64,6 @@ export const WalletModal: React.FC = () => {
     [closeAccountInfoModal, closeConnectWalletModal, connectWithBeacon, connectWithTemple, openInstallTempleWalletModal]
   );
 
-  const handleCheck1 = () => {
-    setCheck1(!check1);
-    localStorage.setItem(SAVED_TERMS_KEY, `${!check1}`);
-  };
-
   return (
     <Modal
       containerClassName={s.modalWrap}
@@ -80,24 +72,9 @@ export const WalletModal: React.FC = () => {
       isOpen={connectWalletModalOpen}
       onRequestClose={closeConnectWalletModal}
     >
-      <div className={s.terms}>
-        <div className={s.def}>
-          <Button control={<Checkbox checked={check1} />} onClick={handleCheck1} theme="quaternary" className={s.btn}>
-            <div className={s.btnText}>"Accept terms"</div>
-          </Button>
-          {'I have read and agree to the'}{' '}
-          <Button className={s.defText} theme="underlined" href="/terms-of-service" external>
-            {'Terms of Usage'}
-          </Button>{' '}
-          {'and'}{' '}
-          <Button className={s.defText} theme="underlined" href="/privacy-policy" external>
-            {'Privacy Policy'}
-          </Button>
-        </div>
-      </div>
       <div className={s.wallets}>
         {Wallets.map(({ id, Icon, label }) => (
-          <Wallet key={id} id={id} Icon={Icon} label={label} onClick={handleConnectClick} disabled={!check1} />
+          <Wallet key={id} id={id} Icon={Icon} label={label} onClick={handleConnectClick} />
         ))}
       </div>
     </Modal>
