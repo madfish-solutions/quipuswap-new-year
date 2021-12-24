@@ -390,6 +390,10 @@ main .box:first-of-type {
   color: red;
 }
 
+.nobr {
+  white-space: nowrap;
+}
+
 @media screen and (max-width: 768px) {
   main {
     display: grid;
