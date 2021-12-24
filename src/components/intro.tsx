@@ -1,5 +1,6 @@
-import { Year } from 'icons/2022';
 import { FC } from 'react';
+
+import { Year } from 'icons/2022';
 
 import { BlueStar } from './stars/blue-star';
 import { OrangeStar } from './stars/orange-star';

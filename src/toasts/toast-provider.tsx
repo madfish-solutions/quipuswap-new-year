@@ -1,9 +1,7 @@
 import React, { FC } from 'react';
-import {
-  ToastContainer
-} from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const ToastProvider = () => {
   return (
@@ -21,13 +19,6 @@ export const ToastProvider = () => {
   );
 };
 
-export const toastContent: FC = (
-  children,
-) => {
-
-  return (
-    <>
-      {children}
-    </>
-  );
+export const toastContent: FC = children => {
+  return <>{children}</>;
 };
