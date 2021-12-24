@@ -17,7 +17,7 @@ export const Intro: FC = () => {
           </div>
         </div>
       </div>
-      <h3 className="intro-description">NEW YEAR DISTRIBUTION</h3>
+      <h3 className="intro-description">QuipuSwap Christmas NFT Distribution</h3>
     </div>
   );
 };
