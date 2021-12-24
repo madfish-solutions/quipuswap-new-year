@@ -11,6 +11,7 @@ import { Main } from './components/main';
 import { SliderNFT } from './components/nft/slider-nft';
 import { WalletContainer } from './connect-wallet/components/wallet-provider';
 import { useContracts } from './hooks/useContracts';
+import { ToastProvider } from 'toasts/toast-provider';
 
 export const App: FC = () => {
   const {
@@ -32,25 +33,26 @@ export const App: FC = () => {
 
   return (
     <WalletContainer>
-      <Header userBalance={userBalance} />
-      <Background>
-        <Intro />
-        {nftTokens && nftTokens.length && <SliderNFT nftTokens={nftTokens} />}
-        <Main
-          isStakeAllow={isStakeAllow}
-          distributionStarts={distributionStarts}
-          nftTotalSupply={totalSupply}
-          nftMaxSupply={maxSupply}
-          stakeAmount={stakeAmount}
-          isLoading={isLoading}
-          userClaim={userClaim}
-          stakedTo={stakedTo}
-          onClaim={onClaim}
-          onUnstake={onUnstake}
-        />
-        <Footer />
-      </Background>
-      <ErrorPopup error={error} onClick={onErrorClose} />
+      <ToastProvider/>
+        <Header userBalance={userBalance} />
+        <Background>
+          <Intro />
+          {nftTokens && nftTokens.length && <SliderNFT nftTokens={nftTokens} />}
+          <Main
+            isStakeAllow={isStakeAllow}
+            distributionStarts={distributionStarts}
+            nftTotalSupply={totalSupply}
+            nftMaxSupply={maxSupply}
+            stakeAmount={stakeAmount}
+            isLoading={isLoading}
+            userClaim={userClaim}
+            stakedTo={stakedTo}
+            onClaim={onClaim}
+            onUnstake={onUnstake}
+          />
+          <Footer />
+        </Background>
+        <ErrorPopup error={error} onClick={onErrorClose} />
     </WalletContainer>
   );
 };

@@ -1,5 +1,7 @@
 @import './styles/null.css';
 @import './styles/flyung-stars.css';
+@import './toasts/toast.css';
+
 *,
 *::after,
 *::before {
