@@ -157,7 +157,7 @@ export const useContracts = () => {
       return;
     }
     const nodeTime = await getNodeCurrentTime(tezos);
-    const timeTo = new Date(userClaim.stake_beginning).getTime();
+    const timeTo = new Date(userClaim.stake_beginning).getTime() + stakeSeconds * 1000;
     const diff = timeTo - nodeTime;
     const _stakedTo = diff > 0 ? new Date(Date.now() + diff) : null;
     setStakedTo(_stakedTo);
@@ -219,12 +219,16 @@ export const useContracts = () => {
     void getDistributionStarts();
   }, [getDistributionStarts]);
 
+  const stakeAmount = distributorStorage?.stake_amount || null;
+  const totalSupply = nftStorage?.total_supply.toNumber() || 0;
+  const maxSupply = nftStorage?.max_supply.toNumber() || 0;
+
   return {
     distributionStarts,
     stakedTo,
-    stakeAmount: distributorStorage?.stake_amount || null,
-    totalSupply: nftStorage?.total_supply.toNumber() || 0,
-    maxSupply: nftStorage?.max_supply.toNumber() || 0,
+    stakeAmount,
+    totalSupply,
+    maxSupply,
     userBalance,
     nftTokens,
     userClaim,

@@ -26,7 +26,9 @@ export const YouStacked: FC<Props> = ({ stakeAmount, stakedTo, onUnstake, isLoad
         <div className="you-staked">
           <div className="you-staked_amount-container">
             <div className="key-key">You Staked:</div>
-            <div className="key-value">{!disabled && stakeAmount ? `${showBalance(stakeAmount)} QUIPU` : '--'}</div>
+            <div className="key-value">
+              {stakeAmount && stakeAmount.gte(0) ? `${showBalance(stakeAmount)} QUIPU` : '--'}
+            </div>
           </div>
           <div className="you-staked_countdown-container">
             <div className="key-key">Lock countdown:</div>
