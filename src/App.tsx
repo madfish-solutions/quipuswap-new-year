@@ -14,7 +14,7 @@ import { useContracts } from './hooks/useContracts';
 
 export const App: FC = () => {
   const {
-    distributionStart,
+    distributionStarts,
     stakedTo,
     stakeAmount,
     totalSupply,
@@ -38,7 +38,7 @@ export const App: FC = () => {
         {nftTokens && nftTokens.length && <SliderNFT nftTokens={nftTokens} />}
         <Main
           isStakeAllow={isStakeAllow}
-          distributionStarts={distributionStart}
+          distributionStarts={distributionStarts}
           nftTotalSupply={totalSupply}
           nftMaxSupply={maxSupply}
           stakeAmount={stakeAmount}
