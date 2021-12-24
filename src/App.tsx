@@ -34,7 +34,7 @@ export const App: FC = () => {
       <Header userBalance={userBalance} />
       <Background>
         <Intro />
-        <SliderNFT nftDataList={nftTokens!} />
+        {nftTokens && <SliderNFT nftTokens={nftTokens} />}
         <Main
           isStakeAllow={isStakeAllow}
           distributionStarts={distributionStart}
@@ -49,7 +49,7 @@ export const App: FC = () => {
         />
         <Footer />
       </Background>
-      {/* <ErrorPopup error={error} /> */}
+      <ErrorPopup error={error} />
     </WalletContainer>
   );
 };

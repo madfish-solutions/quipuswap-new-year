@@ -1,9 +1,9 @@
 import { FC } from 'react';
 
 export interface NftDataProps {
-  name: string;
-  rarity: string;
-  quantity: string;
+  name: string | null;
+  rarity: string | null;
+  quantity: string | null;
 }
 export const NftData: FC<NftDataProps> = ({ name, rarity, quantity }) => {
   return (
