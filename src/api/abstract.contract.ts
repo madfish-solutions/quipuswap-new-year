@@ -4,6 +4,7 @@ import BigNumber from 'bignumber.js';
 
 export class AbstractContract<T> {
   protected balance: BigNumber | null = null;
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   protected contract: ContractAbstraction | null = null;
   public storage: T | null = null;
