@@ -19,7 +19,6 @@ export const TimeCountdown: FC<Props> = ({ timeTo, onTimerEnd }) => {
         setDistributionStartsIn(null);
         cb();
       } else {
-        // 23h 59m 59s
         const duration = Duration.fromMillis(timeTo.getTime() - new Date().getTime());
         setDistributionStartsIn(duration.toFormat('hh:mm:ss'));
       }
@@ -28,14 +27,23 @@ export const TimeCountdown: FC<Props> = ({ timeTo, onTimerEnd }) => {
   );
 
   useEffect(() => {
+    let interval: ReturnType<typeof setInterval>;
     if (!timeTo) {
       updateTimer(noop);
     } else {
-      const interval = setInterval(() => {
-        updateTimer(onTimerEnd);
-        clearInterval(interval);
-      }, 500);
+      interval = setInterval(() => {
+        updateTimer(() => {
+          onTimerEnd();
+          clearInterval(interval);
+        });
+      }, 1000);
     }
+
+    return () => {
+      if (interval) {
+        clearInterval(interval);
+      }
+    };
   }, [timeTo, updateTimer, onTimerEnd]);
 
   return (

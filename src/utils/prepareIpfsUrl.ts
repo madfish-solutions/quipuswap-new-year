@@ -1,4 +1,4 @@
-export const IPFS_PROXY = 'https://cloudflare-ipfs.com/ipfs/';
+export const IPFS_PROXY = 'https://cloudflare-ipfs.com/ipfs';
 export const IPFS = 'ipfs';
 
 export const prepareIpfsUrl = (url?: string | null) => {

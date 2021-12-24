@@ -23,13 +23,11 @@ export const Rules: FC<Props> = ({
   onClaim
 }) => {
   const [distributionLabel, setDistributionLabel] = useState<string | null>(null);
-  const [distributionStartsIn, setDistributionStartsIn] = useState<string | null>(null);
   const [disabled, setDisabled] = useState(true);
 
   const handleDistributionTimerEnd = () => {
     setDistributionLabel(null);
-    setDistributionStartsIn(null);
-    setDisabled(true);
+    setDisabled(false);
   };
 
   return (
@@ -50,7 +48,6 @@ export const Rules: FC<Props> = ({
         <div className="rules-logic">
           <div className="rules-logic_distribution-container">
             <div className="key-key">Distribution {distributionLabel}</div>
-            <div className="key-value">{distributionStartsIn}</div>
             <TimeCountdown timeTo={distributionStarts} onTimerEnd={handleDistributionTimerEnd} />
           </div>
           <div className="rules-logic_left-container">
