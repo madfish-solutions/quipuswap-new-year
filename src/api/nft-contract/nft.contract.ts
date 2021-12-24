@@ -25,10 +25,25 @@ export class NftContract extends AbstractContract<NftContractStorage> {
     const metadata: { token_id: BigNumber; token_info: MichelsonMap<string, string> } | undefined =
       await this.storage.token_metadata.get(id);
 
+    const attributes = {
+      rarity: 'undefined',
+      quantity: 'undefined'
+    };
+    try {
+      const attrsStr = AbstractContract.getMichelsonMapString(metadata?.token_info, 'attributes');
+      const attrs: Array<{ name: string; value: string }> = JSON.parse(attrsStr || '{}');
+      attributes.rarity = attrs.find(({ name }) => name === 'Rarity')?.value || 'undefined';
+      attributes.quantity = attrs.find(({ name }) => name === 'Quantity')?.value || 'undefined';
+    } catch (error) {
+      // do nothing
+    }
+
     return {
       name: AbstractContract.getMichelsonMapString(metadata?.token_info, 'name'),
       thumbnailUri: AbstractContract.getMichelsonMapString(metadata?.token_info, 'thumbnailUri'),
-      description: AbstractContract.getMichelsonMapString(metadata?.token_info, 'description')
+      description: AbstractContract.getMichelsonMapString(metadata?.token_info, 'description'),
+      rarity: attributes.rarity,
+      quantity: attributes.quantity
     };
   }
 

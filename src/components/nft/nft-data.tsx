@@ -13,7 +13,7 @@ export const NftData: FC<NftDataProps> = ({ name, rarity, quantity }) => {
         <div className="card-value">{name}</div>
       </div>
       <div className="card-description_row">
-        <div className="card-key">Rare:</div>
+        <div className="card-key">Rarity:</div>
         <div className="card-value">{rarity}</div>
       </div>
       <div className="card-description_row">
