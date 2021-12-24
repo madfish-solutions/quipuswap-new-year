@@ -2,6 +2,7 @@ import { BigMapAbstraction, MichelsonMap } from '@taquito/taquito';
 import BigNumber from 'bignumber.js';
 
 import { NftToken } from '../../interfaces/NftToken';
+import { prepareIpfsUrl } from '../../utils/prepareIpfsUrl';
 import { AbstractContract } from '../abstract.contract';
 
 export interface NftContractStorage {
@@ -41,7 +42,7 @@ export class NftContract extends AbstractContract<NftContractStorage> {
 
     return {
       name: AbstractContract.getMichelsonMapString(metadata?.token_info, 'name'),
-      thumbnailUri: AbstractContract.getMichelsonMapString(metadata?.token_info, 'thumbnailUri'),
+      thumbnailUri: prepareIpfsUrl(AbstractContract.getMichelsonMapString(metadata?.token_info, 'thumbnailUri')),
       description: AbstractContract.getMichelsonMapString(metadata?.token_info, 'description'),
       rarity: attributes.rarity,
       quantity: quantity ? quantity.toString() : 'undefined'
