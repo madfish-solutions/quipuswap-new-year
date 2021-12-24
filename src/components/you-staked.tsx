@@ -1,7 +1,9 @@
-import { FC, useCallback, useState } from 'react';
+import React, { FC, useCallback, useState } from 'react';
 
 import BigNumber from 'bignumber.js';
+import { observer } from 'mobx-react';
 
+import { useRootStore } from '../stores/use-root-store.hook';
 import { showBalance } from '../utils/balances';
 import { Box } from './box';
 import { TimeCountdown } from './time-countdown';
@@ -13,7 +15,9 @@ interface Props {
   onUnstake: () => void;
 }
 
-export const YouStacked: FC<Props> = ({ stakeAmount, stakedTo, onUnstake, isLoading }) => {
+export const YouStacked: FC<Props> = observer(({ stakeAmount, stakedTo, onUnstake, isLoading }) => {
+  const { mainStore } = useRootStore();
+
   const [disabled, setDisabled] = useState(!stakedTo || stakedTo > new Date());
 
   const handleLockTimerEnd = useCallback(() => {
@@ -34,6 +38,8 @@ export const YouStacked: FC<Props> = ({ stakeAmount, stakedTo, onUnstake, isLoad
             <div className="key-key">Lock countdown:</div>
             <div className="key-value">
               <TimeCountdown timeTo={stakedTo} onTimerEnd={handleLockTimerEnd} />
+              <p>({mainStore.secondsPassed})</p>
+              <button onClick={() => mainStore.increaseTimer()}>inc</button>
             </div>
           </div>
           <button className="pretty-button" disabled={disabled} onClick={onUnstake}>
@@ -43,4 +49,4 @@ export const YouStacked: FC<Props> = ({ stakeAmount, stakedTo, onUnstake, isLoad
       </div>
     </Box>
   );
-};
+});

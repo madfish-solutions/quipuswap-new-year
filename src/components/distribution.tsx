@@ -1,5 +1,8 @@
 import React, { FC, useState } from 'react';
 
+import { observer } from 'mobx-react';
+
+import { useRootStore } from '../stores/use-root-store.hook';
 import { TimeCountdown } from './time-countdown';
 
 interface Props {
@@ -12,43 +15,43 @@ interface Props {
   onClaim: () => void;
 }
 
-export const Distribution: FC<Props> = ({
-  distributionStarts,
-  nftTotalSupply,
-  nftMaxSupply,
-  isLoading,
-  isUserClaim,
-  isStakeAllow,
-  onClaim
-}) => {
-  const [distributionLabel, setDistributionLabel] = useState<string | null>(distributionStarts ? null : 'Started');
-  const [disabled, setDisabled] = useState(true);
+export const Distribution: FC<Props> = observer(
+  ({ distributionStarts, nftTotalSupply, nftMaxSupply, isLoading, isUserClaim, isStakeAllow, onClaim }) => {
+    const { mainStore } = useRootStore();
 
-  const handleDistributionTimerEnd = () => {
-    setDistributionLabel('Started');
-    setDisabled(false);
-  };
+    const [distributionLabel, setDistributionLabel] = useState<string | null>(distributionStarts ? null : 'Started');
+    const [disabled, setDisabled] = useState(true);
 
-  return (
-    <div className="rules-logic">
-      <div className="rules-logic_distribution-container">
-        <div className="key-key">Distribution {distributionLabel}</div>
-        <TimeCountdown timeTo={distributionStarts} onTimerEnd={handleDistributionTimerEnd} />
-      </div>
-      <div className="rules-logic_left-container">
-        <div className="key-key">NFT Left:</div>
-        <div className="key-value">
-          {nftMaxSupply && nftTotalSupply !== null ? `${nftMaxSupply - nftTotalSupply}/${nftMaxSupply}` : `Loading...`}
+    const handleDistributionTimerEnd = () => {
+      setDistributionLabel('Started');
+      setDisabled(false);
+    };
+
+    return (
+      <div className="rules-logic">
+        <div className="rules-logic_distribution-container">
+          <div className="key-key">Distribution {distributionLabel}</div>
+          <TimeCountdown timeTo={distributionStarts} onTimerEnd={handleDistributionTimerEnd} />
+          <p>({mainStore.secondsPassed})</p>
+          <button onClick={() => mainStore.increaseTimer()}>inc</button>
         </div>
+        <div className="rules-logic_left-container">
+          <div className="key-key">NFT Left:</div>
+          <div className="key-value">
+            {nftMaxSupply && nftTotalSupply !== null
+              ? `${nftMaxSupply - nftTotalSupply}/${nftMaxSupply}`
+              : `Loading...`}
+          </div>
+        </div>
+        <button
+          className="pretty-button"
+          onClick={onClaim}
+          disabled={!isStakeAllow || disabled || isLoading || isUserClaim}
+          type="button"
+        >
+          {isLoading ? 'Loading...' : 'Claim'}
+        </button>
       </div>
-      <button
-        className="pretty-button"
-        onClick={onClaim}
-        disabled={!isStakeAllow || disabled || isLoading || isUserClaim}
-        type="button"
-      >
-        {isLoading ? 'Loading...' : 'Claim'}
-      </button>
-    </div>
-  );
-};
+    );
+  }
+);
