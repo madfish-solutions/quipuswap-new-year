@@ -29,3 +29,23 @@ export function useUpdateToast() {
     [],
   );
 }
+
+export const useToast = () => {
+  const updateToast = useUpdateToast();
+
+
+  const successToast = (message: string) => updateToast({
+    type: 'success',
+    render: message,
+  });
+
+  const errorToast = (err: Error) => updateToast({
+    type: 'error',
+    render: `${err.name}: ${err.message}`,
+  })
+
+  return {
+    successToast,
+    errorToast
+  }
+}

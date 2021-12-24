@@ -8,6 +8,7 @@ import { NftContract, NftContractStorage } from '../api/nft-contract/nft.contrac
 import { QsTokenContract } from '../api/qs-token-contract';
 import { useAccountPkh, useTezos } from '../connect-wallet/utils/dapp';
 import { NftToken } from '../interfaces/NftToken';
+import { useUpdateToast } from 'toasts/use-update-toast';
 
 const DISTRIBUTOR_CONTRACT = 'KT1Cehf6JwQJYYEPscSkrcR91DxqSfnq1ze9';
 
@@ -37,6 +38,7 @@ export const useContracts = () => {
   const [stakedTo, setStakedTo] = useState<Date | null>(null);
   const [distributionStarts, setDistributionStarts] = useState<Date | null>(null);
   const [nftTokens, setNftTokens] = useState<NftToken[] | null>(null);
+  const updateToast = useUpdateToast() 
 
   const loadContracts = useCallback(async () => {
     if (!tezos || !distributorContract) {
@@ -192,6 +194,8 @@ export const useContracts = () => {
     try {
       const stakeOperation = await distributorContract.withdraw();
       await stakeOperation.send();
+
+
     } catch (error) {
       setError(error as Error);
     }
