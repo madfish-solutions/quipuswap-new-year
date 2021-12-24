@@ -1,8 +1,9 @@
-import React from 'react';
+import { FC } from 'react';
+
 import { BlueStar } from './stars/blue-star';
 import { OrangeStar } from './stars/orange-star';
 
-export const Intro = () => {
+export const Intro: FC = () => {
   return (
     <div className="intro">
       <div className="intro-title-container">
