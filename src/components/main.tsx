@@ -42,7 +42,7 @@ export const Main: FC<Props> = ({
         isStakeAllow={isStakeAllow}
         onClaim={onClaim}
       />
-      <YouStacked stakeAmount={stakeAmount} stakedTo={stakedTo} onUnstake={onUnstake} />
+      <YouStacked stakeAmount={stakeAmount} stakedTo={stakedTo} isLoading={isLoading} onUnstake={onUnstake} />
     </main>
   );
 };
