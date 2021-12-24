@@ -148,7 +148,7 @@ export const useContracts = () => {
     setIsLoading(true);
 
     try {
-      const stakeOperation = await distributorContract.stake();
+      const stakeOperation = await distributorContract.withdraw();
       await stakeOperation.send();
     } catch (error) {
       setError(error as Error);
