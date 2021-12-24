@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import BigNumber from 'bignumber.js';
 
 import { Claim, DistributorContract, DistributorContractStorage } from '../api/distributor-contract';
+import { getNodeCurrentTime } from '../api/getNodeCurrentTime';
 import { NftContract, NftContractStorage } from '../api/nft-contract/nft.contract';
 import { QsTokenContract } from '../api/qs-token-contract';
 import { useAccountPkh, useTezos } from '../connect-wallet/utils/dapp';
@@ -33,7 +34,8 @@ export const useContracts = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   const [isStakeAllow, setIsStakeAllow] = useState(false);
-
+  const [stakedTo, setStakedTo] = useState<Date | null>(null);
+  const [distributionStarts, setDistributionStarts] = useState<Date | null>(null);
   const [nftTokens, setNftTokens] = useState<NftToken[] | null>(null);
 
   const loadContracts = useCallback(async () => {
@@ -104,6 +106,7 @@ export const useContracts = () => {
         setUserBalance(await qsTokenContract.getAddressBalance(accountPkh));
       } catch (err) {
         setError(err as Error);
+        setUserBalance(null);
       }
     };
 
@@ -145,11 +148,22 @@ export const useContracts = () => {
   }, [accountPkh, distributorContract, distributorStorage, tezos]);
 
   // stakedTo
-  const stakeSeconds = distributorStorage?.stake_period.toNumber() || 0;
-  const stakedTo =
-    stakeSeconds && userClaim && !userClaim.claimed
-      ? new Date(new Date(userClaim.stake_beginning).getTime() + stakeSeconds * 100)
-      : null;
+
+  const getStakeTo = useCallback(async () => {
+    const stakeSeconds = distributorStorage?.stake_period.toNumber() || 0;
+    if (!stakeSeconds || !userClaim || userClaim.claimed || !tezos) {
+      setStakedTo(null);
+
+      return;
+    }
+    const nodeTime = await getNodeCurrentTime(tezos);
+    const timeTo = new Date(userClaim.stake_beginning).getTime();
+    const diff = timeTo - nodeTime;
+    const _stakedTo = diff > 0 ? new Date(Date.now() + diff) : null;
+    setStakedTo(_stakedTo);
+  }, [distributorStorage?.stake_period, userClaim, tezos]);
+
+  useEffect(() => void getStakeTo(), [getStakeTo]);
 
   // isStakeAllow
   const getIsStakeAllow = useCallback(
@@ -187,8 +201,26 @@ export const useContracts = () => {
 
   const handleErrorClose = () => setError(null);
 
+  const getDistributionStarts = useCallback(async () => {
+    if (!tezos || !distributorStorage || !distributorStorage?.distribution_start) {
+      setDistributionStarts(null);
+
+      return;
+    }
+    const nodeTime = await getNodeCurrentTime(tezos);
+    const timeTo = new Date(distributorStorage.distribution_start).getTime();
+    const diff = timeTo - nodeTime;
+    const _distributionStarts = diff > 0 ? new Date(Date.now() + diff) : null;
+
+    setDistributionStarts(_distributionStarts);
+  }, [distributorStorage, tezos]);
+
+  useEffect(() => {
+    void getDistributionStarts();
+  }, [getDistributionStarts]);
+
   return {
-    distributionStart: distributorStorage?.distribution_start ? new Date(distributorStorage.distribution_start) : null,
+    distributionStarts,
     stakedTo,
     stakeAmount: distributorStorage?.stake_amount || null,
     totalSupply: nftStorage?.total_supply.toNumber() || 0,

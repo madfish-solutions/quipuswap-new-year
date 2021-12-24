@@ -1,8 +1,7 @@
-import React, { FC, useCallback, useEffect, useState } from 'react';
-
-import { Duration } from 'luxon';
+import React, { FC, useState } from 'react';
 
 import { Box } from './box';
+import { TimeCountdown } from './time-countdown';
 
 interface Props {
   distributionStarts: Date | null;
@@ -27,31 +26,11 @@ export const Rules: FC<Props> = ({
   const [distributionStartsIn, setDistributionStartsIn] = useState<string | null>(null);
   const [disabled, setDisabled] = useState(true);
 
-  const updateTimer = useCallback(() => {
-    if (!distributionStarts) {
-      setDistributionLabel(null);
-      setDistributionStartsIn(null);
-      setDisabled(true);
-    } else if (distributionStarts < new Date()) {
-      setDistributionLabel(null);
-      setDistributionStartsIn(null);
-      setDisabled(false);
-    } else {
-      // 23h 59m 59s
-      const duration = Duration.fromMillis(new Date().getTime() - distributionStarts.getTime());
-      setDistributionLabel('Starts in:');
-      setDistributionStartsIn(duration.toFormat('dd hh:mm:ss'));
-      setDisabled(true);
-    }
-  }, [distributionStarts]);
-
-  useEffect(() => {
-    if (!distributionStarts) {
-      updateTimer();
-    } else {
-      setInterval(updateTimer, 500);
-    }
-  }, [distributionStarts, updateTimer]);
+  const handleDistributionTimerEnd = () => {
+    setDistributionLabel(null);
+    setDistributionStartsIn(null);
+    setDisabled(true);
+  };
 
   return (
     <Box>
@@ -72,6 +51,7 @@ export const Rules: FC<Props> = ({
           <div className="rules-logic_distribution-container">
             <div className="key-key">Distribution {distributionLabel}</div>
             <div className="key-value">{distributionStartsIn}</div>
+            <TimeCountdown timeTo={distributionStarts} onTimerEnd={handleDistributionTimerEnd} />
           </div>
           <div className="rules-logic_left-container">
             <div className="key-key">NFT Left:</div>
