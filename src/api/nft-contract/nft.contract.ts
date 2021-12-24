@@ -14,6 +14,7 @@ export interface NftContractStorage {
   token_metadata: BigMapAbstraction;
   tokens_supply: BigMapAbstraction;
   total_supply: BigNumber;
+  max_total_supply: BigMapAbstraction;
 }
 
 export class NftContract extends AbstractContract<NftContractStorage> {
@@ -26,24 +27,24 @@ export class NftContract extends AbstractContract<NftContractStorage> {
       await this.storage.token_metadata.get(id);
 
     const attributes = {
-      rarity: 'undefined',
-      quantity: 'undefined'
+      rarity: 'undefined'
     };
     try {
       const attrsStr = AbstractContract.getMichelsonMapString(metadata?.token_info, 'attributes');
       const attrs: Array<{ name: string; value: string }> = JSON.parse(attrsStr || '{}');
       attributes.rarity = attrs.find(({ name }) => name === 'Rarity')?.value || 'undefined';
-      attributes.quantity = attrs.find(({ name }) => name === 'Quantity')?.value || 'undefined';
     } catch (error) {
       // do nothing
     }
+
+    const quantity: BigNumber | undefined = await this.storage.max_total_supply.get(id);
 
     return {
       name: AbstractContract.getMichelsonMapString(metadata?.token_info, 'name'),
       thumbnailUri: AbstractContract.getMichelsonMapString(metadata?.token_info, 'thumbnailUri'),
       description: AbstractContract.getMichelsonMapString(metadata?.token_info, 'description'),
       rarity: attributes.rarity,
-      quantity: attributes.quantity
+      quantity: quantity ? quantity.toString() : 'undefined'
     };
   }
 
