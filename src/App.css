@@ -318,6 +318,7 @@ main .box:first-of-type {
 }
 
 .nft-description {
+  padding: 32px;
   color: #fff;
   font-weight: normal;
   font-size: 14px;
