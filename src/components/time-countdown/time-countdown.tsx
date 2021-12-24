@@ -30,7 +30,6 @@ export const TimeCountdown: FC<Props> = ({ timeTo }) => {
   return (
     <div>
       <p>{distributionStartsIn || '--.--.--'}</p>
-      <p>({timeTo?.toISOString()})</p>
     </div>
   );
 };

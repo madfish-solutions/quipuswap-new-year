@@ -135,7 +135,11 @@ export const useContracts = () => {
       : null;
 
   // isStakeAllow
-  const isStakeAllow = !!userBalance && !!distributorStorage && userBalance.gte(distributorStorage.stake_amount);
+  const isStakeAllow =
+    (!userClaim || !userClaim.stake_beginning) &&
+    !!userBalance &&
+    !!distributorStorage &&
+    userBalance.gte(distributorStorage.stake_amount);
 
   // Unstake
   const handleUnstake = useCallback(async () => {
