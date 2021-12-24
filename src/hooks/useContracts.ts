@@ -8,7 +8,7 @@ import { QsTokenContract } from '../api/qs-token-contract';
 import { useAccountPkh, useTezos } from '../connect-wallet/utils/dapp';
 import { NftToken } from '../interfaces/NftToken';
 
-const DISTRIBUTOR_CONTRACT = 'KT1FJ3ZXD9vRzncKJNyBw6PFG8gzQcHYqycw';
+const DISTRIBUTOR_CONTRACT = 'KT1KUJ5tiYAS6X2tDszpL4vEUVNxmcsu8f4e';
 // eslint-disable-next-line no-console
 console.log('DISTRIBUTOR_CONTRACT', DISTRIBUTOR_CONTRACT);
 
