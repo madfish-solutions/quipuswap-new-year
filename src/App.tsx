@@ -27,7 +27,7 @@ export const App: FC = () => {
     error,
     onClaim,
     onUnstake,
-    handleErrorClose
+    onErrorClose
   } = useContracts();
 
   return (
@@ -50,7 +50,7 @@ export const App: FC = () => {
         />
         <Footer />
       </Background>
-      <ErrorPopup error={error} onClick={handleErrorClose} />
+      <ErrorPopup error={error} onClick={onErrorClose} />
     </WalletContainer>
   );
 };
