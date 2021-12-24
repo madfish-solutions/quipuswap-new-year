@@ -8,7 +8,8 @@ import { QsTokenContract } from '../api/qs-token-contract';
 import { useAccountPkh, useTezos } from '../connect-wallet/utils/dapp';
 import { NftToken } from '../interfaces/NftToken';
 
-const DISTRIBUTOR_CONTRACT = 'KT1CeqbpeKDYS7uaGgKvreBDShjG8WKwEagx';
+const DISTRIBUTOR_CONTRACT = 'KT1SbvM5mveyuXAiMZCYWHMh47P1ikSgxkz2';
+
 // eslint-disable-next-line no-console
 console.log('DISTRIBUTOR_CONTRACT', DISTRIBUTOR_CONTRACT);
 
@@ -31,6 +32,7 @@ export const useContracts = () => {
   const [userClaim, setUserClaim] = useState<Claim | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
+  const [isStakeAllow, setIsStakeAllow] = useState(false);
 
   const [nftTokens, setNftTokens] = useState<NftToken[] | null>(null);
 
@@ -91,6 +93,11 @@ export const useContracts = () => {
     }
 
     const loadBalance = async () => {
+      if (!accountPkh) {
+        setUserBalance(null);
+
+        return;
+      }
       try {
         const qsTokenContract = new QsTokenContract(tezos, distributorStorage.quipu_token.address);
         await qsTokenContract.getStorage();
@@ -145,11 +152,18 @@ export const useContracts = () => {
       : null;
 
   // isStakeAllow
-  const isStakeAllow =
-    (!userClaim || !userClaim.stake_beginning) &&
-    !!userBalance &&
-    !!distributorStorage &&
-    userBalance.gte(distributorStorage.stake_amount);
+  const getIsStakeAllow = useCallback(
+    () =>
+      (!userClaim || !userClaim.stake_beginning) &&
+      !!userBalance &&
+      !!distributorStorage &&
+      userBalance.gte(distributorStorage.stake_amount),
+    [distributorStorage, userBalance, userClaim]
+  );
+
+  useEffect(() => {
+    setIsStakeAllow(getIsStakeAllow());
+  }, [getIsStakeAllow]);
 
   // Unstake
   const handleUnstake = useCallback(async () => {
@@ -187,6 +201,6 @@ export const useContracts = () => {
     error,
     onClaim: handleClaim,
     onUnstake: handleUnstake,
-    handleErrorClose
+    onErrorClose: handleErrorClose
   };
 };

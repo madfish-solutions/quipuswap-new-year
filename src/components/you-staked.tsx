@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useCallback, useState } from 'react';
 
 import BigNumber from 'bignumber.js';
 
@@ -14,7 +14,11 @@ interface Props {
 }
 
 export const YouStacked: FC<Props> = ({ stakeAmount, stakedTo, onUnstake, isLoading }) => {
-  const disabled = !stakedTo || stakedTo > new Date();
+  const [disabled, setDisabled] = useState(!stakedTo || stakedTo > new Date());
+
+  const handleLockTimerEnd = useCallback(() => {
+    setDisabled(false);
+  }, []);
 
   return (
     <Box>
@@ -26,7 +30,9 @@ export const YouStacked: FC<Props> = ({ stakeAmount, stakedTo, onUnstake, isLoad
           </div>
           <div className="you-staked_countdown-container">
             <div className="key-key">Lock countdown:</div>
-            <div className="key-value">{disabled && <TimeCountdown timeTo={stakedTo} />}</div>
+            <div className="key-value">
+              <TimeCountdown timeTo={stakedTo} onTimerEnd={handleLockTimerEnd} />
+            </div>
           </div>
           <button className="pretty-button" disabled={disabled} onClick={onUnstake}>
             {isLoading ? 'Loading...' : 'Unstake'}
