@@ -1,3 +1,4 @@
+import { Year } from 'icons/2022';
 import { FC } from 'react';
 
 import { BlueStar } from './stars/blue-star';
@@ -7,7 +8,7 @@ export const Intro: FC = () => {
   return (
     <div className="intro">
       <div className="intro-title-container">
-        <h1 className="intro-title">2022</h1>
+        <Year />
         <div className="starsBox">
           <div className="blue-star-box">
             <BlueStar top="60%" left="50%" size={14} />

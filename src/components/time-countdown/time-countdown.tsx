@@ -48,7 +48,7 @@ export const TimeCountdown: FC<Props> = ({ timeTo, onTimerEnd }) => {
 
   return (
     <div>
-      <p>{distributionStartsIn || '--.--.--'}</p>
+      <p className="key-value">{distributionStartsIn || '--.--.--'}</p>
     </div>
   );
 };
