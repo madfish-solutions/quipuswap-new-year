@@ -3,10 +3,10 @@ import { FC } from 'react';
 export interface NftProps {
   src: string;
   alt: string;
-  discription: string;
+  description: string;
 }
 
-export const Nft: FC<NftProps> = ({ src, alt, discription }) => {
+export const Nft: FC<NftProps> = ({ src, alt, description }) => {
   return (
     <div className="img-wrapper">
       <div className="nft-card">
@@ -14,7 +14,7 @@ export const Nft: FC<NftProps> = ({ src, alt, discription }) => {
           <img className="card-img" src={src} alt={alt} />
         </div>
         <div className="back">
-          <div className="nft-description">{discription}</div>
+          <div className="nft-description">{description}</div>
         </div>
       </div>
     </div>

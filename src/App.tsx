@@ -8,7 +8,7 @@ import { Footer } from './components/footer';
 import { Header } from './components/header';
 import { Intro } from './components/intro';
 import { Main } from './components/main';
-import { SliderNFT } from './components/slider-nft';
+import { SliderNFT } from './components/nft/slider-nft';
 import { WalletContainer } from './connect-wallet/components/wallet-provider';
 import { useContracts } from './hooks/useContracts';
 
@@ -20,7 +20,7 @@ export const App: FC = () => {
     totalSupply,
     maxSupply,
     userBalance,
-    // nftTokens,
+    nftTokens,
     userClaim,
     isLoading,
     isStakeAllow,
@@ -34,7 +34,7 @@ export const App: FC = () => {
       <Header userBalance={userBalance} />
       <Background>
         <Intro />
-        <SliderNFT />
+        <SliderNFT nftDataList={nftTokens!} />
         <Main
           isStakeAllow={isStakeAllow}
           distributionStarts={distributionStart}
@@ -49,7 +49,7 @@ export const App: FC = () => {
         />
         <Footer />
       </Background>
-      <ErrorPopup error={error} />
+      {/* <ErrorPopup error={error} /> */}
     </WalletContainer>
   );
 };
