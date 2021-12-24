@@ -37,4 +37,6 @@ export const HANGZHOUNET_NETWORK: QSNetwork = {
 };
 
 export const ALL_NETWORKS = [MAINNET_NETWORK, HANGZHOUNET_NETWORK];
-export const DEFAULT_NETWORK = MAINNET_NETWORK;
+
+// TODO: Change before release
+export const DEFAULT_NETWORK = HANGZHOUNET_NETWORK;

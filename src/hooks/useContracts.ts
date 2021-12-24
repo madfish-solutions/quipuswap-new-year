@@ -8,7 +8,7 @@ import { QsTokenContract } from '../api/qs-token-contract';
 import { useAccountPkh, useTezos } from '../connect-wallet/utils/dapp';
 import { NftToken } from '../interfaces/NftToken';
 
-const DISTRIBUTOR_CONTRACT = 'KT1FJ3ZXD9vRzncKJNyBw6PFG8gzQcHYqycw';
+const DISTRIBUTOR_CONTRACT = 'KT1KUJ5tiYAS6X2tDszpL4vEUVNxmcsu8f4e';
 // eslint-disable-next-line no-console
 console.log('DISTRIBUTOR_CONTRACT', DISTRIBUTOR_CONTRACT);
 
@@ -135,7 +135,11 @@ export const useContracts = () => {
       : null;
 
   // isStakeAllow
-  const isStakeAllow = !!userBalance && !!distributorStorage && userBalance.gte(distributorStorage.stake_amount);
+  const isStakeAllow =
+    (!userClaim || !userClaim.stake_beginning) &&
+    !!userBalance &&
+    !!distributorStorage &&
+    userBalance.gte(distributorStorage.stake_amount);
 
   // Unstake
   const handleUnstake = useCallback(async () => {
@@ -148,7 +152,7 @@ export const useContracts = () => {
     setIsLoading(true);
 
     try {
-      const stakeOperation = await distributorContract.stake();
+      const stakeOperation = await distributorContract.withdraw();
       await stakeOperation.send();
     } catch (error) {
       setError(error as Error);
