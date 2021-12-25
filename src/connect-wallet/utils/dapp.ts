@@ -14,6 +14,7 @@ import { getNetwork, setNetwork, toBeaconNetworkType } from './network';
 import { ReadOnlySigner } from './readonly-signer';
 
 const michelEncoder = new MichelCodecPacker();
+
 const beaconWallet = !isClient
   ? undefined
   : new BeaconWallet({
@@ -96,7 +97,7 @@ const connectWalletBeacon = async (forcePermission: boolean, network: QSNetwork)
   return { pkh: activeAcc.address, toolkit: tezos };
 };
 
-export interface DAppType {
+interface DApp {
   connectionType: 'beacon' | 'temple' | null;
   tezos: TezosToolkit | null;
   accountPkh: string | null;
@@ -107,8 +108,8 @@ export interface DAppType {
 const fallbackToolkit = new TezosToolkit(net.rpcBaseURL);
 fallbackToolkit.setPackerProvider(michelEncoder);
 
-function useDApp() {
-  const [{ connectionType, tezos, accountPkh, templeWallet, network }, setState] = useState<DAppType>({
+const useDApp = () => {
+  const [{ connectionType, tezos, accountPkh, templeWallet, network }, setState] = useState<DApp>({
     connectionType: null,
     tezos: null,
     accountPkh: null,
@@ -183,6 +184,7 @@ function useDApp() {
         setFallbackState();
       }
     });
+
     const lastUsedAccount = localStorage.getItem(LAST_USED_ACCOUNT_KEY);
     if (localStorage.getItem(LAST_USED_CONNECTION_KEY) === 'beacon' && lastUsedAccount) {
       if (!beaconWallet) {
@@ -322,7 +324,7 @@ function useDApp() {
     disconnect,
     changeNetwork
   };
-}
+};
 
 export const [
   DAppProvider,
