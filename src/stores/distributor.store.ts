@@ -1,7 +1,7 @@
 import { makeAutoObservable } from 'mobx';
 
 import { Claim, DistributorContract, DistributorContractStorage } from '../api/distributor-contract';
-import { Nullable } from '../connect-wallet/utils/fp';
+import { Nullable } from '../modules/connect-wallet/utils/fp';
 import { RootStore } from './root.store';
 
 export class DistributorStore {

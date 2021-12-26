@@ -1,6 +1,6 @@
 import { TezosToolkit } from '@taquito/taquito';
 
-import { Nullable } from '../connect-wallet/utils/fp';
+import { Nullable } from '../modules/connect-wallet/utils/fp';
 import { DistributorStore } from './distributor.store';
 import { NftStore } from './nft.store';
 import { QsTokenStore } from './qs-token.store';

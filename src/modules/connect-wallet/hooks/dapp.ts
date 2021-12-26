@@ -9,9 +9,9 @@ import useSWR from 'swr';
 
 import { APP_NAME, BASE_URL, LAST_USED_CONNECTION_KEY, LAST_USED_ACCOUNT_KEY } from '../config/config';
 import { QSNetwork } from '../types/types';
-import { isClient } from './is-client';
-import { getNetwork, setNetwork, toBeaconNetworkType } from './network';
-import { ReadOnlySigner } from './readonly-signer';
+import { isClient } from '../utils/is-client';
+import { getNetwork, setNetwork, toBeaconNetworkType } from '../utils/network';
+import { ReadOnlySigner } from '../utils/readonly-signer';
 
 const michelEncoder = new MichelCodecPacker();
 

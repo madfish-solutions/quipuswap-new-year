@@ -4,8 +4,8 @@ import './App.css';
 import '@quipuswap/ui-kit/dist/ui-kit.cjs.development.css';
 import { observer } from 'mobx-react';
 
-import { Page } from './components/page';
-import { useAccountPkh, useTezos } from './connect-wallet/utils/dapp';
+import { useAccountPkh, useTezos } from './modules/connect-wallet/hooks/dapp';
+import { HomePage } from './pages/home-page';
 import { RootStoreProvider } from './stores/root-store.context';
 import { RootStore } from './stores/root.store';
 
@@ -21,7 +21,7 @@ export const App: FC = observer(() => {
 
   return (
     <RootStoreProvider store={rootStore}>
-      <Page />
+      <HomePage />
     </RootStoreProvider>
   );
 });

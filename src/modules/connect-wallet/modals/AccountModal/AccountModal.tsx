@@ -2,10 +2,10 @@ import React, { useCallback, useRef, useState, useEffect } from 'react';
 
 import { Button, Copy, Modal } from '@quipuswap/ui-kit';
 
+import { useAccountPkh, useDisconnect } from '../../hooks/dapp';
+import { useConnectModalsState } from '../../hooks/use-connect-modals-state';
 import { CheckMark } from '../../icons/CheckMark';
-import { useAccountPkh, useDisconnect } from '../../utils/dapp';
 import { shortize } from '../../utils/shortize';
-import { useConnectModalsState } from '../../utils/use-connect-modals-state';
 import s from './AccountModal.module.sass';
 
 export const AccountModal: React.FC = () => {

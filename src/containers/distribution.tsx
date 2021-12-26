@@ -2,8 +2,8 @@ import React, { FC, useState } from 'react';
 
 import { observer } from 'mobx-react';
 
+import { TimeCountdown } from '../components/time-countdown';
 import { useStores } from '../stores/use-stores.hook';
-import { TimeCountdown } from './time-countdown';
 
 export const Distribution: FC = observer(() => {
   const { distributorStore, nftStore, qsTokenStore } = useStores();

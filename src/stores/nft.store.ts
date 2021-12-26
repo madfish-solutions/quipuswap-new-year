@@ -1,8 +1,8 @@
 import { makeAutoObservable } from 'mobx';
 
 import { NftContract, NftContractStorage } from '../api/nft-contract';
-import { Nullable } from '../connect-wallet/utils/fp';
 import { NftToken } from '../interfaces/NftToken';
+import { Nullable } from '../modules/connect-wallet/utils/fp';
 import { RootStore } from './root.store';
 
 export class NftStore {

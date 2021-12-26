@@ -1,6 +1,6 @@
 @import './styles/null.css';
 @import './styles/flyung-stars.css';
-@import './toasts/toast.css';
+@import 'modules/toasts/toast.css';
 
 *,
 *::after,

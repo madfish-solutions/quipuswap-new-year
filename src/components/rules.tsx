@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 
+import { Distribution } from '../containers/distribution';
 import { Box } from './box';
-import { Distribution } from './distribution';
 import { RulesText } from './rules-text';
 
 export const Rules: FC = () => {

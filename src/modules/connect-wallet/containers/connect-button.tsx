@@ -1,6 +1,6 @@
-import { useAccountPkh, useReady } from '../utils/dapp';
+import { useAccountPkh, useReady } from '../hooks/dapp';
+import { useConnectModalsState } from '../hooks/use-connect-modals-state';
 import { shortize } from '../utils/shortize';
-import { useConnectModalsState } from '../utils/use-connect-modals-state';
 
 interface ConnectWalletButtonProps {
   className?: string;

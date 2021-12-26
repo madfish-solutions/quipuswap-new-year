@@ -1,11 +1,16 @@
 import { StrictMode } from 'react';
 
+import { configure } from 'mobx';
 import { render } from 'react-dom';
 
 import './index.css';
 import { App } from './App';
 import { ErrorBoundary } from './components/error-boundary';
-import { DAppProvider } from './connect-wallet/utils/dapp';
+import { DAppProvider } from './modules/connect-wallet/hooks/dapp';
+
+configure({
+  enforceActions: 'never'
+});
 
 render(
   <StrictMode>

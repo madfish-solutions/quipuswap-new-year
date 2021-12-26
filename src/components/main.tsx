@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
+import { YouStacked } from '../containers/you-staked';
 import { Rules } from './rules';
-import { YouStacked } from './you-staked';
 
 export const Main: FC = () => {
   return (

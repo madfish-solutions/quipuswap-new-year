@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { PoweredByQuipuswap } from '../icons/powered-by-quipuswap';
+import { PoweredByQuipuswap } from './icons/powered-by-quipuswap';
 
 export const Footer: FC = () => (
   <div className="footer">

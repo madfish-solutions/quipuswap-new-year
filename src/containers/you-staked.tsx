@@ -2,10 +2,10 @@ import React, { FC, useCallback, useState } from 'react';
 
 import { observer } from 'mobx-react';
 
+import { Box } from '../components/box';
+import { TimeCountdown } from '../components/time-countdown';
 import { useStores } from '../stores/use-stores.hook';
 import { showBalance } from '../utils/balances';
-import { Box } from './box';
-import { TimeCountdown } from './time-countdown';
 
 export const YouStacked: FC = observer(() => {
   const { distributorStore } = useStores();
