@@ -3,6 +3,7 @@ import { makeAutoObservable } from 'mobx';
 
 import { QsTokenContract, QsTokenContractStorage } from '../api/qs-token-contract';
 import { Nullable } from '../modules/connect-wallet/utils/fp';
+import { logError } from '../modules/logs';
 import { RootStore } from './root.store';
 
 export class QsTokenStore {
@@ -14,6 +15,7 @@ export class QsTokenStore {
   contract: Nullable<QsTokenContract> = null;
   storage: Nullable<QsTokenContractStorage> = null;
 
+  userAddress: Nullable<string> = null;
   userBalance: Nullable<BigNumber> = null;
 
   constructor(protected root: RootStore) {
@@ -21,22 +23,29 @@ export class QsTokenStore {
   }
 
   async reload(contractAddress: string) {
-    this.contractAddress = contractAddress;
+    if (contractAddress === this.contractAddress && this.userAddress === this.root.accountPkh) {
+      return;
+    }
     if (this.root.tezos && contractAddress) {
-      await this.load();
+      await this.load(contractAddress);
     } else {
       this.clear();
     }
   }
 
-  private async load() {
+  private async load(contractAddress: string) {
     try {
-      await this.loadContract();
-      await this.loadStorage();
+      if (contractAddress !== this.contractAddress) {
+        this.contractAddress = contractAddress;
+        await this.loadContract();
+        await this.loadStorage();
+      }
+
       if (this.root.accountPkh) {
         await this.loadUserBalance();
       }
     } catch (error) {
+      logError(error as Error);
       this.error = error as Error;
       this.clear();
     }
@@ -57,6 +66,7 @@ export class QsTokenStore {
       ]);
       await batch.send();
     } catch (error) {
+      logError(error as Error);
       this.error = error as Error;
     }
   }
@@ -81,6 +91,7 @@ export class QsTokenStore {
 
   private async loadContract() {
     this.contract = new QsTokenContract(this.root.tezos!, this.contractAddress!);
+    await this.contract.getContract();
 
     return this.contract;
   }

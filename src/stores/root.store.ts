@@ -8,11 +8,14 @@ import { QsTokenStore } from './qs-token.store';
 const DISTRIBUTOR_CONTRACT = 'KT1Cehf6JwQJYYEPscSkrcR91DxqSfnq1ze9';
 
 export class RootStore {
+  tezos: Nullable<TezosToolkit> = null;
+  accountPkh: Nullable<string> = null;
+
   distributorStore: DistributorStore;
   nftStore: NftStore;
   qsTokenStore: QsTokenStore;
 
-  constructor(public tezos: Nullable<TezosToolkit>, public accountPkh: Nullable<string>) {
+  constructor() {
     this.distributorStore = new DistributorStore(this);
     this.nftStore = new NftStore(this);
     this.qsTokenStore = new QsTokenStore(this);

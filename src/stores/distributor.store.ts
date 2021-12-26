@@ -2,6 +2,7 @@ import { makeAutoObservable } from 'mobx';
 
 import { Claim, DistributorContract, DistributorContractStorage } from '../api/distributor-contract';
 import { Nullable } from '../modules/connect-wallet/utils/fp';
+import { logError } from '../modules/logs';
 import { RootStore } from './root.store';
 
 export class DistributorStore {
@@ -15,6 +16,7 @@ export class DistributorStore {
 
   distributionStarts: Nullable<Date> = null;
 
+  userAddress: Nullable<string> = null;
   userClaim: Nullable<Claim> = null;
   userStakedTo: Nullable<Date> = null;
 
@@ -23,30 +25,36 @@ export class DistributorStore {
   }
 
   async reload(contractAddress: string) {
+    if (contractAddress === this.contractAddress && this.userAddress === this.root.accountPkh) {
+      return;
+    }
     this.isLoading = true;
-    this.contractAddress = contractAddress;
-    if (this.root.tezos && contractAddress) {
-      await this.load();
+    if (this.root.tezos && this.root.tezos.contract && contractAddress) {
+      await this.load(contractAddress);
     } else {
       this.clear();
     }
     this.isLoading = false;
   }
 
-  private async load() {
+  private async load(contractAddress: string) {
     try {
-      await this.loadContract();
-      await this.loadStorage();
-      await this.loadDistributionStarts();
+      if (contractAddress !== this.contractAddress) {
+        this.contractAddress = contractAddress;
+        await this.loadContract();
+        await this.loadStorage();
+        await this.loadDistributionStarts();
 
-      await this.root.nftStore.reload(this.storage!.nft_contract);
-      await this.root.qsTokenStore.reload(this.storage!.quipu_token.address);
+        await this.root.nftStore.reload(this.storage!.nft_contract);
+        await this.root.qsTokenStore.reload(this.storage!.quipu_token.address);
+      }
 
       if (this.root.accountPkh) {
         await this.loadUserClaim();
         await this.loadUserStakedTo();
       }
     } catch (error) {
+      logError(error as Error);
       this.error = error as Error;
       this.clear();
     }
@@ -72,6 +80,7 @@ export class DistributorStore {
       const stakeOperation = await this.contract!.withdraw();
       await stakeOperation.send();
     } catch (error) {
+      logError(error as Error);
       this.error = error as Error;
     }
     this.isLoading = false;
@@ -121,7 +130,7 @@ export class DistributorStore {
 
   private async loadContract() {
     this.contract = new DistributorContract(this.root.tezos!, this.contractAddress!);
-    await this.loadStorage();
+    await this.contract.getContract();
 
     return this.contract;
   }

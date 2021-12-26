@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 
 import { observer } from 'mobx-react';
 
@@ -10,10 +10,23 @@ import { Intro } from '../components/intro';
 import { Main } from '../components/main';
 import { SliderNFT } from '../components/nft/slider-nft';
 import { WalletWrapper } from '../components/wallet-wrapper';
+import { useAccountPkh, useTezos } from '../modules/connect-wallet/hooks/dapp';
 import { ToastProvider } from '../modules/toasts/toast-provider';
+import { RootStore } from '../stores/root.store';
 import { useStores } from '../stores/use-stores.hook';
 
-export const HomePage: FC = observer(() => {
+interface Props {
+  rootStore: RootStore;
+}
+
+export const HomePage: FC<Props> = observer(({ rootStore }) => {
+  const tezos = useTezos();
+  const accountPkh = useAccountPkh();
+
+  useEffect(() => {
+    void rootStore.reload(tezos, accountPkh);
+  }, [rootStore, tezos, accountPkh]);
+
   const { qsTokenStore, nftStore, distributorStore } = useStores();
 
   const error = distributorStore.error || qsTokenStore.error || nftStore.error;
