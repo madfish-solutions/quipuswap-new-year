@@ -10,7 +10,7 @@ import { Intro } from '../components/intro';
 import { Main } from '../components/main';
 import { SliderNFT } from '../components/nft/slider-nft';
 import { WalletWrapper } from '../components/wallet-wrapper';
-import { useAccountPkh, useTezos } from '../modules/connect-wallet/hooks/dapp';
+import { useAccountPkh, useTezos } from '../modules/dapp/hooks/use-dapp';
 import { ToastProvider } from '../modules/toasts/toast-provider';
 import { RootStore } from '../stores/root.store';
 import { useStores } from '../stores/use-stores.hook';

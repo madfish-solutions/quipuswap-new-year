@@ -2,6 +2,7 @@ import { BigMapAbstraction, MichelsonMap } from '@taquito/taquito';
 import BigNumber from 'bignumber.js';
 
 import { NftToken } from '../../interfaces/NftToken';
+import { log } from '../../modules/logs';
 import { prepareIpfsUrl } from '../../utils/prepareIpfsUrl';
 import { AbstractContract } from '../abstract.contract';
 
@@ -53,5 +54,15 @@ export class NftContract extends AbstractContract<NftContractStorage> {
     const promises = new Array(amount).fill(null).map(async (_, index) => this.getTokenMetadata(index));
 
     return await Promise.all(promises);
+  }
+
+  // TODO
+  async userReward(address: string) {
+    if (!this.storage) {
+      await this.getStorage();
+    }
+
+    const reward = await this.storage?.ledger.get(address);
+    log('reward', reward);
   }
 }

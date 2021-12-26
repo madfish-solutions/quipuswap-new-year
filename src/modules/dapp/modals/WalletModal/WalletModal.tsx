@@ -3,8 +3,8 @@ import React, { FC, useCallback } from 'react';
 import { AbortedBeaconError } from '@airgap/beacon-sdk';
 import { Button, Modal } from '@quipuswap/ui-kit';
 
-import { TEMPLE_WALLET_NOT_INSTALLED_MESSAGE, useConnectWithBeacon, useConnectWithTemple } from '../../hooks/dapp';
 import { useConnectModalsState } from '../../hooks/use-connect-modals-state';
+import { TEMPLE_WALLET_NOT_INSTALLED_MESSAGE, useConnectWithBeacon, useConnectWithTemple } from '../../hooks/use-dapp';
 import { WalletType } from '../../types/types';
 import { Wallets } from './content';
 import s from './WalletModal.module.sass';

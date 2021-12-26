@@ -1,6 +1,6 @@
 import { TezosToolkit } from '@taquito/taquito';
 
-import { getNetwork } from '../modules/connect-wallet/utils/network';
+import { getNetwork } from '../modules/dapp/utils/network';
 
 const net = getNetwork();
 

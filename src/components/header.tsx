@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import BigNumber from 'bignumber.js';
 
-import { ConnectWalletButton } from '../modules/connect-wallet/containers/connect-button';
+import { ConnectWalletButton } from '../modules/dapp/containers/connect-button';
 import { showBalance } from '../utils/balances';
 import { Balance } from './balance';
 import { Container } from './container';

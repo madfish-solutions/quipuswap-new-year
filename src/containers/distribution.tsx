@@ -11,11 +11,8 @@ export const Distribution: FC = observer(() => {
   const [distributionLabel, setDistributionLabel] = useState<string | null>(
     distributorStore.distributionStarts ? null : 'Started'
   );
-  const [disabled, setDisabled] = useState(true);
-
   const handleDistributionTimerEnd = () => {
     setDistributionLabel('Started');
-    setDisabled(false);
   };
 
   const handleClaim = async () => {
@@ -41,7 +38,7 @@ export const Distribution: FC = observer(() => {
       <button
         className="pretty-button"
         onClick={handleClaim}
-        disabled={!distributorStore.isStakeAllow || disabled || isLoading || Boolean(distributorStore.userClaim)}
+        disabled={!distributorStore.isStakeAllow || isLoading || Boolean(distributorStore.userClaim)}
         type="button"
       >
         {isLoading ? 'Loading...' : 'Claim'}

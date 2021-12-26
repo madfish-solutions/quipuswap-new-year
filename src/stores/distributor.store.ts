@@ -1,8 +1,8 @@
 import { makeAutoObservable } from 'mobx';
 
 import { Claim, DistributorContract, DistributorContractStorage } from '../api/distributor-contract';
-import { Nullable } from '../modules/connect-wallet/utils/fp';
 import { logError } from '../modules/logs';
+import { Nullable } from '../utils/fp';
 import { RootStore } from './root.store';
 
 export class DistributorStore {
@@ -29,7 +29,7 @@ export class DistributorStore {
       return;
     }
     this.isLoading = true;
-    if (this.root.tezos && this.root.tezos.contract && contractAddress) {
+    if (this.root.tezos && contractAddress) {
       await this.load(contractAddress);
     } else {
       this.clear();
@@ -52,6 +52,10 @@ export class DistributorStore {
       if (this.root.accountPkh) {
         await this.loadUserClaim();
         await this.loadUserStakedTo();
+        await this.root.qsTokenStore.reload(this.storage!.quipu_token.address);
+      } else {
+        this.clearUser();
+        this.root.qsTokenStore.clearUser();
       }
     } catch (error) {
       logError(error as Error);
@@ -63,11 +67,16 @@ export class DistributorStore {
   clear() {
     this.contract = null;
     this.storage = null;
-    this.userClaim = null;
-    this.userStakedTo = null;
+    this.clearUser();
 
     this.root.nftStore.clear();
     this.root.qsTokenStore.clear();
+  }
+
+  clearUser() {
+    this.userClaim = null;
+    this.userStakedTo = null;
+    this.root.qsTokenStore.clearUser();
   }
 
   async stake() {
@@ -77,8 +86,8 @@ export class DistributorStore {
   async withdraw() {
     this.isLoading = true;
     try {
-      const stakeOperation = await this.contract!.withdraw();
-      await stakeOperation.send();
+      const batch = await this.contract!.batchOperations([await this.contract!.withdraw()]);
+      await batch.send();
     } catch (error) {
       logError(error as Error);
       this.error = error as Error;
@@ -121,7 +130,7 @@ export class DistributorStore {
     const nodeTime = await this.root.getNodeCurrentTime();
     const timeTo = new Date(this.userClaim.stake_beginning).getTime() + stakeSeconds * 1000;
     const diff = timeTo - nodeTime;
-    this.userStakedTo = diff > 0 ? new Date(Date.now() + diff) : null;
+    this.userStakedTo = timeTo < nodeTime ? new Date(Date.now() + diff) : null;
   }
 
   private async loadUserClaim() {

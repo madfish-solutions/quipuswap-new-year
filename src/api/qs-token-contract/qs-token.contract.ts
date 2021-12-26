@@ -52,7 +52,7 @@ export class QsTokenContract extends AbstractContract<QsTokenContractStorage> {
 
   async getAddressBalance(address: string): Promise<BigNumber | null> {
     if (!this.storage) {
-      throw new Error('QS storage is undefined');
+      return null;
     }
 
     const accountInfo: { balances: MichelsonMap<BigNumber, BigNumber> } | undefined =

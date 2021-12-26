@@ -2,8 +2,8 @@ import BigNumber from 'bignumber.js';
 import { makeAutoObservable } from 'mobx';
 
 import { QsTokenContract, QsTokenContractStorage } from '../api/qs-token-contract';
-import { Nullable } from '../modules/connect-wallet/utils/fp';
 import { logError } from '../modules/logs';
+import { Nullable } from '../utils/fp';
 import { RootStore } from './root.store';
 
 export class QsTokenStore {
@@ -54,6 +54,10 @@ export class QsTokenStore {
   clear() {
     this.contract = null;
     this.storage = null;
+    this.clearUser();
+  }
+
+  clearUser() {
     this.userBalance = null;
   }
 

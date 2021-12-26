@@ -2,8 +2,8 @@ import React, { useCallback, useRef, useState, useEffect } from 'react';
 
 import { Button, Copy, Modal } from '@quipuswap/ui-kit';
 
-import { useAccountPkh, useDisconnect } from '../../hooks/dapp';
 import { useConnectModalsState } from '../../hooks/use-connect-modals-state';
+import { useAccountPkh, useDisconnect } from '../../hooks/use-dapp';
 import { CheckMark } from '../../icons/CheckMark';
 import { shortize } from '../../utils/shortize';
 import s from './AccountModal.module.sass';

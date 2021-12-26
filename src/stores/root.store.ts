@@ -1,11 +1,11 @@
 import { TezosToolkit } from '@taquito/taquito';
 
-import { Nullable } from '../modules/connect-wallet/utils/fp';
+import { Nullable } from '../utils/fp';
 import { DistributorStore } from './distributor.store';
 import { NftStore } from './nft.store';
 import { QsTokenStore } from './qs-token.store';
 
-const DISTRIBUTOR_CONTRACT = 'KT1Cehf6JwQJYYEPscSkrcR91DxqSfnq1ze9';
+const DISTRIBUTOR_CONTRACT = 'KT1WttC8Fk7z5h4ZLJdn9FLnRTbsgMFXBjH2';
 
 export class RootStore {
   tezos: Nullable<TezosToolkit> = null;

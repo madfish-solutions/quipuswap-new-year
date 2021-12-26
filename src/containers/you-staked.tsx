@@ -10,12 +10,12 @@ import { showBalance } from '../utils/balances';
 export const YouStacked: FC = observer(() => {
   const { distributorStore } = useStores();
 
-  const [disabled, setDisabled] = useState(
-    !distributorStore.userStakedTo || distributorStore.userStakedTo > new Date()
-  );
+  const [now, setNow] = useState(new Date());
+
+  const disabled = !distributorStore.userStakedTo || distributorStore.userStakedTo > now;
 
   const handleLockTimerEnd = useCallback(() => {
-    setDisabled(false);
+    setNow(new Date());
   }, []);
 
   const handleUnstake = async () => {

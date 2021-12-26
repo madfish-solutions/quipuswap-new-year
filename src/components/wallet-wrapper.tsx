@@ -1,8 +1,8 @@
 import { FC } from 'react';
 
-import { ConnectModalsStateProvider } from '../modules/connect-wallet/hooks/use-connect-modals-state';
-import { AccountModal } from '../modules/connect-wallet/modals/AccountModal';
-import { WalletModal } from '../modules/connect-wallet/modals/WalletModal';
+import { ConnectModalsStateProvider } from '../modules/dapp/hooks/use-connect-modals-state';
+import { AccountModal } from '../modules/dapp/modals/AccountModal';
+import { WalletModal } from '../modules/dapp/modals/WalletModal';
 
 export const WalletWrapper: FC = ({ children }) => {
   return (
