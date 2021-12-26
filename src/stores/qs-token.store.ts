@@ -22,7 +22,7 @@ export class QsTokenStore {
 
   async reload(contractAddress: string) {
     this.contractAddress = contractAddress;
-    if (this.root.tezos) {
+    if (this.root.tezos && contractAddress) {
       await this.load();
     } else {
       this.clear();
@@ -42,7 +42,7 @@ export class QsTokenStore {
     }
   }
 
-  private clear() {
+  clear() {
     this.contract = null;
     this.storage = null;
     this.userBalance = null;
@@ -76,12 +76,7 @@ export class QsTokenStore {
   }
 
   private async loadUserBalance() {
-    try {
-      this.userBalance = (await this.contract?.getAddressBalance(this.root.accountPkh!)) || null;
-    } catch (error) {
-      this.error = error as Error;
-      this.userBalance = null;
-    }
+    this.userBalance = await this.contract!.getAddressBalance(this.root.accountPkh!);
   }
 
   private async loadContract() {
@@ -91,11 +86,7 @@ export class QsTokenStore {
   }
 
   private async loadStorage() {
-    try {
-      this.storage = await this.contract!.getStorage();
-    } catch (error) {
-      this.error = error as Error;
-    }
+    this.storage = await this.contract!.getStorage();
 
     return this.storage;
   }

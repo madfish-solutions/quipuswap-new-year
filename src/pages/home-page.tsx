@@ -1,5 +1,7 @@
 import { FC } from 'react';
 
+import { observer } from 'mobx-react';
+
 import { Background } from '../components/background';
 import { ErrorPopup } from '../components/error-popup';
 import { Footer } from '../components/footer';
@@ -11,7 +13,7 @@ import { WalletWrapper } from '../components/wallet-wrapper';
 import { ToastProvider } from '../modules/toasts/toast-provider';
 import { useStores } from '../stores/use-stores.hook';
 
-export const HomePage: FC = () => {
+export const HomePage: FC = observer(() => {
   const { qsTokenStore, nftStore, distributorStore } = useStores();
 
   const error = distributorStore.error || qsTokenStore.error || nftStore.error;
@@ -29,4 +31,4 @@ export const HomePage: FC = () => {
       <ErrorPopup error={error} />
     </WalletWrapper>
   );
-};
+});

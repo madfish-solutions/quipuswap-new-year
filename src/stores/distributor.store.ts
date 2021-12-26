@@ -25,7 +25,7 @@ export class DistributorStore {
   async reload(contractAddress: string) {
     this.isLoading = true;
     this.contractAddress = contractAddress;
-    if (this.root.tezos) {
+    if (this.root.tezos && contractAddress) {
       await this.load();
     } else {
       this.clear();
@@ -52,11 +52,14 @@ export class DistributorStore {
     }
   }
 
-  private clear() {
+  clear() {
     this.contract = null;
     this.storage = null;
     this.userClaim = null;
     this.userStakedTo = null;
+
+    this.root.nftStore.clear();
+    this.root.qsTokenStore.clear();
   }
 
   async stake() {
@@ -100,7 +103,7 @@ export class DistributorStore {
   }
 
   private async loadUserStakedTo() {
-    const stakeSeconds = this.storage?.stake_period.toNumber() || 0;
+    const stakeSeconds = this.storage!.stake_period.toNumber();
     if (!stakeSeconds || !this.userClaim || this.userClaim.claimed) {
       this.userStakedTo = null;
 
@@ -113,7 +116,7 @@ export class DistributorStore {
   }
 
   private async loadUserClaim() {
-    this.userClaim = (await this.contract?.getAddressClaim(this.root.accountPkh!)) || null;
+    this.userClaim = await this.contract!.getAddressClaim(this.root.accountPkh!);
   }
 
   private async loadContract() {

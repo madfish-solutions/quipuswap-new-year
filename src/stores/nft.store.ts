@@ -22,7 +22,7 @@ export class NftStore {
 
   async reload(contractAddress: string) {
     this.contractAddress = contractAddress;
-    if (this.root.tezos) {
+    if (this.root.tezos && contractAddress) {
       await this.load();
     } else {
       this.clear();
@@ -40,7 +40,7 @@ export class NftStore {
     }
   }
 
-  private clear() {
+  clear() {
     this.contract = null;
     this.storage = null;
     this.tokens = null;
@@ -56,7 +56,7 @@ export class NftStore {
 
   private async loadTokens() {
     this.tokens = this.storage?.token_count
-      ? (await this.contract?.getTokensMetadata(this.storage.token_count.toNumber())) || null
+      ? await this.contract!.getTokensMetadata(this.storage.token_count.toNumber())
       : null;
   }
 
