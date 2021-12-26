@@ -1,14 +1,10 @@
 import { makeAutoObservable } from 'mobx';
 
 import { Claim, DistributorContract, DistributorContractStorage } from '../api/distributor-contract';
-import { logError } from '../modules/logs';
 import { Nullable } from '../utils/fp';
 import { RootStore } from './root.store';
 
 export class DistributorStore {
-  error: Nullable<Error> = null;
-  isLoading = false;
-
   contractAddress: Nullable<string> = null;
 
   contract: Nullable<DistributorContract> = null;
@@ -25,37 +21,29 @@ export class DistributorStore {
   }
 
   async reload(contractAddress: string) {
-    this.isLoading = true;
     if (this.root.tezos && contractAddress) {
       await this.load(contractAddress);
     } else {
       this.clear();
     }
-    this.isLoading = false;
   }
 
   private async load(contractAddress: string) {
-    try {
-      this.contractAddress = contractAddress;
-      await this.loadContract();
-      await this.loadStorage();
-      await this.loadDistributionStarts();
+    this.contractAddress = contractAddress;
+    await this.loadContract();
+    await this.loadStorage();
+    await this.loadDistributionStarts();
 
-      await this.root.nftStore.reload(this.storage!.nft_contract);
+    await this.root.nftStore.reload(this.storage!.nft_contract);
+    await this.root.qsTokenStore.reload(this.storage!.quipu_token.address);
+
+    if (this.root.accountPkh) {
+      await this.loadUserClaim();
+      await this.loadUserStakedTo();
       await this.root.qsTokenStore.reload(this.storage!.quipu_token.address);
-
-      if (this.root.accountPkh) {
-        await this.loadUserClaim();
-        await this.loadUserStakedTo();
-        await this.root.qsTokenStore.reload(this.storage!.quipu_token.address);
-      } else {
-        this.clearUser();
-        this.root.qsTokenStore.clearUser();
-      }
-    } catch (error) {
-      logError(error as Error);
-      this.error = error as Error;
-      this.clear();
+    } else {
+      this.clearUser();
+      this.root.qsTokenStore.clearUser();
     }
   }
 
@@ -74,12 +62,12 @@ export class DistributorStore {
     this.root.qsTokenStore.clearUser();
   }
 
-  clearError() {
-    this.error = null;
-  }
-
   clearDistributionStarts() {
     this.distributionStarts = null;
+  }
+
+  clearUserStakedTo() {
+    this.userStakedTo = null;
   }
 
   async stake() {
@@ -87,15 +75,17 @@ export class DistributorStore {
   }
 
   async withdraw() {
-    this.isLoading = true;
-    try {
-      const batch = await this.contract!.batchOperations([await this.contract!.withdraw()]);
-      await batch.send();
-    } catch (error) {
-      logError(error as Error);
-      this.error = error as Error;
+    const batch = await this.contract!.batchOperations([await this.contract!.withdraw()]);
+    await batch.send();
+  }
+
+  async waitForStake(): Promise<undefined> {
+    await this.reload(this.contractAddress!);
+    if (!this.userClaim) {
+      return this.waitForStake();
     }
-    this.isLoading = false;
+
+    return undefined;
   }
 
   get isStakeAllow() {
@@ -133,8 +123,7 @@ export class DistributorStore {
     }
     const nodeTime = await this.root.getNodeCurrentTime();
     const timeTo = new Date(this.userClaim.stake_beginning).getTime() + stakeSeconds * 1000;
-    const diff = timeTo - nodeTime;
-    this.userStakedTo = timeTo < nodeTime ? new Date(Date.now() + diff) : null;
+    this.userStakedTo = new Date(Date.now() + timeTo - nodeTime);
   }
 
   private async loadUserClaim() {

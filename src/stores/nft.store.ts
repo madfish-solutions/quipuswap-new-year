@@ -7,9 +7,6 @@ import { Nullable } from '../utils/fp';
 import { RootStore } from './root.store';
 
 export class NftStore {
-  error: Nullable<Error> = null;
-  isLoading = false;
-
   contractAddress: Nullable<string> = null;
 
   contract: Nullable<NftContract> = null;
@@ -31,24 +28,15 @@ export class NftStore {
   }
 
   private async load() {
-    try {
-      await this.loadContract();
-      await this.loadStorage();
-      await this.loadTokens();
-    } catch (error) {
-      this.error = error as Error;
-      this.clear();
-    }
+    await this.loadContract();
+    await this.loadStorage();
+    await this.loadTokens();
   }
 
   clear() {
     this.contract = null;
     this.storage = null;
     this.tokens = null;
-  }
-
-  clearError() {
-    this.error = null;
   }
 
   get totalSupply() {

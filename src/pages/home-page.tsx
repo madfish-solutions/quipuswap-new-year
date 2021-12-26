@@ -22,22 +22,22 @@ interface Props {
 export const HomePage: FC<Props> = observer(({ rootStore }) => {
   const tezos = useTezos();
   const accountPkh = useAccountPkh();
-
-  useEffect(() => {
-    void rootStore.reload(tezos, accountPkh);
-  }, [rootStore, tezos, accountPkh]);
-
-  const { qsTokenStore, nftStore, distributorStore } = useStores();
-
   const { errorToast } = useToast();
 
-  const error = distributorStore.error || qsTokenStore.error || nftStore.error;
-  if (error) {
-    errorToast(error);
-    distributorStore.clearError();
-    qsTokenStore.clearError();
-    nftStore.clearError();
-  }
+  const reload = async () => {
+    try {
+      await rootStore.reload(tezos, accountPkh);
+    } catch (error) {
+      errorToast(error as Error);
+    }
+  };
+
+  useEffect(() => {
+    void reload();
+    // eslint-disable-next-line
+  }, [rootStore, tezos, accountPkh]);
+
+  const { qsTokenStore, nftStore } = useStores();
 
   return (
     <WalletWrapper>

@@ -8,11 +8,11 @@ import { useStores } from '../stores/use-stores.hook';
 
 export const Distribution: FC = observer(() => {
   const { distributorStore, nftStore, qsTokenStore } = useStores();
-  const { successToast } = useToast();
-
+  const { successToast, errorToast } = useToast();
   const [distributionLabel, setDistributionLabel] = useState<string | null>(
     distributorStore.distributionStarts ? null : 'Started'
   );
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleDistributionTimerEnd = () => {
     setDistributionLabel('Started');
@@ -21,10 +21,17 @@ export const Distribution: FC = observer(() => {
   };
 
   const handleClaim = async () => {
-    await qsTokenStore.stakeForNft();
+    setIsLoading(true);
+    try {
+      await qsTokenStore.stakeForNft();
+      await distributorStore.reload(distributorStore.contractAddress!);
+      await distributorStore.waitForStake();
+      successToast('Congratulations! You have a NFT! Check you wallet in a minute.');
+    } catch (error) {
+      errorToast(error as Error);
+    }
+    setIsLoading(false);
   };
-
-  const isLoading = qsTokenStore.isLoading;
 
   return (
     <div className="rules-logic">
@@ -43,7 +50,7 @@ export const Distribution: FC = observer(() => {
       <button
         className="pretty-button"
         onClick={handleClaim}
-        disabled={!distributorStore.isStakeAllow || isLoading || !!distributorStore.userClaim}
+        disabled={!distributorStore.isStakeAllow || !!distributorStore.userClaim || isLoading}
         type="button"
       >
         {isLoading ? 'Loading...' : 'Claim'}

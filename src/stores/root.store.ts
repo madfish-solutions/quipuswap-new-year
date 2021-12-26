@@ -5,7 +5,7 @@ import { DistributorStore } from './distributor.store';
 import { NftStore } from './nft.store';
 import { QsTokenStore } from './qs-token.store';
 
-const DISTRIBUTOR_CONTRACT = 'KT1TV48PzvMUE9ViY9iJVC7MQdXxqNatGf9K';
+const DISTRIBUTOR_CONTRACT = 'KT1XrkrR3dQi9idUPPCEdhws6T3TcCZWy3gU';
 
 export class RootStore {
   tezos: Nullable<TezosToolkit> = null;
@@ -29,11 +29,5 @@ export class RootStore {
 
   async getNodeCurrentTime() {
     return Date.parse((await this.tezos!.rpc.getBlockHeader()).timestamp);
-  }
-
-  onErrorClose() {
-    this.distributorStore.error = null;
-    this.nftStore.error = null;
-    this.qsTokenStore.error = null;
   }
 }

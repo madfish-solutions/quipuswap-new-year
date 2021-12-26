@@ -12,8 +12,8 @@ import { showBalance } from '../utils/balances';
 export const YouStacked: FC = observer(() => {
   const { distributorStore } = useStores();
   const { successToast, errorToast } = useToast();
-
   const [now, setNow] = useState(new Date());
+  const [isLoading, setIsLoading] = useState(false);
 
   const disabled = !distributorStore.userStakedTo || distributorStore.userStakedTo > now;
 
@@ -22,13 +22,16 @@ export const YouStacked: FC = observer(() => {
   }, []);
 
   const handleUnstake = async () => {
+    setIsLoading(true);
     try {
       await distributorStore.withdraw();
-      successToast('Withdraw finished successfully');
+      distributorStore.clearUserStakedTo();
+      successToast('Withdraw successfully finished');
     } catch (error) {
       logError(error as Error);
       errorToast(error as Error);
     }
+    setIsLoading(false);
   };
 
   return (
@@ -38,7 +41,7 @@ export const YouStacked: FC = observer(() => {
           <div className="you-staked_amount-container">
             <div className="key-key">You Staked:</div>
             <div className="key-value">
-              {distributorStore.stakeAmount && distributorStore.stakeAmount.gte(0)
+              {distributorStore.stakeAmount && distributorStore.stakeAmount.gte(0) && distributorStore.userClaim
                 ? `${showBalance(distributorStore.stakeAmount)} QUIPU`
                 : '--'}
             </div>
@@ -50,7 +53,7 @@ export const YouStacked: FC = observer(() => {
             </div>
           </div>
           <button className="pretty-button" disabled={disabled} onClick={handleUnstake}>
-            {distributorStore.isLoading ? 'Loading...' : 'Unstake'}
+            {isLoading ? 'Loading...' : 'Unstake'}
           </button>
         </div>
       </div>

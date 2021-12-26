@@ -2,14 +2,10 @@ import BigNumber from 'bignumber.js';
 import { makeAutoObservable } from 'mobx';
 
 import { QsTokenContract, QsTokenContractStorage } from '../api/qs-token-contract';
-import { logError } from '../modules/logs';
 import { Nullable } from '../utils/fp';
 import { RootStore } from './root.store';
 
 export class QsTokenStore {
-  error: Nullable<Error> = null;
-  isLoading = false;
-
   contractAddress: Nullable<string> = null;
 
   contract: Nullable<QsTokenContract> = null;
@@ -31,18 +27,12 @@ export class QsTokenStore {
   }
 
   private async load(contractAddress: string) {
-    try {
-      this.contractAddress = contractAddress;
-      await this.loadContract();
-      await this.loadStorage();
+    this.contractAddress = contractAddress;
+    await this.loadContract();
+    await this.loadStorage();
 
-      if (this.root.accountPkh) {
-        await this.loadUserBalance();
-      }
-    } catch (error) {
-      logError(error as Error);
-      this.error = error as Error;
-      this.clear();
+    if (this.root.accountPkh) {
+      await this.loadUserBalance();
     }
   }
 
@@ -56,22 +46,13 @@ export class QsTokenStore {
     this.userBalance = null;
   }
 
-  clearError() {
-    this.error = null;
-  }
-
   async stakeForNft() {
-    try {
-      const batch = await this.contract!.batchOperations([
-        await this.allowSpendYourTokens(),
-        await this.root.distributorStore.stake(),
-        await this.disallowSpendYourTokens()
-      ]);
-      await batch.send();
-    } catch (error) {
-      logError(error as Error);
-      this.error = error as Error;
-    }
+    const batch = await this.contract!.batchOperations([
+      await this.allowSpendYourTokens(),
+      await this.root.distributorStore.stake(),
+      await this.disallowSpendYourTokens()
+    ]);
+    await batch.send();
   }
 
   private async allowSpendYourTokens() {

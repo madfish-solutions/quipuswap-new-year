@@ -1,6 +1,6 @@
 import { Component, ErrorInfo } from 'react';
 
-import { ErrorPopup } from './error-popup';
+import { ErrorBox } from './error-box';
 
 export class ErrorBoundary extends Component {
   state: { hasError: boolean; error: Error | null } = { hasError: false, error: null };
@@ -19,7 +19,7 @@ export class ErrorBoundary extends Component {
 
   render() {
     if (this.state.hasError) {
-      return <ErrorPopup error={this.state.error || new Error('Something went wrong :(')} />;
+      return <ErrorBox error={this.state.error || new Error('Something went wrong :(')} />;
     }
 
     return this.props.children;
