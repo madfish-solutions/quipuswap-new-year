@@ -4,11 +4,14 @@ import { observer } from 'mobx-react';
 
 import { Box } from '../components/box';
 import { TimeCountdown } from '../components/time-countdown';
+import { logError } from '../modules/logs';
+import { useToast } from '../modules/toasts/use-toast-notification';
 import { useStores } from '../stores/use-stores.hook';
 import { showBalance } from '../utils/balances';
 
 export const YouStacked: FC = observer(() => {
   const { distributorStore } = useStores();
+  const { successToast, errorToast } = useToast();
 
   const [now, setNow] = useState(new Date());
 
@@ -19,7 +22,13 @@ export const YouStacked: FC = observer(() => {
   }, []);
 
   const handleUnstake = async () => {
-    await distributorStore.withdraw();
+    try {
+      await distributorStore.withdraw();
+      successToast('Withdraw finished successfully');
+    } catch (error) {
+      logError(error as Error);
+      errorToast(error as Error);
+    }
   };
 
   return (

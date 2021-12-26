@@ -25,9 +25,6 @@ export class DistributorStore {
   }
 
   async reload(contractAddress: string) {
-    if (contractAddress === this.contractAddress && this.userAddress === this.root.accountPkh) {
-      return;
-    }
     this.isLoading = true;
     if (this.root.tezos && contractAddress) {
       await this.load(contractAddress);
@@ -39,15 +36,13 @@ export class DistributorStore {
 
   private async load(contractAddress: string) {
     try {
-      if (contractAddress !== this.contractAddress) {
-        this.contractAddress = contractAddress;
-        await this.loadContract();
-        await this.loadStorage();
-        await this.loadDistributionStarts();
+      this.contractAddress = contractAddress;
+      await this.loadContract();
+      await this.loadStorage();
+      await this.loadDistributionStarts();
 
-        await this.root.nftStore.reload(this.storage!.nft_contract);
-        await this.root.qsTokenStore.reload(this.storage!.quipu_token.address);
-      }
+      await this.root.nftStore.reload(this.storage!.nft_contract);
+      await this.root.qsTokenStore.reload(this.storage!.quipu_token.address);
 
       if (this.root.accountPkh) {
         await this.loadUserClaim();
@@ -79,6 +74,14 @@ export class DistributorStore {
     this.root.qsTokenStore.clearUser();
   }
 
+  clearError() {
+    this.error = null;
+  }
+
+  clearDistributionStarts() {
+    this.distributionStarts = null;
+  }
+
   async stake() {
     return await this.contract!.stake();
   }
@@ -100,7 +103,8 @@ export class DistributorStore {
       (!this.userClaim || !this.userClaim.stake_beginning) &&
       !!this.root.qsTokenStore.userBalance &&
       !!this.storage &&
-      this.root.qsTokenStore.userBalance.gte(this.storage.stake_amount)
+      this.root.qsTokenStore.userBalance.gte(this.storage.stake_amount) &&
+      !this.distributionStarts
     );
   }
 

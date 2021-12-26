@@ -23,9 +23,6 @@ export class QsTokenStore {
   }
 
   async reload(contractAddress: string) {
-    if (contractAddress === this.contractAddress && this.userAddress === this.root.accountPkh) {
-      return;
-    }
     if (this.root.tezos && contractAddress) {
       await this.load(contractAddress);
     } else {
@@ -35,11 +32,9 @@ export class QsTokenStore {
 
   private async load(contractAddress: string) {
     try {
-      if (contractAddress !== this.contractAddress) {
-        this.contractAddress = contractAddress;
-        await this.loadContract();
-        await this.loadStorage();
-      }
+      this.contractAddress = contractAddress;
+      await this.loadContract();
+      await this.loadStorage();
 
       if (this.root.accountPkh) {
         await this.loadUserBalance();
@@ -59,6 +54,10 @@ export class QsTokenStore {
 
   clearUser() {
     this.userBalance = null;
+  }
+
+  clearError() {
+    this.error = null;
   }
 
   async stakeForNft() {

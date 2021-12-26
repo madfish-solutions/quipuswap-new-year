@@ -3,16 +3,21 @@ import React, { FC, useState } from 'react';
 import { observer } from 'mobx-react';
 
 import { TimeCountdown } from '../components/time-countdown';
+import { useToast } from '../modules/toasts/use-toast-notification';
 import { useStores } from '../stores/use-stores.hook';
 
 export const Distribution: FC = observer(() => {
   const { distributorStore, nftStore, qsTokenStore } = useStores();
+  const { successToast } = useToast();
 
   const [distributionLabel, setDistributionLabel] = useState<string | null>(
     distributorStore.distributionStarts ? null : 'Started'
   );
+
   const handleDistributionTimerEnd = () => {
     setDistributionLabel('Started');
+    distributorStore.clearDistributionStarts();
+    successToast('Distribution Started!');
   };
 
   const handleClaim = async () => {
@@ -38,7 +43,7 @@ export const Distribution: FC = observer(() => {
       <button
         className="pretty-button"
         onClick={handleClaim}
-        disabled={!distributorStore.isStakeAllow || isLoading || Boolean(distributorStore.userClaim)}
+        disabled={!distributorStore.isStakeAllow || isLoading || !!distributorStore.userClaim}
         type="button"
       >
         {isLoading ? 'Loading...' : 'Claim'}

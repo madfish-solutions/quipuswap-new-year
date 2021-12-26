@@ -4,11 +4,12 @@ import { toast } from 'react-toastify';
 
 import { toastContent } from './toast-provider';
 
-export function useUpdateToast() {
+export const useToastNotification = () => {
   const toastIdRef = useRef();
 
   return useCallback(({ type, render, progress, autoClose = 5000, ...restOptions }) => {
-    //@ts-ignore
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     const creationFn = type && type !== 'default' ? toast[type] : toast;
 
     const contentRender = toastContent(render);
@@ -25,21 +26,21 @@ export function useUpdateToast() {
       toastIdRef.current = creationFn(contentRender);
     }
   }, []);
-}
+};
 
 export const useToast = () => {
-  const updateToast = useUpdateToast();
+  const showToast = useToastNotification();
 
   const successToast = (message: string) =>
-    updateToast({
+    showToast({
       type: 'success',
       render: message
     });
 
-  const errorToast = (err: Error) =>
-    updateToast({
+  const errorToast = (error: Error) =>
+    showToast({
       type: 'error',
-      render: `${err.name}: ${err.message}`
+      render: `${error.name}: ${error.message}`
     });
 
   return {
