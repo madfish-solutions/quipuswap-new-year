@@ -1,6 +1,6 @@
 import { QSNetwork } from '../types/types';
 
-export const APP_NAME = 'LOL';
+export const APP_NAME = 'QuipuSwap Xmas';
 export const SAVED_LISTS_KEY = 'savedCustomLists';
 export const SAVED_TOKENS_KEY = 'savedCustomTokens';
 export const SAVED_BAKERS_KEY = 'savedCustomBakers';
