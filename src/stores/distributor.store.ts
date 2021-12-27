@@ -144,7 +144,7 @@ export class DistributorStore {
     const nodeTime = await this.root.getNodeCurrentTime();
     const timeTo = new Date(this.storage.distribution_start).getTime();
     const diff = timeTo - nodeTime;
-    this.distributionStarts = diff > 0 ? new Date(Date.now() + diff) : null;
+    this.distributionStarts = new Date(Date.now() + diff);
   }
 
   private async loadUserStakedTo() {

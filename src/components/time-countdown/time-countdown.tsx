@@ -28,7 +28,7 @@ export const TimeCountdown: FC<Props> = ({ timeTo, onTimerEnd }) => {
 
   useEffect(() => {
     let interval: ReturnType<typeof setInterval>;
-    if (!timeTo) {
+    if (!timeTo || timeTo < new Date()) {
       updateTimer(noop);
     } else {
       interval = setInterval(() => {

@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 
 import { observer } from 'mobx-react';
 
@@ -7,14 +7,28 @@ import { WonNft } from '../components/won-nft';
 import { logError } from '../modules/logs';
 import { useToast } from '../modules/toasts/use-toast-notification';
 import { useStores } from '../stores/use-stores.hook';
+import { Nullable } from '../utils/fp';
+
+const getLabel = (start?: Nullable<Date>): Nullable<string> => {
+  if (!start) {
+    return 'Loading...';
+  }
+
+  return start < new Date() ? 'Started' : null;
+};
 
 export const Distribution: FC = observer(() => {
   const { distributorStore, nftStore, qsTokenStore } = useStores();
   const { successToast, errorToast } = useToast();
   const [distributionLabel, setDistributionLabel] = useState<string | null>(
-    distributorStore.distributionStarts ? null : 'Loading...'
+    getLabel(distributorStore.distributionStarts)
   );
   const [isLoading, setIsLoading] = useState(false);
+
+  // TODO: Hack. Try to avoid this behaviour
+  useEffect(() => {
+    setDistributionLabel(getLabel(distributorStore.distributionStarts));
+  }, [distributorStore.distributionStarts]);
 
   const handleDistributionTimerEnd = () => {
     setDistributionLabel('Started');
@@ -42,7 +56,7 @@ export const Distribution: FC = observer(() => {
     <div className="rules-logic">
       <div className="rules-logic_distribution-container">
         <div className="key-key">Distribution</div>
-        {distributorStore.distributionStarts ? (
+        {distributorStore.distributionStarts && distributorStore.distributionStarts > new Date() ? (
           <TimeCountdown timeTo={distributorStore.distributionStarts} onTimerEnd={handleDistributionTimerEnd} />
         ) : (
           <p className="key-value">{distributionLabel}</p>
@@ -56,7 +70,7 @@ export const Distribution: FC = observer(() => {
             : `Loading...`}
         </div>
       </div>
-      <div className='claim-claim'>
+      <div className="claim-claim">
         <button
           className="pretty-button"
           onClick={handleClaim}
