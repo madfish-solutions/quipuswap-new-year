@@ -52,13 +52,12 @@ export const Distribution: FC = observer(() => {
     setIsLoading(false);
   };
 
-  const showTimer = distributorStore.distributionStarts && distributorStore.distributionStarts > new Date()
+  const showTimer = distributorStore.distributionStarts && distributorStore.distributionStarts > new Date();
 
   return (
     <div className="rules-logic">
       <div className="rules-logic_distribution-container">
-        <div className="key-key">
-          { showTimer ? "Distribution begins in" : "Distribution"} </div>
+        <div className="key-key">{showTimer ? 'Distribution begins in' : 'Distribution'} </div>
         {showTimer ? (
           <TimeCountdown timeTo={distributorStore.distributionStarts} onTimerEnd={handleDistributionTimerEnd} />
         ) : (
