@@ -17,6 +17,7 @@ button {
   border: 0;
   outline: 0;
   margin: 0;
+  cursor: pointer;
 }
 
 #root {
@@ -372,7 +373,7 @@ main .box:first-of-type {
   display: flex;
   padding: 60px 0;
   justify-content: center;
-  align-self: center;
+  align-items: center;
   column-gap: 32px;
 }
 
