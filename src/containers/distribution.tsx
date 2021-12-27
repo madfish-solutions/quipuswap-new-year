@@ -51,8 +51,12 @@ export const Distribution: FC = observer(() => {
   return (
     <div className="rules-logic">
       <div className="rules-logic_distribution-container">
-        <div className="key-key">Distribution {distributionLabel}</div>
-        <TimeCountdown timeTo={distributorStore.distributionStarts} onTimerEnd={handleDistributionTimerEnd} />
+        <div className="key-key">Distribution</div>
+        {distributorStore.distributionStarts ? (
+          <TimeCountdown timeTo={distributorStore.distributionStarts} onTimerEnd={handleDistributionTimerEnd} />
+        ) : (
+          <p className="key-value">{distributionLabel}</p>
+        )}
       </div>
       <div className="rules-logic_left-container">
         <div className="key-key">NFT Left:</div>
