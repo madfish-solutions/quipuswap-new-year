@@ -2,12 +2,13 @@ import { FC } from 'react';
 
 import BigNumber from 'bignumber.js';
 
+import { useAccountPkh } from 'modules/dapp/hooks/use-dapp';
+
 import { ConnectWalletButton } from '../modules/dapp/containers/connect-button';
 import { showBalance } from '../utils/balances';
 import { Balance } from './balance';
 import { Container } from './container';
 import { Logo } from './icons/logo';
-import { useAccountPkh } from 'modules/dapp/hooks/use-dapp';
 
 interface Props {
   userBalance: BigNumber | null;
@@ -16,11 +17,12 @@ interface Props {
 export const Header: FC<Props> = ({ userBalance }) => {
   const accountPkh = useAccountPkh();
   const getBalance = () => {
-    if(accountPkh) {
-      return userBalance === null ? '0.0' : showBalance(userBalance)
+    if (accountPkh) {
+      return userBalance === null ? '0.0' : showBalance(userBalance);
     }
-    return '...'
-  } 
+
+    return '...';
+  };
 
   return (
     <div className="header-wrapper">
