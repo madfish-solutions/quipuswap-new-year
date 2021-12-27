@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 
 import { toastContent } from './toast-provider';
 
-const DEFAULT_ERROR = new Error('Something went wrong. Refresh the page.');
+const DEFAULT_ERROR = new Error('Something went wrong. Please refresh the page to continue.');
 
 export const useToastNotification = () => {
   const toastIdRef = useRef();
