@@ -15,7 +15,7 @@ export const YouStacked: FC = observer(() => {
   const [now, setNow] = useState(new Date());
   const [isLoading, setIsLoading] = useState(false);
 
-  const disabled = !distributorStore.userStakedTo || distributorStore.userStakedTo > now;
+  const disabled = !distributorStore.userStakedTo || distributorStore.userStakedTo > now || isLoading;
 
   const handleLockTimerEnd = useCallback(() => {
     setNow(new Date());
