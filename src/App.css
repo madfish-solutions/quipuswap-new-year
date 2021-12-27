@@ -426,6 +426,11 @@ main .box:first-of-type {
   background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, #fff 50%, rgba(255, 255, 255, 0) 100%)
 }
 
+.not-enough {
+  font-size: 75%;
+  color: #8b90a0;
+}
+
 @keyframes slide {
   0% {
     left: -50px
