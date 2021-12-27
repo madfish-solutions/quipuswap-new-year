@@ -10,7 +10,7 @@ export const OrangeStar: FC<OrangeStarProps> = ({ top, left, size }) => {
   return (
     <svg
       className="star"
-      style={{ position: 'absolute', display: 'block', zIndex: -1, top, left }}
+      style={{ position: 'absolute', display: 'block', zIndex: -1, top: `${top}px`, left: `${left}px` }}
       width={size}
       height={size}
       viewBox="0 0 9 9"

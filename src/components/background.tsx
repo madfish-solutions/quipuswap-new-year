@@ -30,6 +30,7 @@ const generateStars = (size: number, width: number, height: number) => {
       const maximumTop = (i + 0.9) * size + headerHeight;
       const minimumLeft = (j + 0.1) * size;
       const maximumLeft = (j + 0.9) * size;
+      console.log("minimumTop: ", minimumTop)
 
       const top = random(minimumTop, maximumTop);
       const left = random(minimumLeft, maximumLeft);
@@ -55,7 +56,7 @@ export const Background: FC = ({ children }) => {
           ? generateStars(70, background.current?.offsetWidth, background.current?.offsetHeight)
           : [];
       setStars(_stars);
-    }, 1500);
+    }, 2000);
   }, [stars.length]);
 
   return (
