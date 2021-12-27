@@ -5,7 +5,7 @@ import { DistributorStore } from './distributor.store';
 import { NftStore } from './nft.store';
 import { QsTokenStore } from './qs-token.store';
 
-const DISTRIBUTOR_CONTRACT = 'KT1P6gJBc8JQtAwMUUddgBG8s72eSEgdjbEL';
+const DISTRIBUTOR_CONTRACT = 'KT1J9FJ8nhxRSCRAMYSvLg8UkkYa3J2Lq8Un';
 
 export class RootStore {
   tezos: Nullable<TezosToolkit> = null;
