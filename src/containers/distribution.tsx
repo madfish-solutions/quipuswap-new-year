@@ -23,10 +23,11 @@ export const Distribution: FC = observer(() => {
   const handleClaim = async () => {
     setIsLoading(true);
     try {
+      const initialReward = await nftStore.getUserRewards();
       await qsTokenStore.stakeForNft();
       await distributorStore.reload(distributorStore.contractAddress!);
-      await distributorStore.waitForStake();
-      successToast('Congratulations! You have a NFT! Check you wallet in a minute.');
+      const rewardIndex = await distributorStore.waitForStake(initialReward);
+      successToast(`Congratulations! You have a NFT #${rewardIndex}!`);
     } catch (error) {
       errorToast(error as Error);
     }

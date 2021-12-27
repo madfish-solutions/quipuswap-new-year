@@ -1,4 +1,7 @@
+import { isEqual } from 'lodash';
 import { makeAutoObservable } from 'mobx';
+
+import { Rewards } from 'interfaces/rewards';
 
 import { Claim, DistributorContract, DistributorContractStorage } from '../api/distributor-contract';
 import { Nullable } from '../utils/fp';
@@ -79,13 +82,23 @@ export class DistributorStore {
     await batch.send();
   }
 
-  async waitForStake(): Promise<undefined> {
+  async waitForStake(initialReward: Rewards): Promise<0 | 1 | 2> {
     await this.reload(this.contractAddress!);
-    if (!this.userClaim) {
-      return this.waitForStake();
+    const reward = await this.root.nftStore.getUserRewards();
+
+    if (!this.userClaim || isEqual(initialReward, reward)) {
+      return this.waitForStake(initialReward);
     }
 
-    return undefined;
+    if (reward[2] && initialReward[2] && reward[2].gt(initialReward[2])) {
+      return 2;
+    }
+
+    if (reward[1] && initialReward[1] && reward[1].gt(initialReward[1])) {
+      return 1;
+    }
+
+    return 0;
   }
 
   get isStakeAllow() {

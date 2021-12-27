@@ -2,7 +2,7 @@ import { makeAutoObservable } from 'mobx';
 
 import { NftContract, NftContractStorage } from '../api/nft-contract';
 import { NftToken } from '../interfaces/NftToken';
-import { log } from '../modules/logs';
+import { Rewards } from '../interfaces/rewards';
 import { Nullable } from '../utils/fp';
 import { RootStore } from './root.store';
 
@@ -47,10 +47,8 @@ export class NftStore {
     return this.storage?.max_supply.toNumber() || 0;
   }
 
-  // TODO
-  async getUserReward() {
-    const reward = await this.contract!.userReward(this.root.accountPkh!);
-    log('getUserReward', reward);
+  async getUserRewards(): Promise<Rewards> {
+    return await this.contract!.userRewards(this.root.accountPkh!);
   }
 
   private async loadTokens() {

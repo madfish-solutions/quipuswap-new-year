@@ -16,6 +16,8 @@ import { RootStore } from '../stores/root.store';
 import { useStores } from '../stores/use-stores.hook';
 import { WonNft } from 'components/won-nft';
 
+const TIMEOUT = 15000;
+
 interface Props {
   rootStore: RootStore;
 }
@@ -41,6 +43,13 @@ export const HomePage: FC<Props> = observer(({ rootStore }) => {
 
   useEffect(() => {
     void reload();
+    const interval = setInterval(() => {
+      void reload();
+    }, TIMEOUT);
+
+    return () => {
+      clearInterval(interval);
+    };
     // eslint-disable-next-line
   }, [rootStore, tezos, accountPkh]);
 
