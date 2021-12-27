@@ -116,7 +116,7 @@ export class DistributorStore {
       !!this.root.qsTokenStore.userBalance &&
       !!this.storage &&
       this.root.qsTokenStore.userBalance.gte(this.storage.stake_amount) &&
-      !this.distributionStarts
+      (!this.distributionStarts || this.distributionStarts < new Date())
     );
   }
 
