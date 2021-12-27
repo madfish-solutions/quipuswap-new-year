@@ -56,7 +56,7 @@ export const Distribution: FC = observer(() => {
             : `Loading...`}
         </div>
       </div>
-      <div>
+      <div className='claim-claim'>
         <button
           className="pretty-button"
           onClick={handleClaim}
