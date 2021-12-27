@@ -43,15 +43,8 @@ export const useToast = () => {
       render: `${error.name}: ${error.message}`
     });
 
-  const imageToast = (image: ReactElement) =>
-    showToast({
-      type: 'success',
-      render: image
-    });
-
   return {
     successToast,
     errorToast,
-    imageToast
   };
 };
