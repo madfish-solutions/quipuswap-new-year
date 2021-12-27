@@ -4,6 +4,8 @@ import { toast } from 'react-toastify';
 
 import { toastContent } from './toast-provider';
 
+const DEFAULT_ERROR = new Error('Something went wrong. Refresh the page.');
+
 export const useToastNotification = () => {
   const toastIdRef = useRef();
 
@@ -37,10 +39,10 @@ export const useToast = () => {
       render: message
     });
 
-  const errorToast = (error: Error) =>
+  const errorToast = (error?: Error) =>
     showToast({
       type: 'error',
-      render: `${error.name}: ${error.message}`
+      render: `${(error || DEFAULT_ERROR).name}: ${(error || DEFAULT_ERROR).message}`
     });
 
   return {

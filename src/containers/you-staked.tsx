@@ -29,7 +29,7 @@ export const YouStacked: FC = observer(() => {
       successToast('Congratulations! Your withdrawal was successful!');
     } catch (error) {
       logError(error as Error);
-      errorToast(error as Error);
+      errorToast();
     }
     setIsLoading(false);
   };
