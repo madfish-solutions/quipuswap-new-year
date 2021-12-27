@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 
 import { observer } from 'mobx-react';
 
@@ -37,6 +37,13 @@ export const HomePage: FC<Props> = observer(({ rootStore }) => {
   };
 
   useOnBlock(tezos, reload);
+
+  useEffect(() => {
+    if (tezos) {
+      void reload();
+    }
+    // eslint-disable-next-line
+  }, [tezos]);
 
   const { qsTokenStore, nftStore } = useStores();
 
