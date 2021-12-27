@@ -15,7 +15,7 @@ export const YouStacked: FC = observer(() => {
   const [now, setNow] = useState(new Date());
   const [isLoading, setIsLoading] = useState(false);
 
-  const disabled = !distributorStore.userStakedTo || distributorStore.userStakedTo > now || isLoading;
+  const disabled = isLoading || !distributorStore.userStakedTo || distributorStore.userStakedTo > now || isLoading;
 
   const handleLockTimerEnd = useCallback(() => {
     setNow(new Date());
@@ -34,17 +34,24 @@ export const YouStacked: FC = observer(() => {
     setIsLoading(false);
   };
 
+  const getLabel = () => {
+    if (distributorStore.userClaim?.claimed) {
+      return 'Withdrawn';
+    }
+    if (distributorStore.stakeAmount && distributorStore.stakeAmount.gte(0) && distributorStore.userClaim) {
+      return `${showBalance(distributorStore.stakeAmount)} QUIPU`;
+    }
+
+    return '--';
+  };
+
   return (
     <Box>
       <div className="you-staked_wrapper">
         <div className="you-staked">
           <div className="you-staked_amount-container">
-            <div className="key-key">You Staked:</div>
-            <div className="key-value">
-              {distributorStore.stakeAmount && distributorStore.stakeAmount.gte(0) && distributorStore.userClaim
-                ? `${showBalance(distributorStore.stakeAmount)} QUIPU`
-                : '--'}
-            </div>
+            <div className="key-key">Your Stake</div>
+            <div className="key-value">{getLabel()}</div>
           </div>
           <div className="you-staked_countdown-container">
             <div className="key-key">Lock countdown:</div>
