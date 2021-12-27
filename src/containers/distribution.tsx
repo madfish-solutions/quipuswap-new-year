@@ -56,14 +56,17 @@ export const Distribution: FC = observer(() => {
             : `Loading...`}
         </div>
       </div>
-      <button
-        className="pretty-button"
-        onClick={handleClaim}
-        disabled={!distributorStore.isStakeAllow || !!distributorStore.userClaim || isLoading}
-        type="button"
-      >
-        {isLoading ? 'Loading...' : 'Claim'}
-      </button>
+      <div>
+        <button
+          className="pretty-button"
+          onClick={handleClaim}
+          disabled={!distributorStore.isStakeAllow || !!distributorStore.userClaim || isLoading}
+          type="button"
+        >
+          {isLoading ? 'Loading...' : 'Claim'}
+        </button>
+        {distributorStore.isNotEnoughQsTokens && <p className="not-enough">Insufficient balance</p>}
+      </div>
     </div>
   );
 });

@@ -120,6 +120,15 @@ export class DistributorStore {
     );
   }
 
+  get isNotEnoughQsTokens() {
+    return (
+      !this.isStakeAllow &&
+      !!this.root.qsTokenStore.userBalance &&
+      !!this.storage &&
+      this.root.qsTokenStore.userBalance.lt(this.storage.stake_amount)
+    );
+  }
+
   get stakeAmount() {
     return this.storage?.stake_amount || null;
   }
