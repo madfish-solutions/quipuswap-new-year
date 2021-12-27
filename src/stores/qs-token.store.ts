@@ -2,6 +2,7 @@ import BigNumber from 'bignumber.js';
 import { makeAutoObservable } from 'mobx';
 
 import { QsTokenContract, QsTokenContractStorage } from '../api/qs-token-contract';
+import { confirmOperation } from '../modules/dapp/helpers/confirm-operation';
 import { Nullable } from '../utils/fp';
 import { RootStore } from './root.store';
 
@@ -53,7 +54,7 @@ export class QsTokenStore {
       await this.disallowSpendYourTokens()
     ]);
     const operation = await batch.send();
-    await operation.confirmation();
+    await confirmOperation(this.root.tezos!, operation.opHash);
   }
 
   private async allowSpendYourTokens() {

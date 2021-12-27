@@ -4,6 +4,7 @@ import { makeAutoObservable } from 'mobx';
 import { Rewards } from 'interfaces/rewards';
 
 import { Claim, DistributorContract, DistributorContractStorage } from '../api/distributor-contract';
+import { confirmOperation } from '../modules/dapp/helpers/confirm-operation';
 import { Nullable } from '../utils/fp';
 import { RootStore } from './root.store';
 
@@ -80,7 +81,7 @@ export class DistributorStore {
   async withdraw() {
     const withdraw = await this.contract!.withdraw();
     const operation = await withdraw.send();
-    await operation.confirmation();
+    await confirmOperation(this.root.tezos!, operation.opHash);
   }
 
   async waitForStake(initialReward: Rewards): Promise<null | 0 | 1 | 2> {
