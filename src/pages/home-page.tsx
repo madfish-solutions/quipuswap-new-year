@@ -15,6 +15,8 @@ import { useToast } from '../modules/toasts/use-toast-notification';
 import { RootStore } from '../stores/root.store';
 import { useStores } from '../stores/use-stores.hook';
 
+const TIMEOUT = 15000;
+
 interface Props {
   rootStore: RootStore;
 }
@@ -34,6 +36,13 @@ export const HomePage: FC<Props> = observer(({ rootStore }) => {
 
   useEffect(() => {
     void reload();
+    const interval = setInterval(() => {
+      void reload();
+    }, TIMEOUT);
+
+    return () => {
+      clearInterval(interval);
+    };
     // eslint-disable-next-line
   }, [rootStore, tezos, accountPkh]);
 
