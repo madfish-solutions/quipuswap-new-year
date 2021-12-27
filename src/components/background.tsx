@@ -50,11 +50,11 @@ export const Background: FC = ({ children }) => {
       if (stars.length) {
         return;
       }
-      const Stars =
+      const _stars =
         background.current?.offsetWidth && background.current?.offsetHeight
           ? generateStars(70, background.current?.offsetWidth, background.current?.offsetHeight)
           : [];
-      setStars(Stars);
+      setStars(_stars);
     }, 1500);
   }, [stars.length]);
 

@@ -230,7 +230,7 @@ main .box:first-of-type {
   max-width: 352px;
   height: fit-content;
   height: 100%;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
   overflow: hidden;
 }
@@ -264,6 +264,8 @@ main .box:first-of-type {
 }
 
 .background {
+  position: relative;
+  display: block;
 }
 
 @keyframes star {
