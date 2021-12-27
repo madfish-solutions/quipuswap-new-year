@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 
 import { observer } from 'mobx-react';
 
@@ -11,13 +11,12 @@ import { SliderNFT } from '../components/nft/slider-nft';
 import { Skeleton } from '../components/skeleton';
 import { WalletWrapper } from '../components/wallet-wrapper';
 import { useAccountPkh, useTezos } from '../modules/dapp/hooks/use-dapp';
+import { useOnBlock } from '../modules/dapp/hooks/use-on-block';
 import { logError } from '../modules/logs';
 import { ToastProvider } from '../modules/toasts/toast-provider';
 import { useToast } from '../modules/toasts/use-toast-notification';
 import { RootStore } from '../stores/root.store';
 import { useStores } from '../stores/use-stores.hook';
-
-const TIMEOUT = 15000;
 
 interface Props {
   rootStore: RootStore;
@@ -37,17 +36,7 @@ export const HomePage: FC<Props> = observer(({ rootStore }) => {
     }
   };
 
-  useEffect(() => {
-    void reload();
-    const interval = setInterval(() => {
-      void reload();
-    }, TIMEOUT);
-
-    return () => {
-      clearInterval(interval);
-    };
-    // eslint-disable-next-line
-  }, [rootStore, tezos, accountPkh]);
+  useOnBlock(tezos, reload);
 
   const { qsTokenStore, nftStore } = useStores();
 

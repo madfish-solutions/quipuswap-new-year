@@ -52,6 +52,10 @@ export class NftStore {
   }
 
   private async loadTokens() {
+    if (this.tokens?.length) {
+      // Do not reload tokens meta data
+      return;
+    }
     this.tokens = this.storage?.token_count
       ? await this.contract!.getTokensMetadata(this.storage.token_count.toNumber())
       : null;

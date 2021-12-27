@@ -51,9 +51,7 @@ export class NftContract extends AbstractContract<NftContractStorage> {
   }
 
   async getTokensMetadata(amount: number) {
-    const promises = new Array(amount).fill(null).map(async (_, index) => this.getTokenMetadata(index));
-
-    return await Promise.all(promises);
+    return await Promise.all(new Array(amount).fill(null).map(async (_, index) => this.getTokenMetadata(index)));
   }
 
   async userRewards(address: string) {
