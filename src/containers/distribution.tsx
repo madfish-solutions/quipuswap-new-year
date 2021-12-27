@@ -3,8 +3,20 @@ import React, { FC, useState } from 'react';
 import { observer } from 'mobx-react';
 
 import { TimeCountdown } from '../components/time-countdown';
+import { WonNft } from '../components/won-nft';
 import { useToast } from '../modules/toasts/use-toast-notification';
 import { useStores } from '../stores/use-stores.hook';
+
+const getRarity = (rewardIndex: 0 | 1 | 2) => {
+  switch (rewardIndex) {
+    case 2:
+      return 'an epic';
+    case 1:
+      return 'a rare';
+    default:
+      return 'a';
+  }
+};
 
 export const Distribution: FC = observer(() => {
   const { distributorStore, nftStore, qsTokenStore } = useStores();
@@ -27,7 +39,9 @@ export const Distribution: FC = observer(() => {
       await qsTokenStore.stakeForNft();
       await distributorStore.reload(distributorStore.contractAddress!);
       const rewardIndex = await distributorStore.waitForStake(initialReward);
-      successToast(`Congratulations! You have a NFT #${rewardIndex}!`);
+      const url = nftStore.tokens?.[rewardIndex].thumbnailUri || '';
+      const rarity = getRarity(rewardIndex);
+      successToast(<WonNft src={url} rarity={rarity} />);
     } catch (error) {
       errorToast(error as Error);
     }
@@ -37,8 +51,12 @@ export const Distribution: FC = observer(() => {
   return (
     <div className="rules-logic">
       <div className="rules-logic_distribution-container">
-        <div className="key-key">Distribution {distributionLabel}</div>
-        <TimeCountdown timeTo={distributorStore.distributionStarts} onTimerEnd={handleDistributionTimerEnd} />
+        <div className="key-key">Distribution</div>
+        {distributorStore.distributionStarts ? (
+          <TimeCountdown timeTo={distributorStore.distributionStarts} onTimerEnd={handleDistributionTimerEnd} />
+        ) : (
+          <p className="key-value">{distributionLabel}</p>
+        )}
       </div>
       <div className="rules-logic_left-container">
         <div className="key-key">NFT Left:</div>

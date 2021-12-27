@@ -1,4 +1,4 @@
-import { ReactElement, useCallback, useRef } from 'react';
+import { ReactNode, useCallback, useRef } from 'react';
 
 import { toast } from 'react-toastify';
 
@@ -31,7 +31,7 @@ export const useToastNotification = () => {
 export const useToast = () => {
   const showToast = useToastNotification();
 
-  const successToast = (message: string) =>
+  const successToast = (message: string | ReactNode) =>
     showToast({
       type: 'success',
       render: message
@@ -45,6 +45,6 @@ export const useToast = () => {
 
   return {
     successToast,
-    errorToast,
+    errorToast
   };
 };
