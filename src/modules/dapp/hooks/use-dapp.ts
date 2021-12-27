@@ -19,7 +19,15 @@ const beaconWallet = !isClient
   ? undefined
   : new BeaconWallet({
       name: APP_NAME,
-      iconUrl: `${BASE_URL}/favicon.ico`
+      iconUrl: `${BASE_URL}/favicon.ico`,
+      preferredNetwork: (() => {
+        const net = getNetwork();
+        if (!(net.connectType === 'custom' && net.type === 'test')) {
+          return toBeaconNetworkType(net.id);
+        }
+
+        return toBeaconNetworkType('mainnet');
+      })()
     });
 
 export const TEMPLE_WALLET_NOT_INSTALLED_MESSAGE = 'Temple wallet not installed';
