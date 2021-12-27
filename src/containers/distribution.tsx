@@ -12,7 +12,7 @@ export const Distribution: FC = observer(() => {
   const { distributorStore, nftStore, qsTokenStore } = useStores();
   const { successToast, errorToast } = useToast();
   const [distributionLabel, setDistributionLabel] = useState<string | null>(
-    distributorStore.distributionStarts ? null : 'Started'
+    distributorStore.distributionStarts ? null : 'Loading...'
   );
   const [isLoading, setIsLoading] = useState(false);
 
