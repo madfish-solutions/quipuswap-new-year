@@ -26,7 +26,7 @@ export const YouStacked: FC = observer(() => {
     try {
       await distributorStore.withdraw();
       distributorStore.clearUserStakedTo();
-      successToast('Withdraw successfully finished');
+      successToast('Congratulations! Your withdrawal was successful!');
     } catch (error) {
       logError(error as Error);
       errorToast(error as Error);
