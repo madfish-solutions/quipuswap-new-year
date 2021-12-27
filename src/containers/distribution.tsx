@@ -4,6 +4,7 @@ import { observer } from 'mobx-react';
 
 import { TimeCountdown } from '../components/time-countdown';
 import { WonNft } from '../components/won-nft';
+import { logError } from '../modules/logs';
 import { useToast } from '../modules/toasts/use-toast-notification';
 import { useStores } from '../stores/use-stores.hook';
 
@@ -31,7 +32,8 @@ export const Distribution: FC = observer(() => {
       const url = rewardIndex !== null ? nftStore.tokens?.[rewardIndex].thumbnailUri : null;
       successToast(<WonNft src={url || null} rarity={rewardIndex} />);
     } catch (error) {
-      errorToast(error as Error);
+      logError(error);
+      errorToast();
     }
     setIsLoading(false);
   };

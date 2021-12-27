@@ -96,12 +96,12 @@ export class DistributorStore {
       return null;
     }
 
-    if (reward[2] && initialReward[2] && reward[2].gt(initialReward[2])) {
+    if (reward[2]) {
       // epic
       return 2;
     }
 
-    if (reward[1] && initialReward[1] && reward[1].gt(initialReward[1])) {
+    if (reward[1]) {
       // rare
       return 1;
     }

@@ -27,9 +27,8 @@ button {
   max-width: 1120px;
   width: 100%;
   margin: 0 auto;
-
-  /* display: grid;
-  gap: 20px; */
+  display: flex;
+  flex-direction: column;
 }
 
 .header-wrapper {
@@ -399,6 +398,43 @@ main .box:first-of-type {
 
 .nobr {
   white-space: nowrap;
+}
+
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  background-color: #f4f5f8;
+  width: 100%;
+  min-height: 500px;
+  opacity: 0.8;
+  align-self: center;
+  margin-bottom: 36px;
+}
+
+.skeleton::after{
+  content: '';
+  position: absolute;
+  top: -100%;
+  left: -100px;
+  height: 300%;
+  width: 20%;
+  min-width: 40px;
+  transform: rotate(-30deg);
+  animation: slide 3s ease-in-out infinite;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, #fff 50%, rgba(255, 255, 255, 0) 100%)
+}
+
+@keyframes slide {
+  0% {
+    left: -50px
+  }
+  65% {
+    left: calc(100% + 50px)
+  }
+  100% {
+    left: calc(100% + 50px)
+  }
 }
 
 @media screen and (max-width: 768px) {

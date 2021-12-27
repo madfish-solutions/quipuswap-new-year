@@ -8,8 +8,10 @@ import { Header } from '../components/header';
 import { Intro } from '../components/intro';
 import { Main } from '../components/main';
 import { SliderNFT } from '../components/nft/slider-nft';
+import { Skeleton } from '../components/skeleton';
 import { WalletWrapper } from '../components/wallet-wrapper';
 import { useAccountPkh, useTezos } from '../modules/dapp/hooks/use-dapp';
+import { logError } from '../modules/logs';
 import { ToastProvider } from '../modules/toasts/toast-provider';
 import { useToast } from '../modules/toasts/use-toast-notification';
 import { RootStore } from '../stores/root.store';
@@ -30,7 +32,8 @@ export const HomePage: FC<Props> = observer(({ rootStore }) => {
     try {
       await rootStore.reload(tezos, accountPkh);
     } catch (error) {
-      errorToast(error as Error);
+      logError(error);
+      errorToast();
     }
   };
 
@@ -54,7 +57,7 @@ export const HomePage: FC<Props> = observer(({ rootStore }) => {
       <Header userBalance={qsTokenStore.userBalance} />
       <Background>
         <Intro />
-        {nftStore.tokens && nftStore.tokens.length && <SliderNFT nftTokens={nftStore.tokens} />}
+        {nftStore.tokens && nftStore.tokens.length ? <SliderNFT nftTokens={nftStore.tokens} /> : <Skeleton />}
         <Main />
         <Footer />
       </Background>

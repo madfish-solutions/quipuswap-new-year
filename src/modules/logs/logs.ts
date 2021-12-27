@@ -7,7 +7,7 @@ export const log = (...args) => {
 
 // eslint-disable-next-line
 // @ts-ignore
-export const logError = (error: Error) => {
+export const logError = (error: Error | unknown) => {
   // eslint-disable-next-line no-console
   console.error('O_o Error:', error);
 };
