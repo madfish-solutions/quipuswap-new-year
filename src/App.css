@@ -264,8 +264,7 @@ main .box:first-of-type {
 }
 
 .background {
-  position: relative;
-  display: block;
+
 }
 
 @keyframes star {
