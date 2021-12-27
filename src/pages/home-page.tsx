@@ -15,7 +15,6 @@ import { useToast } from '../modules/toasts/use-toast-notification';
 import { RootStore } from '../stores/root.store';
 import { useStores } from '../stores/use-stores.hook';
 
-
 const TIMEOUT = 15000;
 
 interface Props {
