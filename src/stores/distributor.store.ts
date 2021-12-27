@@ -78,26 +78,35 @@ export class DistributorStore {
   }
 
   async withdraw() {
-    const batch = await this.contract!.batchOperations([await this.contract!.withdraw()]);
-    await batch.send();
+    const withdraw = await this.contract!.withdraw();
+    const operation = await withdraw.send();
+    await operation.confirmation();
   }
 
-  async waitForStake(initialReward: Rewards): Promise<0 | 1 | 2> {
+  async waitForStake(initialReward: Rewards): Promise<null | 0 | 1 | 2> {
     await this.reload(this.contractAddress!);
     const reward = await this.root.nftStore.getUserRewards();
 
-    if (!this.userClaim || isEqual(initialReward, reward)) {
+    if (!this.userClaim) {
       return this.waitForStake(initialReward);
     }
 
+    if (isEqual(initialReward, reward)) {
+      // All tokens were claimed
+      return null;
+    }
+
     if (reward[2] && initialReward[2] && reward[2].gt(initialReward[2])) {
+      // epic
       return 2;
     }
 
     if (reward[1] && initialReward[1] && reward[1].gt(initialReward[1])) {
+      // rare
       return 1;
     }
 
+    // normal
     return 0;
   }
 

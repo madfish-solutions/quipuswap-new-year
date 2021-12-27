@@ -52,7 +52,8 @@ export class QsTokenStore {
       await this.root.distributorStore.stake(),
       await this.disallowSpendYourTokens()
     ]);
-    await batch.send();
+    const operation = await batch.send();
+    await operation.confirmation();
   }
 
   private async allowSpendYourTokens() {

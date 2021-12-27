@@ -7,17 +7,6 @@ import { WonNft } from '../components/won-nft';
 import { useToast } from '../modules/toasts/use-toast-notification';
 import { useStores } from '../stores/use-stores.hook';
 
-const getRarity = (rewardIndex: 0 | 1 | 2) => {
-  switch (rewardIndex) {
-    case 2:
-      return 'an epic';
-    case 1:
-      return 'a rare';
-    default:
-      return 'a';
-  }
-};
-
 export const Distribution: FC = observer(() => {
   const { distributorStore, nftStore, qsTokenStore } = useStores();
   const { successToast, errorToast } = useToast();
@@ -39,9 +28,8 @@ export const Distribution: FC = observer(() => {
       await qsTokenStore.stakeForNft();
       await distributorStore.reload(distributorStore.contractAddress!);
       const rewardIndex = await distributorStore.waitForStake(initialReward);
-      const url = nftStore.tokens?.[rewardIndex].thumbnailUri || '';
-      const rarity = getRarity(rewardIndex);
-      successToast(<WonNft src={url} rarity={rarity} />);
+      const url = rewardIndex !== null ? nftStore.tokens?.[rewardIndex].thumbnailUri : null;
+      successToast(<WonNft src={url || null} rarity={rewardIndex} />);
     } catch (error) {
       errorToast(error as Error);
     }
