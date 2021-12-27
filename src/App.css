@@ -296,6 +296,12 @@ main .box:first-of-type {
   transform: rotateY(180deg);
 }
 
+.won-nft {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .nft-card {
   -webkit-transition: -webkit-transform 0.7s;
   transition: transform 0.7s;

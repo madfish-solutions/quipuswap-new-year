@@ -1,4 +1,4 @@
-import { useCallback, useRef } from 'react';
+import { ReactElement, useCallback, useRef } from 'react';
 
 import { toast } from 'react-toastify';
 
@@ -43,8 +43,15 @@ export const useToast = () => {
       render: `${error.name}: ${error.message}`
     });
 
+  const imageToast = (image: ReactElement) =>
+    showToast({
+      type: 'success',
+      render: image
+    });
+
   return {
     successToast,
-    errorToast
+    errorToast,
+    imageToast
   };
 };
