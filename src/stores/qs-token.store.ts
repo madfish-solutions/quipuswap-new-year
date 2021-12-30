@@ -1,23 +1,14 @@
 import BigNumber from 'bignumber.js';
-import { makeAutoObservable } from 'mobx';
 
 import { QsTokenContract, QsTokenContractStorage } from '../api/qs-token-contract';
 import { confirmOperation } from '../modules/dapp/helpers/confirm-operation';
 import { Nullable } from '../utils/fp';
+import { Contract } from './contract.decorator';
 import { RootStore } from './root.store';
 
-export class QsTokenStore {
-  contractAddress: Nullable<string> = null;
-
-  contract: Nullable<QsTokenContract> = null;
-  storage: Nullable<QsTokenContractStorage> = null;
-
+export class QsTokenStore extends Contract<RootStore, QsTokenContractStorage, QsTokenContract>(QsTokenContract) {
   userAddress: Nullable<string> = null;
   userBalance: Nullable<BigNumber> = null;
-
-  constructor(protected root: RootStore) {
-    makeAutoObservable(this);
-  }
 
   async reload(contractAddress: string) {
     if (this.root.tezos && contractAddress) {
@@ -28,9 +19,7 @@ export class QsTokenStore {
   }
 
   private async load(contractAddress: string) {
-    this.contractAddress = contractAddress;
-    await this.loadContract();
-    await this.loadStorage();
+    await super.load_(contractAddress);
 
     if (this.root.accountPkh) {
       await this.loadUserBalance();
@@ -73,18 +62,5 @@ export class QsTokenStore {
 
   private async loadUserBalance() {
     this.userBalance = await this.contract!.getAddressBalance(this.root.accountPkh!);
-  }
-
-  private async loadContract() {
-    this.contract = new QsTokenContract(this.root.tezos!, this.contractAddress!);
-    await this.contract.getContract();
-
-    return this.contract;
-  }
-
-  private async loadStorage() {
-    this.storage = await this.contract!.getStorage();
-
-    return this.storage;
   }
 }

@@ -264,7 +264,6 @@ main .box:first-of-type {
 }
 
 .background {
-
 }
 
 @keyframes star {
@@ -413,7 +412,7 @@ main .box:first-of-type {
   margin-bottom: 36px;
 }
 
-.skeleton::after{
+.skeleton::after {
   content: '';
   position: absolute;
   top: -100%;
@@ -423,7 +422,7 @@ main .box:first-of-type {
   min-width: 40px;
   transform: rotate(-30deg);
   animation: slide 3s ease-in-out infinite;
-  background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, #fff 50%, rgba(255, 255, 255, 0) 100%)
+  background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, #fff 50%, rgba(255, 255, 255, 0) 100%);
 }
 
 .not-enough {
@@ -433,13 +432,13 @@ main .box:first-of-type {
 
 @keyframes slide {
   0% {
-    left: -50px
+    left: -50px;
   }
   65% {
-    left: calc(100% + 50px)
+    left: calc(100% + 50px);
   }
   100% {
-    left: calc(100% + 50px)
+    left: calc(100% + 50px);
   }
 }
 
